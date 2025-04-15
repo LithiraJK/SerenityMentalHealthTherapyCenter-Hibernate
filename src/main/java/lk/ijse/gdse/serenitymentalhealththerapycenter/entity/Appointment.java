@@ -1,26 +1,35 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.entity;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.sql.Date;
+
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class TherapyProgram {
+public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int programId;
-    private String programName;
-    private String duration;
-    private double programFee;
+    private String appointmentId;
+    private Date date;
 
-    @OneToMany(mappedBy = "therapyProgram", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Appointment> appointmentList;
+    @ManyToOne
+    private Therapist therapist;
+
+    @ManyToOne
+    private Patient patient;
+
+    @ManyToOne
+    private TherapyProgram therapyProgram;
+
+    @ManyToOne
+    private Payment payment;
 }

@@ -4,6 +4,7 @@ module lk.ijse.gdse.serenitymentalhealththerapycenter {
     requires org.hibernate.orm.core;
     requires jakarta.persistence;
     requires java.naming;
+    requires static lombok;
 
     opens lk.ijse.gdse.serenitymentalhealththerapycenter.config to jakarta.persistence;
     opens lk.ijse.gdse.serenitymentalhealththerapycenter.entity to org.hibernate.orm.core;
