@@ -1,0 +1,19 @@
+.btn-primary {
+    -fx-background-color: linear-gradient(to bottom right, #1e1e1e, #3c3c3c);
+    -fx-background-radius: 5,5,4;
+    -fx-background-insets: 0,1,2;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);
+}
+
+.btn-primary:hover {
+    -fx-background-color: linear-gradient(to bottom right, #3c3c3c, #111111);
+    -fx-background-insets: 0 0 -1 0,0,1;
+    -fx-background-radius: 5,5,4;
+    -fx-padding: 3 30 3 30;
+    -fx-text-fill: #F5F5F5;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}

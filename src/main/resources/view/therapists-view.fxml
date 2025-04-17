@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="660.0" prefWidth="990.0" stylesheets="@../styleSheets/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.TherapistsViewController">
+   <children>
+      <TableView fx:id="tblTherapist" layoutX="50.0" layoutY="381.0" prefHeight="255.0" prefWidth="900.0">
+        <columns>
+          <TableColumn fx:id="colTherapistId" prefWidth="129.66666412353516" text="Therapist Id" />
+          <TableColumn fx:id="colTherapistName" prefWidth="135.0" text="Name" />
+            <TableColumn fx:id="colTherapistAddress" prefWidth="126.0" text="Address" />
+            <TableColumn fx:id="colTherapistEmail" prefWidth="122.66665649414062" text="E mail" />
+            <TableColumn fx:id="colTherapistStatus" prefWidth="128.66668701171875" text="Status" />
+            <TableColumn fx:id="colTherapistDob" prefWidth="143.0" text="Date of birth" />
+            <TableColumn fx:id="colTherapistPhone" prefWidth="120.0" text="Phone" />
+        </columns>
+      </TableView>
+      <VBox layoutX="51.0" layoutY="100.0" prefHeight="145.0" prefWidth="100.0" spacing="33.0">
+         <children>
+            <Label text="Name" />
+            <Label text="Address" />
+            <Label text="E mail" />
+         </children>
+      </VBox>
+      <VBox layoutX="606.0" layoutY="100.0" prefHeight="167.0" prefWidth="100.0" spacing="33.0">
+         <children>
+            <Label text="Status" />
+            <Label text="Date of birth" />
+            <Label text="Phone" />
+         </children>
+      </VBox>
+      <JFXTextField fx:id="txtTherapistName" layoutX="161.0" layoutY="91.0" prefHeight="28.0" prefWidth="224.0" />
+      <JFXTextField fx:id="txtTherapistAddress" layoutX="161.0" layoutY="135.0" prefHeight="28.0" prefWidth="224.0" />
+      <JFXTextField fx:id="txtTherapistEmail" layoutX="159.0" layoutY="193.0" prefHeight="28.0" prefWidth="224.0" />
+      <JFXTextField fx:id="txtTherapistPhone" layoutX="706.0" layoutY="195.0" />
+      <ComboBox fx:id="cmbTherapistStatus" layoutX="708.0" layoutY="100.0" prefHeight="28.0" prefWidth="137.0" />
+      <DatePicker fx:id="datePickerDob" layoutX="709.0" layoutY="148.0" prefHeight="28.0" prefWidth="137.0" />
+      <HBox layoutX="717.0" layoutY="330.0" prefHeight="39.0" prefWidth="233.0" spacing="10.0">
+         <children>
+            <JFXButton fx:id="btnDelete" minHeight="28.0" minWidth="71.0" onAction="#btnDeleteTherapistOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Delete" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+            <JFXButton fx:id="btnUpdate" minHeight="28.0" minWidth="71.0" onAction="#btnUpdateTherapistOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Update" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+            <JFXButton fx:id="btnSave" minHeight="28.0" minWidth="71.0" onAction="#btnSaveTherapistOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Save" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+         </children>
+      </HBox>
+      <Label layoutX="54.0" layoutY="35.0" text="Search" />
+      <TextField fx:id="txtTherapistSearch" layoutX="158.0" layoutY="30.0" promptText="type here.." />
+   </children>
+</AnchorPane>

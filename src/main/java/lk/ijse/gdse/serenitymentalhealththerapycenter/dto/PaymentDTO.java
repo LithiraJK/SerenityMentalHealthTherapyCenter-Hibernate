@@ -15,4 +15,3 @@ public class PaymentDTO {
     private Double amount;
     private Date paymentDate;
 }
-

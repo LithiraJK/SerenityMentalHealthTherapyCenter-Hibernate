@@ -14,8 +14,8 @@ public class TherapyProgramDTO {
     private double programFee;
 
     public TherapyProgramDTO(String programName, String programDuration, String programFee) {
-        this.programName = programName;
-        this.programFee = Double.parseDouble(programFee);
-        this.duration = programDuration;
+            this.programName = programName;
+            this.programFee = Double.parseDouble(programFee);
+            this.duration = programDuration;
     }
 }
