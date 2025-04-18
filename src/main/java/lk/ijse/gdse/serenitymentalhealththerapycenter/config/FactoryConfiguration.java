@@ -10,7 +10,7 @@ public class FactoryConfiguration {
     private final SessionFactory sessionFactory;
 
     private FactoryConfiguration() {
-        // Build the SessionFactory using hibernate.cfg.xml
+
         try {
             Configuration configuration = new Configuration().configure("hibernate.cfg.xml")
                     .addAnnotatedClass(User.class)

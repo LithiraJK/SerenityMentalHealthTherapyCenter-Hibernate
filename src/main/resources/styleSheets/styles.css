@@ -17,3 +17,24 @@
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
+
+#loginPane{
+    -fx-background-color: rgba(255,255,255,0.8);
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    /*-fx-effect: dropshadow(one-pass-box,rgba(0,0,0,0.6), 5, 0.0, 0, 1);*/
+}
+
+#dashBoardPane {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.1), 60, 0.0, 0, 3);
+}
+
+#menuPannel{
+    -fx-background-color:  #caf0f8;
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+    -fx-effect: dropshadow(one-pass-box, rgba(202, 240, 248, 0.6), 60, 0.0, 0, 3);
+}

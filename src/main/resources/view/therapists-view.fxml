@@ -10,11 +10,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="660.0" prefWidth="990.0" stylesheets="@../styleSheets/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.TherapistsViewController">
+<AnchorPane prefHeight="600.0" prefWidth="1180.0" stylesheets="@../styleSheets/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.TherapistsViewController">
    <children>
-      <TableView fx:id="tblTherapist" layoutX="50.0" layoutY="381.0" prefHeight="255.0" prefWidth="900.0">
+      <TableView fx:id="tblTherapist" layoutX="73.0" layoutY="310.0" prefHeight="255.0" prefWidth="1038.0">
         <columns>
           <TableColumn fx:id="colTherapistId" prefWidth="129.66666412353516" text="Therapist Id" />
           <TableColumn fx:id="colTherapistName" prefWidth="135.0" text="Name" />
@@ -25,34 +25,31 @@
             <TableColumn fx:id="colTherapistPhone" prefWidth="120.0" text="Phone" />
         </columns>
       </TableView>
-      <VBox layoutX="51.0" layoutY="100.0" prefHeight="145.0" prefWidth="100.0" spacing="33.0">
+      <Label layoutX="103.0" layoutY="105.0" text="Name" />
+      <Label layoutX="619.0" layoutY="106.0" text="Address" />
+      <Label layoutX="104.0" layoutY="207.0" text="E mail" />
+      <Label layoutX="104.0" layoutY="153.0" text="Status" />
+      <Label layoutX="619.0" layoutY="153.0" text="Date of birth" />
+      <Label layoutX="620.0" layoutY="207.0" text="Phone" />
+      <JFXTextField fx:id="txtTherapistName" layoutX="191.0" layoutY="91.0" prefHeight="28.0" prefWidth="263.0" />
+      <JFXTextField fx:id="txtTherapistAddress" layoutX="704.0" layoutY="89.0" prefHeight="28.0" prefWidth="279.0" />
+      <JFXTextField fx:id="txtTherapistEmail" layoutX="189.0" layoutY="193.0" prefHeight="28.0" prefWidth="263.0" />
+      <JFXTextField fx:id="txtTherapistPhone" layoutX="704.0" layoutY="194.0" prefHeight="26.0" prefWidth="279.0" />
+      <ComboBox fx:id="cmbTherapistStatus" layoutX="190.0" layoutY="149.0" prefHeight="28.0" prefWidth="137.0" />
+      <DatePicker fx:id="datePickerDob" layoutX="739.0" layoutY="143.0" prefHeight="28.0" prefWidth="179.0" />
+      <HBox layoutX="842.0" layoutY="245.0" prefHeight="39.0" prefWidth="263.0" spacing="10.0">
          <children>
-            <Label text="Name" />
-            <Label text="Address" />
-            <Label text="E mail" />
-         </children>
-      </VBox>
-      <VBox layoutX="606.0" layoutY="100.0" prefHeight="167.0" prefWidth="100.0" spacing="33.0">
-         <children>
-            <Label text="Status" />
-            <Label text="Date of birth" />
-            <Label text="Phone" />
-         </children>
-      </VBox>
-      <JFXTextField fx:id="txtTherapistName" layoutX="161.0" layoutY="91.0" prefHeight="28.0" prefWidth="224.0" />
-      <JFXTextField fx:id="txtTherapistAddress" layoutX="161.0" layoutY="135.0" prefHeight="28.0" prefWidth="224.0" />
-      <JFXTextField fx:id="txtTherapistEmail" layoutX="159.0" layoutY="193.0" prefHeight="28.0" prefWidth="224.0" />
-      <JFXTextField fx:id="txtTherapistPhone" layoutX="706.0" layoutY="195.0" />
-      <ComboBox fx:id="cmbTherapistStatus" layoutX="708.0" layoutY="100.0" prefHeight="28.0" prefWidth="137.0" />
-      <DatePicker fx:id="datePickerDob" layoutX="709.0" layoutY="148.0" prefHeight="28.0" prefWidth="137.0" />
-      <HBox layoutX="717.0" layoutY="330.0" prefHeight="39.0" prefWidth="233.0" spacing="10.0">
-         <children>
-            <JFXButton fx:id="btnDelete" minHeight="28.0" minWidth="71.0" onAction="#btnDeleteTherapistOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Delete" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
-            <JFXButton fx:id="btnUpdate" minHeight="28.0" minWidth="71.0" onAction="#btnUpdateTherapistOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Update" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
-            <JFXButton fx:id="btnSave" minHeight="28.0" minWidth="71.0" onAction="#btnSaveTherapistOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Save" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+            <JFXButton fx:id="btnDelete" minHeight="28.0" minWidth="71.0" onAction="#btnDeleteTherapistOnAction" prefHeight="28.0" prefWidth="92.0" styleClass="btn-primary" text="Delete" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+            <JFXButton fx:id="btnUpdate" minHeight="28.0" minWidth="71.0" onAction="#btnUpdateTherapistOnAction" prefHeight="28.0" prefWidth="87.0" styleClass="btn-primary" text="Update" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+            <JFXButton fx:id="btnSave" minHeight="28.0" minWidth="71.0" onAction="#btnSaveTherapistOnAction" prefHeight="28.0" prefWidth="96.0" styleClass="btn-primary" text="Save" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
          </children>
       </HBox>
-      <Label layoutX="54.0" layoutY="35.0" text="Search" />
-      <TextField fx:id="txtTherapistSearch" layoutX="158.0" layoutY="30.0" promptText="type here.." />
+      <Label layoutX="754.0" layoutY="35.0" text="Search" />
+      <TextField fx:id="txtTherapistSearch" layoutX="858.0" layoutY="30.0" prefHeight="26.0" prefWidth="233.0" promptText="type here.." />
+      <Label layoutX="73.0" layoutY="40.0" text="Therapist Manage">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

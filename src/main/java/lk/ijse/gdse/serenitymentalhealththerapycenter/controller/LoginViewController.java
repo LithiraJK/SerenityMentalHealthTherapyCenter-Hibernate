@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.BOFactory;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.UserBO;
@@ -46,8 +47,8 @@ public class LoginViewController {
 
             txtUserName.clear();
             txtPassword.clear();
-            txtUserName.setStyle("-fx-border-color: red;");
-            txtPassword.setStyle("-fx-border-color: red;");
+            txtUserName.setFocusColor(Paint.valueOf("red"));
+            txtPassword.setFocusColor(Paint.valueOf("red"));
         }
     }
 

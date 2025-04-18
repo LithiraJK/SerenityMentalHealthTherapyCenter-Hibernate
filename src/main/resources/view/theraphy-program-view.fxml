@@ -7,11 +7,11 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="660.0" prefWidth="990.0" stylesheets="@../styleSheets/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.TheraphyProgramViewController">
+<AnchorPane prefHeight="600.0" prefWidth="1180.0" stylesheets="@../styleSheets/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.TheraphyProgramViewController">
    <children>
-      <TableView fx:id="tblProgram" layoutX="63.0" layoutY="308.0" prefHeight="315.0" prefWidth="867.0">
+      <TableView fx:id="tblProgram" layoutX="79.0" layoutY="240.0" prefHeight="258.0" prefWidth="1062.0">
         <columns>
           <TableColumn fx:id="colProgramID" prefWidth="177.6666717529297" text="Program Id" />
           <TableColumn fx:id="colProgramName" prefWidth="223.3333282470703" text="Name" />
@@ -19,22 +19,23 @@
             <TableColumn fx:id="colProgramFee" prefWidth="222.33331298828125" text="Program Fee" />
         </columns>
       </TableView>
-      <VBox layoutX="83.0" layoutY="103.0" prefHeight="28.0" prefWidth="100.0" spacing="30.0">
+      <JFXTextField fx:id="txtProgramName" layoutX="198.0" layoutY="107.0" prefHeight="28.0" prefWidth="230.0" />
+      <JFXTextField fx:id="txtProgramDuration" layoutX="566.0" layoutY="109.0" prefHeight="26.0" prefWidth="183.0" />
+      <JFXTextField fx:id="txtProgramFee" layoutX="932.0" layoutY="107.0" prefHeight="28.0" prefWidth="195.0" />
+      <HBox layoutX="877.0" layoutY="175.0" prefHeight="39.0" prefWidth="261.0" spacing="10.0">
          <children>
-            <Label text="Name" />
-         </children>
-      </VBox>
-      <JFXTextField fx:id="txtProgramName" layoutX="178.0" layoutY="93.0" prefHeight="28.0" prefWidth="230.0" />
-      <JFXTextField fx:id="txtProgramDuration" layoutX="674.0" layoutY="73.0" prefHeight="28.0" prefWidth="233.0" />
-      <JFXTextField fx:id="txtProgramFee" layoutX="674.0" layoutY="138.0" prefHeight="28.0" prefWidth="229.0" />
-      <HBox layoutX="697.0" layoutY="260.0" prefHeight="39.0" prefWidth="233.0" spacing="10.0">
-         <children>
-            <JFXButton id="btn-primary" fx:id="btnDelete" minHeight="28.0" minWidth="71.0" onAction="#btnDeleteProgramOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Delete" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
-            <JFXButton id="btn-primary" fx:id="btnUpdate" minHeight="28.0" minWidth="71.0" onAction="#btnUpdateProgramOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Update" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
-            <JFXButton id="btn-primary" fx:id="btnSave" minHeight="28.0" minWidth="71.0" onAction="#btnSaveProgramOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Save" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+            <JFXButton id="btn-primary" fx:id="btnDelete" minHeight="28.0" minWidth="71.0" onAction="#btnDeleteProgramOnAction" prefHeight="28.0" prefWidth="127.0" styleClass="btn-primary" text="Delete" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+            <JFXButton id="btn-primary" fx:id="btnUpdate" minHeight="28.0" minWidth="71.0" onAction="#btnUpdateProgramOnAction" prefHeight="28.0" prefWidth="136.0" styleClass="btn-primary" text="Update" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+            <JFXButton id="btn-primary" fx:id="btnSave" minHeight="28.0" minWidth="71.0" onAction="#btnSaveProgramOnAction" prefHeight="28.0" prefWidth="127.0" styleClass="btn-primary" text="Save" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
          </children>
       </HBox>
-      <Label layoutX="544.0" layoutY="82.0" text="Duration" />
-      <Label layoutX="547.0" layoutY="148.0" text="Program Fee" />
+      <Label layoutX="488.0" layoutY="116.0" text="Duration" />
+      <Label layoutX="833.0" layoutY="116.0" text="Program Fee" />
+      <Label layoutX="73.0" layoutY="40.0" text="Therapy-Programe Manage">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="79.0" layoutY="121.0" text="Programe Name" />
    </children>
 </AnchorPane>

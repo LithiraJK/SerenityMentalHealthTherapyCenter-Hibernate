@@ -22,7 +22,7 @@ public class UserDAOImpl implements UserDAO {
         if (adminUser == null) {
             User newAdmin = new User();
             newAdmin.setUsername("admin");
-            newAdmin.setPassword("admin123");
+            newAdmin.setPassword("123");
             newAdmin.setRole("admin");
             session.persist(newAdmin);
             System.out.println("Admin user created.");

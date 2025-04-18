@@ -10,39 +10,45 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="660.0" prefWidth="990.0" stylesheets="@../styleSheets/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.PatientsViewController">
+<AnchorPane prefHeight="600.0" prefWidth="1180.0" stylesheets="@../styleSheets/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.PatientsViewController">
    <children>
-      <TableView fx:id="tblPatient" layoutX="23.0" layoutY="317.0" prefHeight="331.0" prefWidth="943.0">
+      <TableView fx:id="tblPatient" layoutX="73.0" layoutY="317.0" prefHeight="240.0" prefWidth="1044.0">
         <columns>
           <TableColumn fx:id="colPatientId" prefWidth="99.0" text="Patient Id" />
           <TableColumn fx:id="colName" prefWidth="154.66665649414062" text="name" />
             <TableColumn fx:id="colAddress" prefWidth="156.33334350585938" text="Address" />
             <TableColumn fx:id="colDateOfBirth" prefWidth="188.33334350585938" text="Date of birth" />
             <TableColumn fx:id="colEmail" prefWidth="183.3333740234375" text="e mail" />
-            <TableColumn fx:id="colPhone" prefWidth="161.0" text="phone" />
+            <TableColumn fx:id="colPhone" prefWidth="259.0" text="phone" />
         </columns>
       </TableView>
-      <Label layoutX="38.0" layoutY="102.0" prefHeight="26.0" prefWidth="64.0" text="Name" />
-      <Label layoutX="38.0" layoutY="152.0" prefHeight="26.0" prefWidth="64.0" text="Address" />
-      <Label layoutX="503.0" layoutY="181.0" prefHeight="26.0" prefWidth="84.0" text="Date of birth" />
-      <Label layoutX="503.0" layoutY="108.0" prefHeight="26.0" prefWidth="63.0" text="E mail" />
-      <Label layoutX="502.0" layoutY="54.0" text="Phone" />
-      <JFXTextField fx:id="txtPatientName" layoutX="155.0" layoutY="93.0" prefHeight="28.0" prefWidth="250.0" />
-      <JFXTextField fx:id="txtPatientAddress" layoutX="155.0" layoutY="151.0" prefHeight="28.0" prefWidth="250.0" />
-      <JFXTextField fx:id="txtPatientPhone" layoutX="643.0" layoutY="37.0" prefHeight="28.0" prefWidth="250.0" />
-      <JFXTextField fx:id="txtPatientEmail" layoutX="644.0" layoutY="97.0" prefHeight="28.0" prefWidth="250.0" />
-      <DatePicker fx:id="datePickerDob" layoutX="645.0" layoutY="175.0" prefHeight="28.0" prefWidth="150.0" />
-      <HBox layoutX="731.0" layoutY="271.0" prefHeight="39.0" prefWidth="233.0" spacing="10.0">
+      <Label layoutX="88.0" layoutY="102.0" prefHeight="26.0" prefWidth="64.0" text="Name" />
+      <Label layoutX="88.0" layoutY="152.0" prefHeight="26.0" prefWidth="64.0" text="Address" />
+      <Label layoutX="719.0" layoutY="181.0" prefHeight="26.0" prefWidth="84.0" text="Date of birth" />
+      <Label layoutX="718.0" layoutY="128.0" prefHeight="26.0" prefWidth="63.0" text="E mail" />
+      <Label layoutX="719.0" layoutY="84.0" text="Phone" />
+      <JFXTextField fx:id="txtPatientName" layoutX="205.0" layoutY="93.0" prefHeight="28.0" prefWidth="250.0" />
+      <JFXTextField fx:id="txtPatientAddress" layoutX="205.0" layoutY="151.0" prefHeight="28.0" prefWidth="250.0" />
+      <JFXTextField fx:id="txtPatientPhone" layoutX="860.0" layoutY="67.0" prefHeight="28.0" prefWidth="250.0" />
+      <JFXTextField fx:id="txtPatientEmail" layoutX="859.0" layoutY="117.0" prefHeight="28.0" prefWidth="250.0" />
+      <DatePicker fx:id="datePickerDob" layoutX="861.0" layoutY="175.0" prefHeight="28.0" prefWidth="250.0" />
+      <HBox layoutX="827.0" layoutY="261.0" prefHeight="39.0" prefWidth="284.0" spacing="10.0">
          <children>
-            <JFXButton fx:id="btnDelete" minHeight="28.0" minWidth="71.0" onAction="#btnDeletePatientOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Delete" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
-            <JFXButton fx:id="btnUpdate" minHeight="28.0" minWidth="71.0" onAction="#btnUpdatePatientOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Update" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
-            <JFXButton fx:id="btnSave" minHeight="28.0" minWidth="71.0" onAction="#btnSavePatientOnAction" prefHeight="28.0" prefWidth="71.0" styleClass="btn-primary" text="Save" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+            <JFXButton fx:id="btnDelete" minHeight="28.0" minWidth="71.0" onAction="#btnDeletePatientOnAction" prefHeight="28.0" prefWidth="88.0" styleClass="btn-primary" text="Delete" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+            <JFXButton fx:id="btnUpdate" minHeight="28.0" minWidth="71.0" onAction="#btnUpdatePatientOnAction" prefHeight="28.0" prefWidth="88.0" styleClass="btn-primary" text="Update" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+            <JFXButton fx:id="btnSave" minHeight="28.0" minWidth="71.0" onAction="#btnSavePatientOnAction" prefHeight="28.0" prefWidth="89.0" styleClass="btn-primary" text="Save" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
          </children>
       </HBox>
-      <Label layoutX="39.0" layoutY="38.0" text="Search" />
-      <TextField fx:id="txtSearch" layoutX="155.0" layoutY="33.0" onKeyPressed="#txtSearchOnAction" prefHeight="28.0" prefWidth="181.0" promptText="type here..." />
-      <Label layoutX="36.0" layoutY="206.0" prefHeight="26.0" prefWidth="64.0" text="Gender" />
-      <ComboBox fx:id="cmbGender" layoutX="155.0" layoutY="205.0" prefHeight="28.0" prefWidth="99.0" />
+      <Label layoutX="791.0" layoutY="28.0" text="Search" />
+      <TextField fx:id="txtSearch" layoutX="859.0" layoutY="23.0" onKeyPressed="#txtSearchOnAction" prefHeight="28.0" prefWidth="250.0" promptText="type here..." />
+      <Label layoutX="86.0" layoutY="206.0" prefHeight="26.0" prefWidth="64.0" text="Gender" />
+      <ComboBox fx:id="cmbGender" layoutX="205.0" layoutY="205.0" prefHeight="28.0" prefWidth="156.0" />
+      <Label layoutX="73.0" layoutY="30.0" text="Patient Registration">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
