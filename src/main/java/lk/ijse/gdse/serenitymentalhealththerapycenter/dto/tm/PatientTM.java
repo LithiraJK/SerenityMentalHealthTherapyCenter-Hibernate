@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class PatientTM {
-    private String patientId;
+    private int patientId;
     private String name;
+    private String email;
+    private String phoneNumber;
     private String address;
     private String gender;
     private String dateOfBirth;
-    private String email;
-    private String phoneNumber;
 }

@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 public class PatientsViewController implements Initializable {
 
     @FXML
-    private ComboBox cmbGender;
+    private ComboBox<String> cmbGender;
 
     @FXML
     private TableView<PatientTM> tblPatient;
@@ -49,7 +49,7 @@ public class PatientsViewController implements Initializable {
     private TableColumn<PatientTM, String> colPhone;
 
     @FXML
-    private TableColumn<PatientTM, String> colTherapyProgram;
+    private TableColumn<PatientTM, String> colGender;
 
     @FXML
     private JFXTextField txtPatientName;
@@ -78,14 +78,14 @@ public class PatientsViewController implements Initializable {
     @FXML
     private TextField txtSearch;
 
-    String id;
+    private String id;
 
-    private ObservableList<PatientTM> patientList = FXCollections.observableArrayList();
-
-    private final PatientsBO patientsBO = (PatientsBO) BOFactory.getInstance().getBO(BOFactory.BOType.PATIENT);
+    private final ObservableList<PatientTM> patientList = FXCollections.observableArrayList();
+    private PatientsBO patientsBO;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.patientsBO = (PatientsBO) BOFactory.getInstance().getBO(BOFactory.BOType.PATIENT);
         populateGender();
         setTableListener();
         loadPatientData();
@@ -100,7 +100,7 @@ public class PatientsViewController implements Initializable {
             List<PatientDTO> patients = patientsBO.getAllPatients();
             for (PatientDTO dto : patients) {
                 patientList.add(new PatientTM(
-                        dto.getPatientId(),
+                        Integer.parseInt(dto.getPatientId()),
                         dto.getName(),
                         dto.getEmail(),
                         dto.getPhoneNumber(),
@@ -122,6 +122,7 @@ public class PatientsViewController implements Initializable {
         colDateOfBirth.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        colGender.setCellValueFactory(new PropertyValueFactory<>("gender"));
     }
 
     private void setTableListener() {
@@ -133,12 +134,12 @@ public class PatientsViewController implements Initializable {
     }
 
     private void setPatientData(PatientTM patient) {
+        id = String.valueOf(patient.getPatientId());
         txtPatientName.setText(patient.getName());
         txtPatientAddress.setText(patient.getAddress());
         txtPatientPhone.setText(patient.getPhoneNumber());
         txtPatientEmail.setText(patient.getEmail());
         cmbGender.setValue(patient.getGender());
-        id = String.valueOf(patient.getPatientId());
         if (patient.getDateOfBirth() != null && !patient.getDateOfBirth().isEmpty()) {
             datePickerDob.setValue(LocalDate.parse(patient.getDateOfBirth()));
         }
@@ -146,21 +147,22 @@ public class PatientsViewController implements Initializable {
         btnUpdate.setDisable(false);
     }
 
-
     private void populateGender() {
         cmbGender.getItems().addAll("Male", "Female", "Other");
     }
 
     @FXML
     void btnDeletePatientOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
-        boolean isDeleted = patientsBO.deletePatient(id);
-        if (isDeleted) {
-            new Alert(Alert.AlertType.INFORMATION, "Patient deleted successfully!").show();
-            loadPatientData();
-            clearFields();
-            btnDelete.setDisable(true);
-        } else {
-            new Alert(Alert.AlertType.ERROR, "Failed to delete patient!").show();
+        if (id != null) {
+            boolean isDeleted = patientsBO.deletePatient(id);
+            if (isDeleted) {
+                new Alert(Alert.AlertType.INFORMATION, "Patient deleted successfully!").show();
+                loadPatientData();
+                clearFields();
+                btnDelete.setDisable(true);
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Failed to delete patient!").show();
+            }
         }
     }
 
@@ -180,10 +182,10 @@ public class PatientsViewController implements Initializable {
         String address = txtPatientAddress.getText();
         String phone = txtPatientPhone.getText();
         String email = txtPatientEmail.getText();
-        String gender = cmbGender.getSelectionModel().getSelectedItem().toString();
+        String gender = cmbGender.getSelectionModel().getSelectedItem();
         String dateOfBirth = datePickerDob.getValue().toString();
 
-        PatientDTO patientDTO = new PatientDTO(name, address, gender, dateOfBirth, email, phone);
+        PatientDTO patientDTO = new PatientDTO(name, email, phone, address, gender, dateOfBirth);
 
         boolean isSaved = patientsBO.savePatient(patientDTO);
 
@@ -191,36 +193,38 @@ public class PatientsViewController implements Initializable {
             new Alert(Alert.AlertType.INFORMATION, "Patient saved successfully!").show();
             clearFields();
             loadPatientData();
-        }else {
+        } else {
             new Alert(Alert.AlertType.ERROR, "Failed to save patient!").show();
         }
     }
 
     @FXML
     void btnUpdatePatientOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
-        String name = txtPatientName.getText();
-        String address = txtPatientAddress.getText();
-        String phone = txtPatientPhone.getText();
-        String email = txtPatientEmail.getText();
-        String gender = cmbGender.getSelectionModel().getSelectedItem().toString();
-        String dateOfBirth = datePickerDob.getValue().toString();
+        if (id != null) {
+            String name = txtPatientName.getText();
+            String address = txtPatientAddress.getText();
+            String phone = txtPatientPhone.getText();
+            String email = txtPatientEmail.getText();
+            String gender = cmbGender.getSelectionModel().getSelectedItem();
+            String dateOfBirth = datePickerDob.getValue().toString();
 
-        PatientDTO patientDTO = new PatientDTO(id,name, address, gender, dateOfBirth, email, phone);
+            PatientDTO patientDTO = new PatientDTO(id, name, email, phone, address, gender, dateOfBirth);
 
-        boolean isUpdate = patientsBO.UpdatePatient(patientDTO);
+            boolean isUpdated = patientsBO.UpdatePatient(patientDTO);
 
-        if (isUpdate){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Patient updated successfully!");
-            clearFields();
-            loadPatientData();
-            btnUpdate.setDisable(true);
-        }else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Failed to update patient!");
+            if (isUpdated) {
+                new Alert(Alert.AlertType.INFORMATION, "Patient updated successfully!").show();
+                clearFields();
+                loadPatientData();
+                btnUpdate.setDisable(true);
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Failed to update patient!").show();
+            }
         }
     }
 
     @FXML
     void txtSearchOnAction(KeyEvent event) {
-
+        // Implement search functionality if required
     }
 }

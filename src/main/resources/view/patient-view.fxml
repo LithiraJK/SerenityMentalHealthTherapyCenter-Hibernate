@@ -17,23 +17,24 @@
       <TableView fx:id="tblPatient" layoutX="73.0" layoutY="317.0" prefHeight="240.0" prefWidth="1044.0">
         <columns>
           <TableColumn fx:id="colPatientId" prefWidth="99.0" text="Patient Id" />
-          <TableColumn fx:id="colName" prefWidth="154.66665649414062" text="name" />
-            <TableColumn fx:id="colAddress" prefWidth="156.33334350585938" text="Address" />
-            <TableColumn fx:id="colDateOfBirth" prefWidth="188.33334350585938" text="Date of birth" />
-            <TableColumn fx:id="colEmail" prefWidth="183.3333740234375" text="e mail" />
-            <TableColumn fx:id="colPhone" prefWidth="259.0" text="phone" />
+          <TableColumn fx:id="colName" prefWidth="188.0" text="Name" />
+            <TableColumn fx:id="colEmail" prefWidth="225.0" text="Email" />
+            <TableColumn fx:id="colPhone" prefWidth="185.0" text="phone" />
+            <TableColumn fx:id="colAddress" prefWidth="221.0" text="Address" />
+            <TableColumn fx:id="colGender" prefWidth="125.0" text="Gender" />
+            <TableColumn fx:id="colDateOfBirth" prefWidth="157.0" text="Date of birth" />
         </columns>
       </TableView>
-      <Label layoutX="88.0" layoutY="102.0" prefHeight="26.0" prefWidth="64.0" text="Name" />
-      <Label layoutX="88.0" layoutY="152.0" prefHeight="26.0" prefWidth="64.0" text="Address" />
-      <Label layoutX="719.0" layoutY="181.0" prefHeight="26.0" prefWidth="84.0" text="Date of birth" />
-      <Label layoutX="718.0" layoutY="128.0" prefHeight="26.0" prefWidth="63.0" text="E mail" />
-      <Label layoutX="719.0" layoutY="84.0" text="Phone" />
-      <JFXTextField fx:id="txtPatientName" layoutX="205.0" layoutY="93.0" prefHeight="28.0" prefWidth="250.0" />
-      <JFXTextField fx:id="txtPatientAddress" layoutX="205.0" layoutY="151.0" prefHeight="28.0" prefWidth="250.0" />
-      <JFXTextField fx:id="txtPatientPhone" layoutX="860.0" layoutY="67.0" prefHeight="28.0" prefWidth="250.0" />
-      <JFXTextField fx:id="txtPatientEmail" layoutX="859.0" layoutY="117.0" prefHeight="28.0" prefWidth="250.0" />
-      <DatePicker fx:id="datePickerDob" layoutX="861.0" layoutY="175.0" prefHeight="28.0" prefWidth="250.0" />
+      <Label layoutX="88.0" layoutY="97.0" prefHeight="26.0" prefWidth="64.0" text="Name" />
+      <Label layoutX="88.0" layoutY="145.0" prefHeight="26.0" prefWidth="64.0" text="Address" />
+      <Label layoutX="717.0" layoutY="180.0" prefHeight="26.0" prefWidth="84.0" text="Date of birth" />
+      <Label layoutX="758.0" layoutY="134.0" prefHeight="26.0" prefWidth="63.0" text="E mail" />
+      <Label layoutX="759.0" layoutY="89.0" text="Phone" />
+      <JFXTextField fx:id="txtPatientName" layoutX="185.0" layoutY="88.0" prefHeight="28.0" prefWidth="250.0" />
+      <JFXTextField fx:id="txtPatientAddress" layoutX="185.0" layoutY="138.0" prefHeight="28.0" prefWidth="250.0" />
+      <JFXTextField fx:id="txtPatientPhone" layoutX="850.0" layoutY="77.0" prefHeight="28.0" prefWidth="250.0" />
+      <JFXTextField fx:id="txtPatientEmail" layoutX="850.0" layoutY="123.0" prefHeight="28.0" prefWidth="250.0" />
+      <DatePicker fx:id="datePickerDob" layoutX="853.0" layoutY="181.0" prefHeight="28.0" prefWidth="250.0" />
       <HBox layoutX="827.0" layoutY="261.0" prefHeight="39.0" prefWidth="284.0" spacing="10.0">
          <children>
             <JFXButton fx:id="btnDelete" minHeight="28.0" minWidth="71.0" onAction="#btnDeletePatientOnAction" prefHeight="28.0" prefWidth="88.0" styleClass="btn-primary" text="Delete" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
@@ -43,8 +44,8 @@
       </HBox>
       <Label layoutX="791.0" layoutY="28.0" text="Search" />
       <TextField fx:id="txtSearch" layoutX="859.0" layoutY="23.0" onKeyPressed="#txtSearchOnAction" prefHeight="28.0" prefWidth="250.0" promptText="type here..." />
-      <Label layoutX="86.0" layoutY="206.0" prefHeight="26.0" prefWidth="64.0" text="Gender" />
-      <ComboBox fx:id="cmbGender" layoutX="205.0" layoutY="205.0" prefHeight="28.0" prefWidth="156.0" />
+      <Label layoutX="86.0" layoutY="196.0" prefHeight="26.0" prefWidth="64.0" text="Gender" />
+      <ComboBox fx:id="cmbGender" layoutX="185.0" layoutY="193.0" prefHeight="28.0" prefWidth="156.0" />
       <Label layoutX="73.0" layoutY="30.0" text="Patient Registration">
          <font>
             <Font name="System Bold" size="23.0" />

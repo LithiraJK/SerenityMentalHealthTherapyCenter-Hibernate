@@ -4,21 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PatientDTO {
     private String patientId;
     private String name;
+    private String email;
+    private String phoneNumber;
     private String address;
     private String gender;
     private String dateOfBirth;
-    private String email;
-    private String phoneNumber;
 
-    public PatientDTO(String name, String address, String gender, String dateOfBirth, String email, String phone) {
+    public PatientDTO(String name, String email, String phone, String address, String gender, String dateOfBirth) {
         this.name = name;
         this.address = address;
         this.gender = gender;

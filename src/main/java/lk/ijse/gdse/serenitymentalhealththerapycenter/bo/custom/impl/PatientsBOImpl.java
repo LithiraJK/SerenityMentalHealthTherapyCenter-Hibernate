@@ -22,24 +22,24 @@ public class PatientsBOImpl implements PatientsBO {
         patient.setGender(patientDTO.getGender());
         patient.setDateOfBirth(patientDTO.getDateOfBirth());
         patient.setEmail(patientDTO.getEmail());
-        patient.setPhoneNumber(String.valueOf(patientDTO.getPhoneNumber()));
+        patient.setPhoneNumber(patientDTO.getPhoneNumber());
         return patientsDAO.save(patient);
     }
 
     @Override
     public List<PatientDTO> getAllPatients() throws SQLException, ClassNotFoundException {
         ArrayList<PatientDTO> patientDTOArrayList = new ArrayList<>();
-        ArrayList<Patient>patients=patientsDAO.getAllData();
+        ArrayList<Patient> patients = patientsDAO.getAllData();
 
         for (Patient patient : patients) {
             PatientDTO patientDTO = new PatientDTO();
+            patientDTO.setPatientId(String.valueOf(patient.getPatientId()));
             patientDTO.setName(patient.getName());
             patientDTO.setAddress(patient.getAddress());
             patientDTO.setGender(patient.getGender());
             patientDTO.setDateOfBirth(patient.getDateOfBirth());
             patientDTO.setEmail(patient.getEmail());
             patientDTO.setPhoneNumber(patient.getPhoneNumber());
-            patientDTO.setPatientId(String.valueOf(patient.getPatientId()));
             patientDTOArrayList.add(patientDTO);
         }
         return patientDTOArrayList;

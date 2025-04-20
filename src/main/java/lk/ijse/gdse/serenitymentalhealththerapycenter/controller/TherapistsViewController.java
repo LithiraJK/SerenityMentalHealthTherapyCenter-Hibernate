@@ -119,10 +119,10 @@ public class TherapistsViewController implements Initializable {
     private void setCellValueFactory() {
         colTherapistId.setCellValueFactory(new PropertyValueFactory<>("therapistId"));
         colTherapistName.setCellValueFactory(new PropertyValueFactory<>("therapistName"));
-        colTherapistAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colTherapistEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colTherapistDob.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
+        colTherapistAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colTherapistPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        colTherapistDob.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
         colTherapistStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
@@ -135,11 +135,11 @@ public class TherapistsViewController implements Initializable {
         tblTherapist.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 txtTherapistName.setText(newSelection.getTherapistName());
-                txtTherapistAddress.setText(newSelection.getAddress());
                 txtTherapistEmail.setText(newSelection.getEmail());
+                txtTherapistAddress.setText(newSelection.getAddress());
                 txtTherapistPhone.setText(newSelection.getPhone());
-                cmbTherapistStatus.setValue(newSelection.getStatus());
                 datePickerDob.setValue(newSelection.getDateOfBirth().toLocalDate());
+                cmbTherapistStatus.setValue(newSelection.getStatus());
                 id = String.valueOf(newSelection.getTherapistId());
 
                 btnDelete.setDisable(false);
@@ -174,7 +174,7 @@ public class TherapistsViewController implements Initializable {
         String phone = txtTherapistPhone.getText();
         String status = cmbTherapistStatus.getSelectionModel().getSelectedItem();
         Date dob = Date.valueOf(datePickerDob.getValue());
-        TherapistDTO therapistDTO = new TherapistDTO(name, email, phone, address, dob, status);
+        TherapistDTO therapistDTO = new TherapistDTO(name, email, address, phone,  dob, status);
 
         boolean isSaved = therapistsBO.saveTherapist(therapistDTO);
         if (isSaved) {
@@ -203,7 +203,7 @@ public class TherapistsViewController implements Initializable {
         String phone = txtTherapistPhone.getText();
         String status = cmbTherapistStatus.getSelectionModel().getSelectedItem();
         Date dob = Date.valueOf(datePickerDob.getValue());
-        TherapistDTO therapistDTO = new TherapistDTO(name, email, phone, address, dob, status);
+        TherapistDTO therapistDTO = new TherapistDTO(name, email,address, phone,  dob, status);
 
         boolean isUpdated = therapistsBO.updateTherapist(therapistDTO);
 

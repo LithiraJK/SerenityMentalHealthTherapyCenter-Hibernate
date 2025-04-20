@@ -21,7 +21,7 @@ public class Appinitializer extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/login-view.fxml")))));
+        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/dashboard-view.fxml")))));
         userBO.initializeAdmin();
         stage.show();
         stage.resizableProperty().setValue(Boolean.FALSE);

@@ -5,4 +5,5 @@ import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.SuperDAO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.Patient;
 
 public interface PatientsDAO extends SuperDAO, CrudDAO<Patient> {
+
 }

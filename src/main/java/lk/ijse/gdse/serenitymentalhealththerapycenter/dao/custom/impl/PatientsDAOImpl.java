@@ -57,11 +57,11 @@ public class PatientsDAOImpl implements PatientsDAO {
             session.merge(entity);
             transaction.commit();
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             transaction.rollback();
             e.printStackTrace();
             return false;
-        }finally {
+        } finally {
             session.close();
         }
     }

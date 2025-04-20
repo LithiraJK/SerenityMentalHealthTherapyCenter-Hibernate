@@ -33,7 +33,7 @@
             </ImageView>
             <ImageView fx:id="imgTherapistsBtn" fitHeight="42.0" fitWidth="174.0" onMouseClicked="#navigateTherapistsPage" onMouseEntered="#onMouseEnterdBtn" onMouseExited="#onMouseExitedBtn" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/health_and_safety_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
+                  <Image url="@../assets/stethoscope_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
                </image>
             </ImageView>
             <ImageView fx:id="imgSettingsBtn" fitHeight="42.0" fitWidth="174.0" onMouseClicked="#navigateSettingsPage" onMouseEntered="#onMouseEnterdBtn" onMouseExited="#onMouseExitedBtn" pickOnBounds="true" preserveRatio="true">
