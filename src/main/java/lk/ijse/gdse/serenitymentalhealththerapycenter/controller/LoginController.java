@@ -47,7 +47,7 @@ public class LoginController {
 
         if (userBO.isUserExists(username, password)) {
             String role = userBO.getUserRole(username, password); // Retrieve user role
-            loadDashboard("/view/home-page.fxml", role);
+            loadDashboard("/view/dashboard-view.fxml", role);
         } else {
             // Show error alert
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -73,7 +73,7 @@ public class LoginController {
             stage.setScene(new Scene(loader.load()));
 
             // Pass the role to the dashboard controller
-            HomeController controller = loader.getController();
+            DashboardViewController controller = loader.getController();
             controller.setUserRole(role);
 
             // Debug message to verify role

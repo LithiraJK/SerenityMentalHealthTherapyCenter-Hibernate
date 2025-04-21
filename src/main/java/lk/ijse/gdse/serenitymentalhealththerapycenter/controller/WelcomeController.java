@@ -15,8 +15,6 @@ public class WelcomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        SetBackgroundUtil setBackground = new SetBackgroundUtil();
-        setBackground.setBackgroundImage(bodyPane, 1300, 760);
 
     }
 

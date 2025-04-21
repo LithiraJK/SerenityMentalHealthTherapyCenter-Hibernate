@@ -1,6 +1,6 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.util;
 
-import lk.ijse.gdse.serenitymentalhealththerapycenter.controller.HomeController;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.controller.DashboardViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -19,7 +19,7 @@ public class NavigationUtil {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             AnchorPane homePane = loader.load();
 
-            HomeController homeController = loader.getController();
+            DashboardViewController homeController = loader.getController();
 
             homeController.setUserRole(role);
 
