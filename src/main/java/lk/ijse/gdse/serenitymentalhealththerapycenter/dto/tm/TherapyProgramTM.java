@@ -1,16 +1,19 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import java.math.BigDecimal;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 
 public class TherapyProgramTM {
-    private int programId;
-    private String programName;
+    private String programId;
+    private String name;
     private String duration;
-    private double programFee;
+    private BigDecimal fee;
+    private String description;
 }

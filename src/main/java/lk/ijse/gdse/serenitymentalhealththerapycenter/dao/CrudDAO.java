@@ -1,22 +1,18 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.dao;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.SuperEntity;
 
-public interface CrudDAO<T> extends SuperDAO {
-    public ArrayList<T> getAllData() throws SQLException, ClassNotFoundException;
+import java.util.List;
+import java.util.Optional;
 
-    public boolean save(T Dto) throws SQLException, ClassNotFoundException;
+public interface CrudDAO<T extends SuperEntity, ID> extends SuperDAO{
 
-    public boolean update(T Dto) throws SQLException, ClassNotFoundException;
+//    public boolean save(T entity);
+//    public boolean update(T entity);
+//    public boolean delete(ID pk);
+//    public List<T> getAll();
+//    public Optional<T> findByName(ID pk);
+//
+//    public Optional<String> getLastPK();
 
-    public boolean existId(String id) throws SQLException, ClassNotFoundException;
-
-    public boolean delete(T id) throws SQLException, ClassNotFoundException;
-
-    public String getNewId() throws SQLException, ClassNotFoundException;
-
-    public ArrayList<T> search(T newValue) throws SQLException, ClassNotFoundException;
-
-    public T findById(T entity) throws SQLException;
 }

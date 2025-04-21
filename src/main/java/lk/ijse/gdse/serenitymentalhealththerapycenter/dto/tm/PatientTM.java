@@ -1,18 +1,17 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class PatientTM {
-    private int patientId;
+    private String patientId;
     private String name;
     private String email;
-    private String phoneNumber;
+    private String phone;
     private String address;
-    private String gender;
-    private String dateOfBirth;
+    private String medicalHistory;
 }

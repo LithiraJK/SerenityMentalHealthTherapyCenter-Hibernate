@@ -1,49 +1,48 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.config;
 
+
 import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.io.IOException;
+import java.util.Properties;
+
 public class FactoryConfiguration {
     private static FactoryConfiguration factoryConfiguration;
-    private final SessionFactory sessionFactory;
-
-    private FactoryConfiguration() {
+    private static SessionFactory sessionFactory;
+    private FactoryConfiguration(){
+        Configuration configuration = new Configuration();
+        Properties properties = new Properties();
 
         try {
-            Configuration configuration = new Configuration().configure("hibernate.cfg.xml")
-                    .addAnnotatedClass(User.class)
-                    .addAnnotatedClass(Patient.class)
-                    .addAnnotatedClass(Payment.class)
-                    .addAnnotatedClass(Appointment.class)
-                    .addAnnotatedClass(Therapist.class)
-                    .addAnnotatedClass(TherapyProgram.class)
-                    .addAnnotatedClass(TherapySession.class);
-
-            sessionFactory = configuration.buildSessionFactory();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to build SessionFactory.", e);
+            properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("hibernate.properties"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
+        configuration.setProperties(properties);
+
+        configuration.addAnnotatedClass(User.class)
+                .addAnnotatedClass(Patient.class)
+                .addAnnotatedClass(PatientProgram.class)
+                .addAnnotatedClass(Payment.class)
+                .addAnnotatedClass(Therapist.class)
+                .addAnnotatedClass(TherapistAvailability.class)
+                .addAnnotatedClass(TherapistProgram.class)
+                .addAnnotatedClass(TherapyProgram.class)
+                .addAnnotatedClass(TherapySession.class);
+
+        sessionFactory = configuration.buildSessionFactory();
     }
 
     public static FactoryConfiguration getInstance() {
-        if (factoryConfiguration == null) {
-            synchronized (FactoryConfiguration.class) {
-                if (factoryConfiguration == null) {
-                    factoryConfiguration = new FactoryConfiguration();
-                }
-            }
-        }
-        return factoryConfiguration;
+        return (factoryConfiguration == null) ? new FactoryConfiguration() : factoryConfiguration;
     }
 
     public Session getSession() {
-        if (sessionFactory != null) {
-            return sessionFactory.openSession();
-        } else {
-            throw new IllegalStateException("SessionFactory is not initialized.");
-        }
+        return sessionFactory.openSession();
     }
+
 }

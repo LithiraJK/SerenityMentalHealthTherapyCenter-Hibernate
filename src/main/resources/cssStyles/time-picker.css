@@ -1,0 +1,62 @@
+/* TimePicker styling */
+.time-picker {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 5px;
+}
+
+.time-picker .arrow-button {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 0 4px 4px 0;
+}
+
+.time-picker .arrow-button:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+.time-picker .text-field {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-background-radius: 4px 0 0 4px;
+}
+
+/* TimePicker popup styling */
+.time-picker-popup {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);
+}
+
+.time-picker-popup .spinner {
+    -fx-background-color: white;
+}
+
+.time-picker-popup .spinner .increment-arrow-button,
+.time-picker-popup .spinner .decrement-arrow-button {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 0;
+}
+
+.time-picker-popup .spinner .increment-arrow-button:hover,
+.time-picker-popup .spinner .decrement-arrow-button:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+.time-picker-popup .spinner .increment-arrow,
+.time-picker-popup .spinner .decrement-arrow {
+    -fx-background-color: #666666;
+}
+
+.time-picker-popup .button {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #333333;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0;
+}
+
+.time-picker-popup .button:hover {
+    -fx-background-color: #e0e0e0;
+}

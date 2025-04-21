@@ -1,32 +1,39 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-public class Patient {
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+@Table(name = "patient")
+public class Patient implements SuperEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int patientId;
+    private String patient_id;
+
+    @Column(nullable = false)
     private String name;
-    private String address;
-    private String gender;
-    private String dateOfBirth;
+
+    @Column(unique = true, nullable = false)
     private String email;
-    private String phoneNumber;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Appointment> appointmentList;
+    @Column(nullable = false)
+    private String phone;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TherapySession> sessions;
+    @Lob
+    private String address;
+
+    @Lob
+    private String medical_history;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<TherapySession> therapySessions;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<Payment> payments;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<PatientProgram> patientPrograms;
 }

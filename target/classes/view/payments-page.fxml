@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="bodyPane" prefHeight="760.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.PaymentsController">
+   <children>
+      <Label alignment="CENTER" layoutX="615.0" layoutY="21.0" prefHeight="33.0" prefWidth="138.0" text="Payments">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" layoutX="909.0" layoutY="320.0" prefHeight="64.0" prefWidth="338.0" spacing="20.0">
+         <children>
+            <TextField fx:id="searchTxt" prefHeight="26.0" prefWidth="186.0" />
+            <Button fx:id="searchButton" focusTraversable="false" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Search">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <VBox layoutX="24.0" layoutY="86.0" prefHeight="376.0" prefWidth="865.0" spacing="20.0">
+         <children>
+            <HBox prefHeight="34.0" prefWidth="314.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="144.0" text="Payment ID">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="paymentIdTxt" prefHeight="26.0" prefWidth="128.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="34.0" prefWidth="314.0" spacing="10.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="144.0" text="Patient Name">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="patientNameTxt" prefHeight="26.0" prefWidth="283.0" />
+                  <Button fx:id="patientSearchButton" focusTraversable="false" mnemonicParsing="false" onAction="#searchPatient" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Search">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Label prefHeight="27.0" prefWidth="144.0" text="Patient ID">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="patientIdTxt" prefHeight="26.0" prefWidth="132.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="34.0" prefWidth="314.0" spacing="10.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="144.0" text="Program ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="programNameTxt" prefHeight="26.0" prefWidth="283.0" />
+                  <Button fx:id="programSearchButton" focusTraversable="false" mnemonicParsing="false" onAction="#searchProgram" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Search">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Label prefHeight="18.0" prefWidth="144.0" text="Program ID">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="programIdTxt" prefHeight="26.0" prefWidth="132.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="34.0" prefWidth="314.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="144.0" text="Payment Type">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="paymentTypeChoice" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox fx:id="sessionIdPart" prefHeight="34.0" prefWidth="314.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="144.0" text="Session ID">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="sessionIdTxt" prefHeight="26.0" prefWidth="132.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="34.0" prefWidth="314.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="144.0" text="Amount">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="amountTxt" prefHeight="26.0" prefWidth="132.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="34.0" prefWidth="314.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="144.0" text="Date">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="dateTxt" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <TableView fx:id="paymentsTable" layoutX="112.0" layoutY="489.0" onMouseClicked="#tableClick" prefHeight="242.0" prefWidth="1082.0">
+        <columns>
+          <TableColumn fx:id="paymentIdCol" prefWidth="145.59997177124023" text="Payment ID" />
+          <TableColumn fx:id="patientIdCol" prefWidth="151.20004272460938" text="Patient ID" />
+            <TableColumn fx:id="programIdCol" prefWidth="153.06671142578125" text="Program ID" />
+            <TableColumn fx:id="sessionIdCol" prefWidth="196.00003051757812" text="Session ID" />
+            <TableColumn fx:id="amountCol" prefWidth="281.0667724609375" text="Amount" />
+            <TableColumn fx:id="dateCol" prefWidth="147.73370361328125" text="Date" />
+        </columns>
+      </TableView>
+      <HBox alignment="CENTER" layoutX="905.0" layoutY="417.0" prefHeight="34.0" prefWidth="358.0" spacing="20.0">
+         <children>
+            <Button fx:id="deleteButton" focusTraversable="false" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Delete">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="updateButton" focusTraversable="false" mnemonicParsing="false" onAction="#update" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Update">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" onAction="#save" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Save">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

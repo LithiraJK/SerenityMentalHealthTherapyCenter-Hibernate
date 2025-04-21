@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="bodyPane" prefHeight="760.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.WelcomeController">
+   <children>
+      <ImageView fitHeight="372.0" fitWidth="363.0" layoutX="495.0" layoutY="181.0">
+         <image>
+            <Image url="@../images/3508x3508-px-anatomy-brain-d-wallpaper-preview.jpg" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="210.0" layoutY="14.0" prefHeight="58.0" prefWidth="922.0" text="Welcome to Serenity Mental Health Center">
+         <font>
+            <Font name="Book Antiqua Bold" size="40.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

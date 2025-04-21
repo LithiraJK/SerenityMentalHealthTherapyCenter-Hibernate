@@ -1,32 +1,36 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class Therapist {
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+@Table(name = "therapist")
+public class Therapist implements SuperEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int therapistId;
-    private String therapistName;
+    private String therapist_id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(unique = true, nullable = false)
     private String email;
-    private String address;
+
+    @Column(nullable = false)
     private String phone;
-    private String dateOfBirth;
-    private String status;
 
-    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Appointment> appointmentList;
+    @Column(nullable = false)
+    private String specialization;
 
-    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TherapySession> sessions;
+    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
+    private List<TherapySession> therapySessions;
+
+    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
+    private List<TherapistAvailability> availabilities;
+
+    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
+    private List<TherapistProgram> therapistPrograms;
 }

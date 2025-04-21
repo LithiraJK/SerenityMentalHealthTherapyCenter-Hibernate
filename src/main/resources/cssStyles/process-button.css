@@ -1,0 +1,12 @@
+.process-button {
+    background-color: #666;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.process-button:hover {
+    background-color: #555; /* Slightly darker on hover */
+}

@@ -1,17 +1,17 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom;
 
-import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.SuperBO;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapyProgramDTO;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapyProgramDto;
 
-import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
-public interface TherapyProgramBO extends SuperBO {
-    boolean saveProgram(TherapyProgramDTO therapyProgramDTO) throws SQLException, ClassNotFoundException;
+public interface TherapyProgramBO {
 
-    List<TherapyProgramDTO> getAllPrograms() throws SQLException, ClassNotFoundException;
+    public boolean saveTherapyProgram(TherapyProgramDto dto);
+    public boolean updateTherapyProgram(TherapyProgramDto dto);
+    public boolean deleteTherapyProgram(String programId);
+    public ArrayList<TherapyProgramDto> getAllTherapyPrograms();
+    public ArrayList<TherapyProgramDto> findTherapyProgramByName(String name);
+    public String getNextTherapyProgramPK();
+    public TherapyProgramDto findTherapyProgramByID(String id);
 
-    boolean deleteTherapyProgram(String id) throws SQLException, ClassNotFoundException;
-
-    boolean updateProgram(TherapyProgramDTO therapyProgramDTO) throws SQLException, ClassNotFoundException;
 }

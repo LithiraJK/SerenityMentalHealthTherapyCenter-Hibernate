@@ -6,98 +6,116 @@ import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.Therapist;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TherapistDAOImpl implements TherapistDAO {
-    @Override
-    public ArrayList<Therapist> getAllData() throws SQLException, ClassNotFoundException {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
-        ArrayList<Therapist> therapists = new ArrayList<>();
+    private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getInstance();
 
+    @Override
+    public boolean save(Therapist entity) {
+        Session session = factoryConfiguration.getSession();
+        Transaction transaction = session.beginTransaction();
         try {
-            List<Therapist> therapistList = session.createQuery("FROM Therapist ", Therapist.class).list();
-            therapists.addAll(therapistList);
+            session.persist(entity);
             transaction.commit();
+            return true;
+        }catch (Exception e) {
+            transaction.rollback();
+            return false;
+        }finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public boolean update(Therapist entity) {
+        Session session = factoryConfiguration.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.merge(entity);
+            transaction.commit();
+            return true;
         } catch (Exception e) {
             transaction.rollback();
             e.printStackTrace();
+            return false;
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
+    }
+
+
+    @Override
+    public boolean delete(String pk) {
+        Session session = factoryConfiguration.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            Therapist therapist = session.find(Therapist.class, pk);
+            // Therapist therapist = session.get(Therapist.class, pk);
+            if (therapist!= null) {
+                session.remove(therapist);
+                transaction.commit();
+                return true;
+            }
+            return false;
+        }catch (Exception e) {
+            transaction.rollback();
+            return false;
+        }finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public List<Therapist> getAll() {
+        Session session = factoryConfiguration.getSession();
+        List<Therapist> therapists = session.createQuery("FROM Therapist", Therapist.class).list();
+        session.close();
         return therapists;
     }
 
     @Override
-    public boolean save(Therapist therapist) throws SQLException, ClassNotFoundException {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
+    public List<Therapist> findByName(String name) {
+        Session session = factoryConfiguration.getSession();
+        List<Therapist> therapists = session.createQuery("FROM Therapist th WHERE th.name LIKE :name", Therapist.class)
+                .setParameter("name", "%" + name + "%")
+                .list();
+        session.close();
 
+        return therapists;
+    }
+
+    @Override
+    public Optional<Therapist> findById(String id) {
+        Session session = factoryConfiguration.getSession();
+        Therapist therapist = null;
         try {
-            session.persist(therapist);
-            transaction.commit();
-            return true;
-        } catch (Exception e) {
-            transaction.rollback();
-            return false;
+            therapist = session.get(Therapist.class, id);
         } finally {
             session.close();
         }
+        return Optional.ofNullable(therapist);
     }
+
+
 
     @Override
-    public boolean update(Therapist therapist) throws SQLException, ClassNotFoundException {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
+    public Optional<String> getLastPK() {
+        Session session = factoryConfiguration.getSession();
+        String lastPk = session.createQuery("SELECT th.therapist_id FROM Therapist th ORDER BY th.therapist_id DESC", String.class)
+                .setMaxResults(1)
+                .uniqueResult();
+        session.close();
 
-        try {
-            session.merge(therapist);
-            transaction.commit();
-            return true;
-        } catch (Exception e) {
-            transaction.rollback();
-            return false;
-        } finally {
-            session.close();
-        }
+        return Optional.ofNullable(lastPk);
     }
 
-    @Override
-    public boolean existId(String id) throws SQLException, ClassNotFoundException {
-        return false;
-    }
 
-    @Override
-    public boolean delete(Therapist id) throws SQLException, ClassNotFoundException {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
-
-        try {
-            session.remove(id);
-            transaction.commit();
-            return true;
-        } catch (Exception e) {
-            transaction.rollback();
-            return false;
-        } finally {
-            session.close();
-        }
-    }
-
-    @Override
-    public String getNewId() throws SQLException, ClassNotFoundException {
-        return "";
-    }
-
-    @Override
-    public ArrayList<Therapist> search(Therapist newValue) throws SQLException, ClassNotFoundException {
-        return null;
-    }
-
-    @Override
-    public Therapist findById(Therapist entity) throws SQLException {
-        return null;
-    }
 }

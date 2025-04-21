@@ -1,93 +1,198 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.impl;
 
+import lk.ijse.gdse.serenitymentalhealththerapycenter.config.FactoryConfiguration;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.UserDAO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.User;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.config.FactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-import java.sql.SQLException;
-import java.util.ArrayList;
+
+import java.util.List;
+import java.util.Optional;
 
 public class UserDAOImpl implements UserDAO {
+    private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getInstance();
+
     @Override
-    public void initializeAdmin() {
-        Session session = FactoryConfiguration.getInstance().getSession();
+    public boolean save(User entity) {
+        Session session = factoryConfiguration.getSession();
         Transaction transaction = session.beginTransaction();
+        try {
+            session.persist(entity);
+            transaction.commit();
+            return true;
+        }catch (Exception e) {
+            transaction.rollback();
+            return false;
+        }finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 
-        Query<User> query = session.createQuery("FROM User WHERE role = :role", User.class);
-        query.setParameter("role", "admin");
-        User adminUser = query.uniqueResult();
+    @Override
+    public boolean update(User entity) {
+        Session session = factoryConfiguration.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.merge(entity);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            transaction.rollback();
+            return false;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 
-        if (adminUser == null) {
-            User newAdmin = new User();
-            newAdmin.setUsername("admin");
-            newAdmin.setPassword("123");
-            newAdmin.setRole("admin");
-            session.persist(newAdmin);
-            System.out.println("Admin user created.");
-        } else {
-            System.out.println("Admin user already exists.");
+    @Override
+    public boolean delete(String pk) {
+        Session session = factoryConfiguration.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            User user = session.find(User.class, pk);
+            if (user!= null) {
+                session.remove(user);
+                transaction.commit();
+                return true;
+            }
+            return false;
+        }catch (Exception e) {
+            transaction.rollback();
+            return false;
+        }finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public List<User> getAll() {
+        Session session = factoryConfiguration.getSession();
+        List<User> users = session.createQuery("FROM User", User.class).list();
+        session.close();
+        return users;
+
+    }
+
+    @Override
+    public User findByID(String pk) {
+        Session session = factoryConfiguration.getSession();
+        try {
+            return session.get(User.class, pk);
+        } finally {
+            session.close();
+        }
+    }
+
+
+    @Override
+    public Optional<User> findByName(String username) {
+        Session session = factoryConfiguration.getSession();
+        List<User> users = null;
+
+        try {
+            users = session.createQuery("FROM User WHERE username = :username", User.class)
+                    .setParameter("username", username)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
 
-        transaction.commit();
+        return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
+    }
+
+
+    @Override
+    public Optional<String> getLastPK() {
+        Session session = factoryConfiguration.getSession();
+        String lastPk = session.createQuery("SELECT u.user_id FROM User u ORDER BY u.user_id DESC", String.class)
+                .setMaxResults(1)
+                .uniqueResult();
+        session.close();
+
+        return Optional.ofNullable(lastPk);
+    }
+
+    @Override
+    public String validateUser(String username, String password) {
+        Session session = factoryConfiguration.getSession();
+        Object[] result = null;
+
+        try {
+            result = session.createQuery(
+                            "SELECT u.password, u.role FROM User u WHERE u.username = :username", Object[].class)
+                    .setParameter("username", username)
+                    .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        if (result == null) {
+            System.out.println("Debug: No user found with username: " + username);
+            return null;
+        }
+
+        String databasePassword = (String) result[0];
+        String role = (String) result[1];
+
+        if (databasePassword != null && databasePassword.equals(password)) {
+            System.out.println("Debug: Authentication successful for role: " + role);
+            return role;
+        } else {
+            System.out.println("Debug: Password does not match for user: " + username);
+            return null;
+        }
+    }
+
+
+    /*
+    * private static final Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
+
+@Override
+public String validateUser(String username, String password) {
+    Session session = factoryConfiguration.getSession();
+    Object[] result = null;
+
+    try {
+        result = session.createQuery(
+                        "SELECT u.password, u.role FROM User u WHERE u.username = :username", Object[].class)
+                .setParameter("username", username)
+                .uniqueResult();
+    } catch (Exception e) {
+        logger.error("Error validating user", e); // Use logger instead of e.printStackTrace()
+    } finally {
         session.close();
     }
 
-    @Override
-    public boolean validateUser(String username, String password) {
-        try (Session session = FactoryConfiguration.getInstance().getSession()) {
-            String hql = "FROM User WHERE username = :username AND password = :password";
-            Query<User> query = session.createQuery(hql, User.class);
-            query.setParameter("username", username);
-            query.setParameter("password", password);
-
-            User user = query.uniqueResult();
-
-            return user != null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    public ArrayList<User> getAllData() throws SQLException, ClassNotFoundException {
+    if (result == null) {
+        logger.debug("No user found with username: {}", username);
         return null;
     }
 
-    @Override
-    public boolean save(User Dto) throws SQLException, ClassNotFoundException {
-        return false;
-    }
+    String databasePassword = (String) result[0];
+    String role = (String) result[1];
 
-    @Override
-    public boolean update(User Dto) throws SQLException, ClassNotFoundException {
-        return false;
-    }
-
-    @Override
-    public boolean existId(String id) throws SQLException, ClassNotFoundException {
-        return false;
-    }
-
-    @Override
-    public boolean delete(User id) throws SQLException, ClassNotFoundException {
-        return false;
-    }
-
-    @Override
-    public String getNewId() throws SQLException, ClassNotFoundException {
-        return "";
-    }
-
-    @Override
-    public ArrayList<User> search(User newValue) throws SQLException, ClassNotFoundException {
+    if (databasePassword != null && databasePassword.equals(password)) {
+        logger.debug("Authentication successful for role: {}", role);
+        return role;
+    } else {
+        logger.debug("Password does not match for user: {}", username);
         return null;
     }
+}
 
-    @Override
-    public User findById(User entity) throws SQLException {
-        return null;
-    }
+    *
+    * */
+
+
+
 }

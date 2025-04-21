@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1180.0" stylesheets="@../styleSheets/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.AppointmentViewController">
+   <children>
+      <Label layoutX="71.0" layoutY="111.0" text="Appointment Id" />
+      <Label layoutX="71.0" layoutY="163.0" text="Date" />
+      <Label layoutX="71.0" layoutY="222.0" text="Therapist" />
+      <Label fx:id="lblAppoinmentId" layoutX="233.0" layoutY="109.0" prefHeight="22.0" prefWidth="105.0" />
+      <DatePicker fx:id="datePickerDate" layoutX="210.0" layoutY="158.0" prefHeight="28.0" prefWidth="182.0" />
+      <ComboBox fx:id="cmbTherapist" layoutX="207.0" layoutY="217.0" prefHeight="28.0" prefWidth="182.0" />
+      <ComboBox fx:id="cmbPatient" layoutX="892.0" layoutY="154.0" prefHeight="28.0" prefWidth="182.0" />
+      <ComboBox fx:id="cmbTherapyProgram" layoutX="891.0" layoutY="207.0" prefHeight="28.0" prefWidth="182.0" />
+      <TableView fx:id="tblAppointment" layoutX="73.0" layoutY="346.0" prefHeight="227.0" prefWidth="1008.0">
+        <columns>
+          <TableColumn fx:id="colAppointment" prefWidth="121.33332824707031" text="Appointment Id" />
+          <TableColumn fx:id="colDate" prefWidth="170.33334350585938" text="Date" />
+            <TableColumn fx:id="colTherapist" prefWidth="220.66665649414062" text="Therapist" />
+            <TableColumn fx:id="colPatient" prefWidth="206.33331298828125" text="Patient" />
+            <TableColumn fx:id="colTherapyProgram" prefWidth="223.3333740234375" text="Therapy Program" />
+        </columns>
+      </TableView>
+      <Label layoutX="720.0" layoutY="159.0" text="Patient" />
+      <Label layoutX="719.0" layoutY="210.0" prefHeight="18.0" prefWidth="118.0" text="Therapy Program" />
+      <Label layoutX="720.0" layoutY="267.0" prefHeight="18.0" prefWidth="118.0" text="Initial Payment" />
+      <Label fx:id="lblProgramFee" layoutX="893.0" layoutY="260.0" prefHeight="29.0" prefWidth="105.0" />
+      <JFXButton fx:id="btnPay" layoutX="953.0" layoutY="300.0" minHeight="28.0" minWidth="71.0" onAction="#btnPaymentOnAction" prefHeight="28.0" prefWidth="126.0" styleClass="btn-primary" text="Pay" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
+      <Label layoutX="73.0" layoutY="40.0" text="Appointment">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="bodyPane" prefHeight="760.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.UsersController">
+   <children>
+      <Label alignment="CENTER" layoutX="597.0" layoutY="27.0" prefHeight="33.0" prefWidth="138.0" text="Users">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <VBox layoutX="105.0" layoutY="129.0" prefHeight="235.0" prefWidth="379.0" spacing="20.0">
+         <children>
+            <HBox prefHeight="34.0" prefWidth="314.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="100.0" text="User ID">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="userIdTxt" prefHeight="26.0" prefWidth="204.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="34.0" prefWidth="314.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="100.0" text="Username">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <TextField fx:id="usernameTxt" prefHeight="26.0" prefWidth="204.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="34.0" prefWidth="314.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="100.0" text="Password">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <TextField fx:id="userPasswordTxt" prefHeight="26.0" prefWidth="248.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="34.0" prefWidth="314.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="100.0" text="Email">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="userEmailTxt" prefHeight="26.0" prefWidth="248.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="34.0" prefWidth="314.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="100.0" text="Role">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <ComboBox fx:id="userRoleTxt" prefWidth="150.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <TableView fx:id="usersTable" layoutX="206.0" layoutY="462.0" onMouseClicked="#tableClick" prefHeight="235.0" prefWidth="876.0">
+         <columns>
+            <TableColumn fx:id="userIdCol" prefWidth="124.800048828125" text="User ID" />
+            <TableColumn fx:id="usernameCol" prefWidth="162.40005493164062" text="Username" />
+            <TableColumn fx:id="passwordCol" prefWidth="224.0" text="Password" />
+            <TableColumn fx:id="userEmailCol" prefWidth="180.0" text="Email" />
+            <TableColumn fx:id="userRoleCol" prefWidth="181.60003662109375" text="Job Role" />
+         </columns>
+      </TableView>
+      <HBox alignment="CENTER" layoutX="829.0" layoutY="378.0" prefHeight="34.0" prefWidth="358.0" spacing="10.0">
+         <children>
+            <Button fx:id="deleteButton" focusTraversable="false" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Delete">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="updateButton" focusTraversable="false" mnemonicParsing="false" onAction="#update" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Update">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" onAction="#save" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Save">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="836.0" layoutY="270.0" prefHeight="64.0" prefWidth="338.0" spacing="20.0">
+         <children>
+            <TextField fx:id="searchTxt" prefHeight="26.0" prefWidth="186.0" />
+            <Button fx:id="searchButton" focusTraversable="false" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Search">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

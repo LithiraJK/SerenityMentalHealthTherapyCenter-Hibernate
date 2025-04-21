@@ -1,28 +1,33 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.entity;
 
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.sql.Date;
-import java.util.List;
+import lombok.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
-@Getter
-public class Payment {
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+@Table(name = "payment")
+public class Payment implements SuperEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String paymentId;
-    private String status;
-    private Double amount;
-    private Date paymentDate;
+    private String payment_id;
 
-    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Appointment> appointmentList;
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
+
+    @ManyToOne
+    @JoinColumn(name = "program_id", nullable = false)
+    private TherapyProgram therapy_program;
+
+    @ManyToOne
+    @JoinColumn(name = "session_id")
+    private TherapySession therapy_session;  // Nullable for upfront payments
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal amount;
+
+    @Column(nullable = false)
+    private LocalDate payment_date;
 }

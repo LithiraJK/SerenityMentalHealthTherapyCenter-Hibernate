@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="homeAnchorPane" prefHeight="795.0" prefWidth="1535.0" stylesheets="@../cssStyles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.HomeController">
+   <children>
+      <VBox fx:id="commonButtonBox" alignment="CENTER" layoutX="13.0" layoutY="30.0" prefHeight="338.0" prefWidth="180.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;">
+         <children>
+            <Button fx:id="welcomePageBtn" focusTraversable="false" mnemonicParsing="false" onAction="#loadWelcomePage" prefHeight="34.0" prefWidth="165.0" styleClass="page-nav-btn" text="Welcome">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="therapySessionPageBtn" focusTraversable="false" mnemonicParsing="false" onAction="#loadTherapySessionsPage" prefHeight="42.0" prefWidth="165.0" styleClass="page-nav-btn" text="Therapy Sessions">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="paymentsPageBtn" focusTraversable="false" mnemonicParsing="false" onAction="#loadPaymentsPage" prefHeight="34.0" prefWidth="165.0" styleClass="page-nav-btn" text="payments">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="patientsPageBtn" focusTraversable="false" mnemonicParsing="false" onAction="#loadPatientsPage" prefHeight="34.0" prefWidth="165.0" styleClass="page-nav-btn" text="Patients">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="patientProgramPageBtn" focusTraversable="false" mnemonicParsing="false" onAction="#loadPatientProgramPage" prefHeight="34.0" prefWidth="165.0" styleClass="page-nav-btn" text="Patient Programs">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </VBox>
+      <Pane fx:id="bodyPane" layoutX="216.0" layoutY="15.0" prefHeight="760.0" prefWidth="1300.0" style="-fx-background-color: white;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+      <VBox fx:id="adminOnlyButtonBox" alignment="CENTER" layoutX="13.0" layoutY="409.0" prefHeight="213.0" prefWidth="180.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;">
+         <children>
+            <Button fx:id="therapyProgramPageBtn" focusTraversable="false" mnemonicParsing="false" onAction="#loadTherapyProgramsPage" prefHeight="41.0" prefWidth="165.0" styleClass="page-nav-btn" text="Therapy Programs">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="therapistsPageBtn" focusTraversable="false" mnemonicParsing="false" onAction="#loadTherapistsPage" prefHeight="34.0" prefWidth="165.0" styleClass="page-nav-btn" text="Therapists">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="usersPageBtn" focusTraversable="false" mnemonicParsing="false" onAction="#loadUsersPage" prefHeight="34.0" prefWidth="165.0" styleClass="page-nav-btn" text="Users">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </VBox>
+      <Button fx:id="logoutBtn" focusTraversable="false" layoutX="35.0" layoutY="693.0" mnemonicParsing="false" onAction="#logOut" prefHeight="41.0" prefWidth="134.0" styleClass="page-nav-btn" text="Log out">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
+   </children>
+</AnchorPane>
