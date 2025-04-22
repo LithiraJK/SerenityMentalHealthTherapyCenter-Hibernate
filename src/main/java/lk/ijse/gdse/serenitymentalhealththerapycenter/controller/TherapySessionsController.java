@@ -8,7 +8,6 @@ import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl.*;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.*;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TherapySessionTM;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TimeSlotRow;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.util.SetBackgroundUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -121,8 +120,6 @@ public class TherapySessionsController implements Initializable {
     private final TherapyProgramBO programBO = new TherapyProgramBOImpl();
 
     public void initialize(URL location, ResourceBundle resources){
-        SetBackgroundUtil setBackground = new SetBackgroundUtil();
-        setBackground.setBackgroundImage(bodyPane, 1300, 760);
 
         sessionIdCol.setCellValueFactory(new PropertyValueFactory<>("sessionId"));
         patientIdCol.setCellValueFactory(new PropertyValueFactory<>("patientId"));

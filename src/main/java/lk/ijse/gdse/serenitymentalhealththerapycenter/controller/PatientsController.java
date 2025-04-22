@@ -3,7 +3,6 @@ package lk.ijse.gdse.serenitymentalhealththerapycenter.controller;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl.PatientBOImpl;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.PatientDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.PatientTM;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.util.SetBackgroundUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -80,8 +79,6 @@ public class PatientsController implements Initializable {
     private final PatientBOImpl patientBO = new PatientBOImpl();
 
     public void initialize(URL location, ResourceBundle resources){
-        SetBackgroundUtil setBackground = new SetBackgroundUtil();
-        setBackground.setBackgroundImage(bodyPane, 1300, 760);
 
         patientIdCol.setCellValueFactory(new PropertyValueFactory<>("patientId"));
         patientNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));

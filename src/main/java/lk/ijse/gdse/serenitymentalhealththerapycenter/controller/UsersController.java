@@ -4,7 +4,6 @@ import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.UserBO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl.UserBOImpl;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.UserDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.UserTM;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.util.SetBackgroundUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -78,8 +77,6 @@ public class UsersController implements Initializable{
 
 
     public void initialize(URL location, ResourceBundle resources) {
-        SetBackgroundUtil setBackground = new SetBackgroundUtil();
-        setBackground.setBackgroundImage(bodyPane, 1300, 760);
 
         userRoleTxt.setItems(FXCollections.observableArrayList("Admin", "Receptionist"));
 

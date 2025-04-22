@@ -1,5 +1,5 @@
 .btn-primary {
-    -fx-background-color: linear-gradient(to bottom right, #1e1e1e, #3c3c3c);
+    -fx-background-color: linear-gradient(to bottom right, #001233, #014f86);
     -fx-background-radius: 5,5,4;
     -fx-background-insets: 0,1,2;
     -fx-text-fill: white;
@@ -9,20 +9,20 @@
 }
 
 .btn-primary:hover {
-    -fx-background-color: linear-gradient(to bottom right, #3c3c3c, #111111);
+    -fx-background-color: linear-gradient(to bottom right, #014f86, #001233);
     -fx-background-insets: 0 0 -1 0,0,1;
     -fx-background-radius: 5,5,4;
-    -fx-padding: 3 30 3 30;
     -fx-text-fill: #F5F5F5;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);
+
 }
 
 #loginPane{
     -fx-background-color: rgba(255,255,255,0.8);
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
-    /*-fx-effect: dropshadow(one-pass-box,rgba(0,0,0,0.6), 5, 0.0, 0, 1);*/
 }
 
 #dashBoardPane {
@@ -33,8 +33,17 @@
 }
 
 #menuPannel{
-    -fx-background-color:  #caf0f8;
+    -fx-background-color: linear-gradient(to bottom right, #A0E9FF, #caf0f8);
     -fx-background-radius: 30px;
     -fx-border-radius: 30px;
     -fx-effect: dropshadow(one-pass-box, rgba(202, 240, 248, 0.6), 60, 0.0, 0, 3);
 }
+
+#headerPane{
+    -fx-background-color: linear-gradient(to bottom right, #001233, #014f86);
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+    -fx-effect: dropshadow(one-pass-box, rgba(202, 240, 248, 0.6), 60, 0.0, 0, 3);
+}
+
+

@@ -12,7 +12,6 @@ import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapyProgramDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TherapistProgramTM;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TherapistTM;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.util.NavigationUtil;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.util.SetBackgroundUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -96,8 +95,6 @@ public class TherapistsController implements Initializable {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
-        SetBackgroundUtil setBackground = new SetBackgroundUtil();
-        setBackground.setBackgroundImage(bodyPane, 1300, 760);
 
         therapistIdCol.setCellValueFactory(new PropertyValueFactory<>("therapistId"));
         therapistNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));

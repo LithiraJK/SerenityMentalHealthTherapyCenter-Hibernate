@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="bodyPane" prefHeight="760.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.TherapySessionsController">
+    <children>
+        <Label alignment="CENTER" layoutX="513.0" layoutY="13.0" prefHeight="35.0" prefWidth="304.0" text="Appointments">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <VBox layoutX="14.0" layoutY="81.0" prefHeight="386.0" prefWidth="774.0" spacing="20.0">
+            <children>
+                <HBox prefHeight="34.0" prefWidth="314.0">
+                    <children>
+                        <Label prefHeight="18.0" prefWidth="144.0" text="Session ID">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="sessionIdTxt" prefHeight="26.0" prefWidth="132.0" />
+                    </children>
+                </HBox>
+                <HBox prefHeight="34.0" prefWidth="314.0" spacing="10.0">
+                    <children>
+                        <Label prefHeight="27.0" prefWidth="144.0" text="Patient Name">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="patientNameTxt" prefHeight="26.0" prefWidth="283.0" />
+                        <Button fx:id="patientSearchButton" focusTraversable="false" mnemonicParsing="false" onAction="#searchPatient" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Search">
+                            <effect>
+                                <DropShadow />
+                            </effect>
+                            <font>
+                                <Font name="System Bold" size="12.0" />
+                            </font>
+                        </Button>
+                        <Label prefHeight="27.0" prefWidth="106.0" text="Patient ID">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="patientIdTxt" prefHeight="26.0" prefWidth="94.0" />
+                    </children>
+                </HBox>
+                <HBox prefHeight="34.0" prefWidth="314.0" spacing="10.0">
+                    <children>
+                        <Label prefHeight="18.0" prefWidth="144.0" text="Program ">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="programNameTxt" prefHeight="26.0" prefWidth="283.0" />
+                        <Button fx:id="programSearchButton" focusTraversable="false" mnemonicParsing="false" onAction="#searchProgram" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Search">
+                            <effect>
+                                <DropShadow />
+                            </effect>
+                            <font>
+                                <Font name="System Bold" size="12.0" />
+                            </font>
+                        </Button>
+                        <Label prefHeight="18.0" prefWidth="106.0" text="Program ID">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="programIdTxt" prefHeight="26.0" prefWidth="94.0" />
+                    </children>
+                </HBox>
+                <HBox prefHeight="34.0" prefWidth="314.0" spacing="10.0">
+                    <children>
+                        <Label prefHeight="18.0" prefWidth="144.0" text="Therapist">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="therapistNameTxt" prefHeight="26.0" prefWidth="283.0" />
+                        <Button fx:id="therapistSearchButton" focusTraversable="false" mnemonicParsing="false" onAction="#searchTherapist" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Search">
+                            <effect>
+                                <DropShadow />
+                            </effect>
+                            <font>
+                                <Font name="System Bold" size="12.0" />
+                            </font>
+                        </Button>
+                        <Label prefHeight="27.0" prefWidth="106.0" text="Therapist ID">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="therapistIdTxt" prefHeight="26.0" prefWidth="94.0" />
+                    </children>
+                </HBox>
+                <HBox prefHeight="34.0" prefWidth="314.0">
+                    <children>
+                        <Label prefHeight="18.0" prefWidth="144.0" text="Session Date">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <DatePicker fx:id="sessionDateTxt" />
+                    </children>
+                </HBox>
+                <HBox prefHeight="39.0" prefWidth="866.0">
+                    <children>
+                        <Label prefHeight="27.0" prefWidth="144.0" text="Session Time">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                  <TextField fx:id="sessionTimeTxt" prefHeight="26.0" prefWidth="132.0" promptText="09:00 AM" />
+                  <Label prefHeight="27.0" prefWidth="178.0" text="     Duration (minutes)">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="sessionDurationTxt" prefHeight="26.0" prefWidth="132.0" />
+                    </children>
+                </HBox>
+                <HBox prefHeight="34.0" prefWidth="314.0">
+                    <children>
+                        <Label prefHeight="18.0" prefWidth="144.0" text="Status">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <ChoiceBox fx:id="statusTxtChoice" prefWidth="150.0" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+        <HBox alignment="CENTER" layoutX="929.0" layoutY="340.0" prefHeight="64.0" prefWidth="338.0" spacing="20.0">
+            <children>
+                <TextField fx:id="searchTxt" prefHeight="26.0" prefWidth="186.0" />
+                <Button fx:id="searchButton" focusTraversable="false" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Search">
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" layoutX="925.0" layoutY="437.0" prefHeight="34.0" prefWidth="358.0" spacing="20.0">
+            <children>
+                <Button fx:id="deleteButton" focusTraversable="false" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Delete">
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+                <Button fx:id="updateButton" focusTraversable="false" mnemonicParsing="false" onAction="#update" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Update">
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+                <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" onAction="#save" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Save">
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+        <TableView fx:id="therapySessionTable" layoutX="18.0" layoutY="501.0" onMouseClicked="#tableClick" prefHeight="223.0" prefWidth="1270.0">
+            <columns>
+                <TableColumn fx:id="sessionIdCol" prefWidth="130.66663360595703" text="Session ID" />
+                <TableColumn fx:id="patientIdCol" prefWidth="146.1333770751953" text="Patient ID" />
+                <TableColumn fx:id="programIdCol" prefWidth="168.26666259765625" text="Program" />
+                <TableColumn fx:id="therapistIdCol" prefWidth="159.7332763671875" text="Therapist ID" />
+                <TableColumn fx:id="sessionDateCol" prefWidth="220.53338623046875" text="Session Date" />
+                <TableColumn fx:id="sessionTimeCol" prefWidth="198.6666259765625" text="Session Time" />
+            <TableColumn fx:id="durationCol" prefWidth="132.000244140625" text="Duration" />
+                <TableColumn fx:id="statusCol" prefWidth="111.1998291015625" text="Status" />
+            </columns>
+        </TableView>
+      <TableView fx:id="timeSlotTable" layoutX="793.0" layoutY="82.0" onMouseClicked="#onclickTSTable" prefHeight="258.0" prefWidth="501.0">
+        <columns>
+          <TableColumn fx:id="timeTSCol" text="Time" />
+          <TableColumn fx:id="date1TSCol" text="Date 1" />
+            <TableColumn fx:id="date2TSCol" text="Date 2" />
+            <TableColumn fx:id="date3TSCol" text="Date 3" />
+            <TableColumn fx:id="date4TSCol" text="Date 4" />
+            <TableColumn fx:id="date5TSCol" text="Date 5" />
+            <TableColumn fx:id="date6TSCol" minWidth="9.5999755859375" prefWidth="9.5999755859375" text="Date 6" />
+            <TableColumn fx:id="date7TSCol" prefWidth="10.4000244140625" text="Date 7" />
+        </columns>
+      </TableView>
+      <Label alignment="CENTER" layoutX="949.0" layoutY="45.0" prefHeight="27.0" prefWidth="193.0" text="Available Time Table">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>

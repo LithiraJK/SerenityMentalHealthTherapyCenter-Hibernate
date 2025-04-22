@@ -1,6 +1,5 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.controller;
 
-import lk.ijse.gdse.serenitymentalhealththerapycenter.util.SetBackgroundUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;

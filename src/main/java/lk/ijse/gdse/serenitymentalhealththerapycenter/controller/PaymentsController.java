@@ -10,8 +10,6 @@ import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.PatientDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.PaymentDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapyProgramDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.PaymentTM;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.TherapySession;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.util.SetBackgroundUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -111,8 +109,6 @@ public class PaymentsController implements Initializable {
     PaymentBO paymentBO = new PaymentBOImpl();
 
     public void initialize(URL location, ResourceBundle resources) {
-        SetBackgroundUtil setBackground = new SetBackgroundUtil();
-        setBackground.setBackgroundImage(bodyPane, 1300, 760);
 
 
         paymentIdCol.setCellValueFactory(new PropertyValueFactory<>("paymentId"));

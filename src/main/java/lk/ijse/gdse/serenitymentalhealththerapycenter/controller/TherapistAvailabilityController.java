@@ -4,12 +4,9 @@ import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapistAvailab
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapistBO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl.TherapistAvailabiltyBOImpl;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl.TherapistBOImpl;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.PatientDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapistAvailabilityDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapistDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TherapistAvailabilityTM;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.Therapist;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.util.SetBackgroundUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -99,8 +96,6 @@ public class TherapistAvailabilityController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        SetBackgroundUtil setBackground = new SetBackgroundUtil();
-        setBackground.setBackgroundImage(bodyPane, 1300, 760);
 
         statusTxt.getItems().addAll("Available", "Not Available");
         statusTxt.setValue("Available");

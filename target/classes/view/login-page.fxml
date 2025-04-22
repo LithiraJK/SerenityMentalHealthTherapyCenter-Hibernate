@@ -24,8 +24,8 @@
                   <Image url="@../assets/pngtree-group-of-psychologists-consulting-patient-png-image_4749000-removebg-preview.png" />
                </image>
             </ImageView>
-            <JFXTextField fx:id="loginUsernameText" layoutX="478.0" layoutY="162.0" prefHeight="28.0" prefWidth="278.0" promptText="Enter User Name" />
-            <JFXPasswordField fx:id="loginPasswordText" layoutX="478.0" layoutY="243.0" prefHeight="28.0" prefWidth="278.0" promptText="Enter Password" />
+            <JFXTextField fx:id="loginUsernameText" labelFloat="true" layoutX="478.0" layoutY="162.0" prefHeight="28.0" prefWidth="278.0" promptText="Enter User Name" />
+            <JFXPasswordField fx:id="loginPasswordText" labelFloat="true" layoutX="478.0" layoutY="243.0" prefHeight="28.0" prefWidth="278.0" promptText="Enter Password" />
             <JFXButton fx:id="loginButton" layoutX="475.0" layoutY="361.0" minHeight="28.0" minWidth="75.0" onAction="#loginValidate" prefHeight="36.0" prefWidth="278.0" styleClass="btn-primary" text="Login" textAlignment="JUSTIFY" textFill="#4f91fc" wrapText="true" />
             <Label fx:id="lblFogotPassword" layoutX="632.0" layoutY="295.0" text="Forgot password ?" textFill="#1093eb" />
             <Label layoutX="478.0" layoutY="106.0" text="Already have an account?" textFill="#031107">

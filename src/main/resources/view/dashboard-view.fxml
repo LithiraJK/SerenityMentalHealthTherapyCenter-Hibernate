@@ -50,7 +50,7 @@
             <Insets bottom="30.0" left="12.0" right="12.0" top="30.0" />
          </padding>
       </VBox>
-      <Pane layoutX="362.0" layoutY="13.0" prefHeight="55.0" prefWidth="581.0" style="-fx-background-color: #146c94; -fx-background-radius: 30px;">
+      <Pane id="headerPane" layoutX="362.0" layoutY="13.0" prefHeight="55.0" prefWidth="581.0">
          <children>
             <HBox fillHeight="false" layoutX="60.0" layoutY="-5.0" prefHeight="69.0" prefWidth="465.0" spacing="20.0">
                <children>

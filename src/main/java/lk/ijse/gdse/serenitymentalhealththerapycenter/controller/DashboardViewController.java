@@ -86,7 +86,7 @@ public class DashboardViewController implements Initializable {
 
     @FXML
     void loadTherapySessionsPage(MouseEvent event) {
-        navigate.navigateTo(bodyPane, "/view/therapists-page.fxml");
+        navigate.navigateTo(bodyPane, "/view/therapy-sessions-page.fxml");
     }
 
     @FXML
@@ -108,7 +108,7 @@ public class DashboardViewController implements Initializable {
     }
 
     @FXML
-    void loadPatientsPage(ActionEvent event) {
+    void loadPatientsPage(MouseEvent event) {
         navigate.navigateTo(bodyPane, "/view/patients-page.fxml");
     }
 
