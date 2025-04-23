@@ -6,6 +6,7 @@ import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapistBO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapistAvailabilityDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapistDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TherapistAvailabilityTM;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.util.ValidateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -237,10 +238,24 @@ public class TherapistAvailabilityController implements Initializable {
 
     private TherapistAvailabilityDto getDtoFromFields() {
         try {
+            // Reset all field styles
+            ValidateUtil.setFocusColorForTextField(startTimeTxt, true);
+            ValidateUtil.setFocusColorForTextField(endTimeTxt, true);
+            ValidateUtil.setFocusColorForDatePicker(availableDateTxt, true);
+            ValidateUtil.setFocusColorForTextField(therapistIdTxt, true);
+            ValidateUtil.setFocusColorForTextField(therapistNameTxt, true);
+
             String timeInput = startTimeTxt.getText().trim();
             String durationInput = endTimeTxt.getText().trim();
 
-            if (timeInput.isEmpty() || durationInput.isEmpty()) {
+            // Validate time fields
+            boolean isStartTimeValid = !timeInput.isEmpty();
+            boolean isEndTimeValid = !durationInput.isEmpty();
+
+            ValidateUtil.setFocusColorForTextField(startTimeTxt, isStartTimeValid);
+            ValidateUtil.setFocusColorForTextField(endTimeTxt, isEndTimeValid);
+
+            if (!isStartTimeValid || !isEndTimeValid) {
                 showAlert("Input Error", "Time and duration fields cannot be empty.", Alert.AlertType.WARNING);
                 return null;
             }
@@ -256,20 +271,31 @@ public class TherapistAvailabilityController implements Initializable {
                 startTime = LocalTime.parse(startTimeTxt.getText().trim(), formatter);
                 endTime = LocalTime.parse(endTimeTxt.getText().trim(), formatter);
             } catch (Exception e) {
+                ValidateUtil.setFocusColorForTextField(startTimeTxt, false);
+                ValidateUtil.setFocusColorForTextField(endTimeTxt, false);
                 showAlert("Input Error", "Invalid time format. Please use format like 09:00 AM.", Alert.AlertType.WARNING);
                 return null;
             }
+
             if (startTime.isAfter(endTime)) {
+                ValidateUtil.setFocusColorForTextField(startTimeTxt, false);
+                ValidateUtil.setFocusColorForTextField(endTimeTxt, false);
                 showAlert("Input Error", "Start time cannot be after end time.", Alert.AlertType.WARNING);
                 return null;
             }
 
-            if (availableDateTxt.getValue() == null) {
+            // Validate date
+            boolean isDateValid = availableDateTxt.getValue() != null;
+            ValidateUtil.setFocusColorForDatePicker(availableDateTxt, isDateValid);
+            if (!isDateValid) {
                 showAlert("Input Error", "Please select a date.", Alert.AlertType.WARNING);
                 return null;
             }
 
-            if (therapistIdTxt.getText().trim().isEmpty()) {
+            // Validate therapist ID
+            boolean isTherapistIdValid = !therapistIdTxt.getText().trim().isEmpty();
+            ValidateUtil.setFocusColorForTextField(therapistIdTxt, isTherapistIdValid);
+            if (!isTherapistIdValid) {
                 showAlert("Input Error", "Therapist ID cannot be empty.", Alert.AlertType.WARNING);
                 return null;
             }
@@ -289,9 +315,6 @@ public class TherapistAvailabilityController implements Initializable {
             return null;
         }
     }
-
-
-
 
 
     private void showAlert(String title, String content, Alert.AlertType type) {

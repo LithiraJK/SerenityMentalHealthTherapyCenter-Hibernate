@@ -1,13 +1,27 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.util;
 
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.paint.Paint;
+
 import java.util.regex.Pattern;
 
 public class ValidateUtil {
 
     private static final Pattern NAME_PATTERN = Pattern.compile("^(Mr\\.|Mrs\\.|Ms\\.|Dr\\.)?\\s?[A-Za-z]+(?:\\s[A-Za-z]+)*$");
     private static final Pattern ADDRESS_PATTERN = Pattern.compile("^[A-Za-z0-9\\s,./-]{5,100}$");
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w.-]+@[\\w.-]+\\.[A-Za-z]{2,6}$");
-    private static final Pattern PHONE_PATTERN = Pattern.compile("^07[01245678]\\d{7}$");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    // Sri Lankan mobile phone pattern (e.g., 071-1234567, 0711234567, +94711234567)
+    private static final Pattern SL_MOBILE_PATTERN = Pattern.compile("^(?:0|\\+94)7[01245678][0-9]{7}$");
+    // Sri Lankan landline pattern (e.g., 011-1234567, 0111234567, +94111234567)
+    private static final Pattern SL_LANDLINE_PATTERN = Pattern.compile("^(?:0|\\+94)[123456789][0-9]{8}$");
+    // International phone pattern (general format)
+    private static final Pattern INTERNATIONAL_PHONE_PATTERN = Pattern.compile("^\\+[1-9][0-9]{1,14}$");
+    // Default phone pattern (for backward compatibility)
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^(?:0|\\+94)7[01245678][0-9]{7}$");
     private static final Pattern TEXT_PATTERN = Pattern.compile("^[A-Za-z0-9.,!?\\s'-]{1,300}$");
     private static final Pattern TIME_PATTERN = Pattern.compile("(?i)\\b(0[1-9]|1[0-2]):[0-5][0-9]\\s?(AM|PM)\\b");
 
@@ -71,6 +85,31 @@ public class ValidateUtil {
         return phone != null && PHONE_PATTERN.matcher(phone).matches();
     }
 
+    /**
+     * Validates a Sri Lankan mobile phone number
+     * @param phone The phone number to validate
+     * @return true if the phone number is a valid Sri Lankan mobile number
+     */
+    public static boolean isValidSLMobileNumber(String phone) {
+        return phone != null && SL_MOBILE_PATTERN.matcher(phone).matches();
+    }
+
+    public static boolean isValidSLLandlineNumber(String phone) {
+        return phone != null && SL_LANDLINE_PATTERN.matcher(phone).matches();
+    }
+
+
+    public static boolean isValidInternationalNumber(String phone) {
+        return phone != null && INTERNATIONAL_PHONE_PATTERN.matcher(phone).matches();
+    }
+
+    public static boolean isValidPhoneNumberAny(String phone) {
+        if (phone == null) return false;
+        return isValidSLMobileNumber(phone) || 
+               isValidSLLandlineNumber(phone) || 
+               isValidInternationalNumber(phone);
+    }
+
     public static boolean isValidText(String text) {
         return text != null && TEXT_PATTERN.matcher(text).matches();
     }
@@ -87,5 +126,88 @@ public class ValidateUtil {
         return duration != null && DURATION_PATTERN.matcher(duration.trim()).matches();
     }
 
+    public static boolean isRequiredField(String field) {
+        return field != null && !field.trim().isEmpty();
+    }
 
+
+    public static boolean areRequiredFields(String... fields) {
+        if (fields == null) return false;
+        for (String field : fields) {
+            if (!isRequiredField(field)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Sets the focus color of a JFXTextField based on validation result
+     * @param field The JFXTextField to set focus color for
+     * @param isValid Whether the field's content is valid
+     */
+    public static void setFocusColorForJFXTextField(JFXTextField field, boolean isValid) {
+        if (field == null) return;
+        if (!isValid) {
+            field.setFocusColor(Paint.valueOf("red"));
+        } else {
+            field.setFocusColor(Paint.valueOf("#4059a9")); // Default JFXTextField focus color
+        }
+    }
+
+    /**
+     * Sets the focus color of a JFXPasswordField based on validation result
+     * @param field The JFXPasswordField to set focus color for
+     * @param isValid Whether the field's content is valid
+     */
+    public static void setFocusColorForJFXPasswordField(JFXPasswordField field, boolean isValid) {
+        if (field == null) return;
+        if (!isValid) {
+            field.setFocusColor(Paint.valueOf("red"));
+        } else {
+            field.setFocusColor(Paint.valueOf("#4059a9")); // Default JFXPasswordField focus color
+        }
+    }
+
+    /**
+     * Sets the border color of a TextField based on validation result
+     * @param field The TextField to set border color for
+     * @param isValid Whether the field's content is valid
+     */
+    public static void setFocusColorForTextField(TextField field, boolean isValid) {
+        if (field == null) return;
+        if (!isValid) {
+            field.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        } else {
+            field.setStyle("-fx-border-color: transparent;");
+        }
+    }
+
+    /**
+     * Sets the border color of a TextArea based on validation result
+     * @param field The TextArea to set border color for
+     * @param isValid Whether the field's content is valid
+     */
+    public static void setFocusColorForTextArea(TextArea field, boolean isValid) {
+        if (field == null) return;
+        if (!isValid) {
+            field.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        } else {
+            field.setStyle("-fx-border-color: transparent;");
+        }
+    }
+
+    /**
+     * Sets the border color of a DatePicker based on validation result
+     * @param field The DatePicker to set border color for
+     * @param isValid Whether the field's content is valid
+     */
+    public static void setFocusColorForDatePicker(DatePicker field, boolean isValid) {
+        if (field == null) return;
+        if (!isValid) {
+            field.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        } else {
+            field.setStyle("-fx-border-color: transparent;");
+        }
+    }
 }

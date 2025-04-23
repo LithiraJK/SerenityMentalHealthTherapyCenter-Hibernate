@@ -4,6 +4,7 @@ import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.UserBO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl.UserBOImpl;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.UserDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.UserTM;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.util.ValidateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -118,6 +119,24 @@ public class UsersController implements Initializable{
         String role = userRoleTxt.getValue();
         String password = userPasswordTxt.getText();
 
+        // Validate required fields
+        if (!ValidateUtil.areRequiredFields(username, email, password)) {
+            new Alert(Alert.AlertType.ERROR, "Please fill in all required fields").show();
+            return;
+        }
+
+        // Validate email format
+        if (!ValidateUtil.isValidEmail(email)) {
+            new Alert(Alert.AlertType.ERROR, "Please enter a valid email address").show();
+            return;
+        }
+
+        // Validate role selection
+        if (role == null) {
+            new Alert(Alert.AlertType.ERROR, "Please select a role").show();
+            return;
+        }
+
         boolean isSaved = userBO.registerUser(new UserDto(id, username, password, email, role));
         if (isSaved) {
             loadAllUsers();
@@ -135,13 +154,31 @@ public class UsersController implements Initializable{
             return;
         }
 
-        boolean isUpdated = userBO.updateUser(new UserDto(
-                userIdTxt.getText(),
-                usernameTxt.getText(),
-                userPasswordTxt.getText(),
-                userEmailTxt.getText(),
-                userRoleTxt.getValue()
-        ));
+        String userId = userIdTxt.getText();
+        String username = usernameTxt.getText();
+        String password = userPasswordTxt.getText();
+        String email = userEmailTxt.getText();
+        String role = userRoleTxt.getValue();
+
+        // Validate required fields
+        if (!ValidateUtil.areRequiredFields(username, email, password)) {
+            new Alert(Alert.AlertType.ERROR, "Please fill in all required fields").show();
+            return;
+        }
+
+        // Validate email format
+        if (!ValidateUtil.isValidEmail(email)) {
+            new Alert(Alert.AlertType.ERROR, "Please enter a valid email address").show();
+            return;
+        }
+
+        // Validate role selection
+        if (role == null) {
+            new Alert(Alert.AlertType.ERROR, "Please select a role").show();
+            return;
+        }
+
+        boolean isUpdated = userBO.updateUser(new UserDto(userId, username, password, email, role));
 
         if (isUpdated) {
             loadAllUsers();

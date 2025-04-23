@@ -222,9 +222,31 @@ public class TherapistAvailabilityBOImpl implements TherapistAvailabilityBO {
         return slots;
     }
 
-    // === Generate Next ID (simple UUID approach) ===
+    // === Generate Next ID in format TA001 ===
     public String generateNextId() {
-        return UUID.randomUUID().toString();
+        Optional<String> lastPK = therapistAvailabilityDAO.getLastPK();
+
+        if (lastPK.isEmpty()) {
+            return "TA001"; // First ID
+        }
+
+        String lastId = lastPK.get();
+
+        // Check if the ID follows the expected format
+        if (lastId.startsWith("TA")) {
+            try {
+                // Extract the numeric part
+                int numericPart = Integer.parseInt(lastId.substring(2));
+                // Increment and format with leading zeros
+                return String.format("TA%03d", numericPart + 1);
+            } catch (NumberFormatException e) {
+                // If the format is not as expected, start with TA001
+                return "TA001";
+            }
+        } else {
+            // If the format is not as expected, start with TA001
+            return "TA001";
+        }
     }
 
 

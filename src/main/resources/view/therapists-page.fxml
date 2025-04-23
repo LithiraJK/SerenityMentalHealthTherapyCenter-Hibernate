@@ -3,20 +3,20 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="bodyPane" prefHeight="600.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.TherapistsController">
    <children>
       <HBox layoutX="69.0" layoutY="94.0" prefHeight="34.0" prefWidth="314.0">
          <children>
-            <Label prefHeight="18.0" prefWidth="158.0" styleClass="text-label" text="Therapist ID">
+            <Label prefHeight="22.0" prefWidth="188.0" styleClass="text-label" text="Therapist ID">
                <font>
                   <Font size="18.0" />
                </font>
@@ -51,12 +51,12 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="therapistPhoneTxt" prefHeight="26.0" prefWidth="132.0" />
+            <TextField fx:id="therapistPhoneTxt" prefHeight="28.0" prefWidth="152.0" />
          </children>
       </HBox>
       <HBox layoutX="69.0" layoutY="310.0" prefHeight="34.0" prefWidth="314.0">
          <children>
-            <Label prefHeight="18.0" prefWidth="158.0" text="Specialization">
+            <Label prefHeight="25.0" prefWidth="216.0" text="Specialization">
                <font>
                   <Font size="18.0" />
                </font>
@@ -64,7 +64,7 @@
             <TextField fx:id="therapistSpecsTxt" prefHeight="26.0" prefWidth="249.0" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="451.0" layoutY="364.0" prefHeight="34.0" prefWidth="358.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="451.0" layoutY="343.0" prefHeight="34.0" prefWidth="358.0" spacing="10.0">
          <children>
             <Button fx:id="deleteButton" focusTraversable="false" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="97.0" styleClass="btn-primary" text="Delete">
                <effect>
@@ -92,11 +92,11 @@
             </Button>
          </children>
       </HBox>
-      <TableView fx:id="therapistsTable" layoutX="64.0" layoutY="423.0" onMouseClicked="#tableClick" prefHeight="262.0" prefWidth="755.0">
+      <TableView fx:id="therapistsTable" layoutX="64.0" layoutY="395.0" onMouseClicked="#tableClick" prefHeight="193.0" prefWidth="755.0">
          <columns>
             <TableColumn fx:id="therapistIdCol" prefWidth="96.0" text="Therapist ID" />
-            <TableColumn fx:id="therapistNameCol" prefWidth="112.0" text="Therapist Name" />
-            <TableColumn fx:id="therapistEmailCol" prefWidth="222.0" text="Email" />
+            <TableColumn fx:id="therapistNameCol" prefWidth="127.0" text="Therapist Name" />
+            <TableColumn fx:id="therapistEmailCol" prefWidth="207.0" text="Email" />
             <TableColumn fx:id="therapistPhoneCol" prefWidth="154.0" text="Phone" />
             <TableColumn fx:id="therapistSpecsCol" prefWidth="170.0" text="Specialization" />
          </columns>
@@ -114,7 +114,7 @@
             </Button>
          </children>
       </HBox>
-      <Button fx:id="therapistAvailabilityBtn" focusTraversable="false" layoutX="422.0" layoutY="199.0" mnemonicParsing="false" onAction="#loadTherapistAvailabilityPage" prefHeight="40.0" prefWidth="204.0" styleClass="btn-primary" text="Therapist Availability">
+      <Button fx:id="therapistAvailabilityBtn" focusTraversable="false" layoutX="615.0" layoutY="108.0" mnemonicParsing="false" onAction="#loadTherapistAvailabilityPage" prefHeight="40.0" prefWidth="204.0" styleClass="btn-primary" text="Therapist Availability">
          <effect>
             <DropShadow />
          </effect>
@@ -122,13 +122,13 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <TableView fx:id="therapistProgramTable" layoutX="926.0" layoutY="444.0" onMouseClicked="#tableClickTP" prefHeight="262.0" prefWidth="295.0">
+      <TableView fx:id="therapistProgramTable" layoutX="887.0" layoutY="393.0" onMouseClicked="#tableClickTP" prefHeight="193.0" prefWidth="345.0">
         <columns>
-          <TableColumn fx:id="programIdCol" prefWidth="81.599853515625" text="Program ID" />
-          <TableColumn fx:id="programNameCol" prefWidth="176.0001220703125" text="Program" />
+          <TableColumn fx:id="programIdCol" prefWidth="110.0" text="Program ID" />
+          <TableColumn fx:id="programNameCol" prefWidth="234.0" text="Program" />
         </columns>
       </TableView>
-      <HBox alignment="CENTER" layoutX="871.0" layoutY="372.0" prefHeight="34.0" prefWidth="334.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="906.0" layoutY="339.0" prefHeight="34.0" prefWidth="334.0" spacing="10.0">
          <children>
             <Button fx:id="deleteButtonTP" focusTraversable="false" mnemonicParsing="false" onAction="#deleteTP" prefHeight="26.0" prefWidth="97.0" styleClass="btn-primary" text="Delete">
                <effect>
@@ -156,9 +156,9 @@
             </Button>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="873.0" layoutY="297.0" prefHeight="64.0" prefWidth="322.0" spacing="20.0">
+      <HBox alignment="CENTER" layoutX="910.0" layoutY="249.0" prefHeight="64.0" prefWidth="322.0" spacing="20.0">
          <children>
-            <TextField fx:id="searchTxtTP" onKeyTyped="#switchSearchButtonFunctionTP" prefHeight="26.0" prefWidth="186.0" />
+            <TextField fx:id="searchTxtTP" onKeyTyped="#switchSearchButtonFunctionTP" prefHeight="28.0" prefWidth="206.0" />
             <Button fx:id="searchButtonTP" focusTraversable="false" mnemonicParsing="false" onAction="#searchTP" prefHeight="26.0" prefWidth="97.0" styleClass="btn-primary" text="Search">
                <effect>
                   <DropShadow />
@@ -169,7 +169,6 @@
             </Button>
          </children>
       </HBox>
-      <Line endX="68.39996337890625" endY="609.0" layoutX="781.0" layoutY="152.0" scaleX="5.0" startX="68.39996337890625" startY="-151.0" stroke="#7b7b7b" />
       <Label alignment="CENTER" layoutX="922.0" layoutY="22.0" prefHeight="35.0" prefWidth="307.0" text="Therapists Programs">
          <font>
             <Font name="System Bold" size="24.0" />
@@ -208,6 +207,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
+      <Separator layoutX="845.0" layoutY="13.0" orientation="VERTICAL" prefHeight="579.0" prefWidth="13.0" />
    </children>
    <stylesheets>
       <URL value="@../styleSheets/styles.css" />

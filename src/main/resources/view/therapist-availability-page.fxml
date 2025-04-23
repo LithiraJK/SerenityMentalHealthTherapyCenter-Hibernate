@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -16,11 +17,11 @@
 
 <AnchorPane fx:id="bodyPane" onMouseClicked="#tableClick" prefHeight="577.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.TherapistAvailabilityController">
    <children>
-      <VBox layoutX="15.0" layoutY="72.0" prefHeight="266.0" prefWidth="666.0" spacing="20.0">
+      <VBox layoutX="65.0" layoutY="88.0" prefHeight="248.0" prefWidth="666.0" spacing="20.0">
          <children>
             <HBox prefHeight="34.0" prefWidth="314.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="134.0" text="Availability ID">
+                  <Label prefHeight="18.0" prefWidth="134.0" styleClass="text-label" text="Availability ID">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -30,13 +31,13 @@
             </HBox>
             <HBox prefHeight="34.0" prefWidth="314.0" spacing="10.0">
                <children>
-                  <Label prefHeight="27.0" prefWidth="134.0" text="Therapist Name">
+                  <Label prefHeight="27.0" prefWidth="134.0" styleClass="text-label" text="Therapist Name">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                   <TextField fx:id="therapistNameTxt" prefHeight="26.0" prefWidth="204.0" />
-                  <Button fx:id="therapistSearchBtn" focusTraversable="false" mnemonicParsing="false" onAction="#therapistSearch" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Search">
+                  <Button fx:id="therapistSearchBtn" focusTraversable="false" mnemonicParsing="false" onAction="#therapistSearch" prefHeight="26.0" prefWidth="97.0" styleClass="btn-primary" text="Check">
                      <effect>
                         <DropShadow />
                      </effect>
@@ -49,7 +50,7 @@
             </HBox>
             <HBox prefHeight="34.0" prefWidth="314.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="134.0" text="Available Date">
+                  <Label prefHeight="18.0" prefWidth="134.0" styleClass="text-label" text="Available Date">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -59,13 +60,13 @@
             </HBox>
             <HBox prefHeight="34.0" prefWidth="314.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="134.0" text="Starting Time">
+                  <Label prefHeight="18.0" prefWidth="134.0" styleClass="text-label" text="Starting Time">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="startTimeTxt" prefHeight="26.0" prefWidth="176.0" promptText="09.00 AM" />
-                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="139.0" text="Ending Time">
+                  <TextField fx:id="startTimeTxt" prefHeight="28.0" prefWidth="161.0" promptText="09.00 AM" />
+                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="139.0" styleClass="text-label" text="Ending Time">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -73,12 +74,12 @@
                         <Insets right="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="endTimeTxt" prefHeight="26.0" prefWidth="176.0" promptText="05:00 PM" />
+                  <TextField fx:id="endTimeTxt" prefHeight="28.0" prefWidth="149.0" promptText="05:00 PM" />
                </children>
             </HBox>
             <HBox prefHeight="34.0" prefWidth="314.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="134.0" text="Availability">
+                  <Label prefHeight="18.0" prefWidth="134.0" styleClass="text-label" text="Availability">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -88,9 +89,9 @@
             </HBox>
          </children>
       </VBox>
-      <HBox alignment="CENTER" layoutX="696.0" layoutY="285.0" prefHeight="34.0" prefWidth="334.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="653.0" layoutY="298.0" prefHeight="34.0" prefWidth="348.0" spacing="10.0">
          <children>
-            <Button fx:id="deleteButton" focusTraversable="false" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Delete">
+            <Button fx:id="deleteButton" focusTraversable="false" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="97.0" styleClass="btn-primary" text="Delete">
                <effect>
                   <DropShadow />
                </effect>
@@ -98,7 +99,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="updateButton" focusTraversable="false" mnemonicParsing="false" onAction="#update" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Update">
+            <Button fx:id="updateButton" focusTraversable="false" mnemonicParsing="false" onAction="#update" prefHeight="26.0" prefWidth="97.0" styleClass="btn-primary" text="Update">
                <effect>
                   <DropShadow />
                </effect>
@@ -106,7 +107,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" onAction="#save" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Save">
+            <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" onAction="#save" prefHeight="26.0" prefWidth="97.0" styleClass="btn-primary" text="Save">
                <effect>
                   <DropShadow />
                </effect>
@@ -116,10 +117,10 @@
             </Button>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="703.0" layoutY="177.0" prefHeight="64.0" prefWidth="326.0" spacing="20.0">
+      <HBox alignment="CENTER" layoutX="670.0" layoutY="27.0" prefHeight="64.0" prefWidth="320.0" spacing="20.0">
          <children>
-            <TextField fx:id="searchTxt" prefHeight="26.0" prefWidth="186.0" />
-            <Button fx:id="searchButton" focusTraversable="false" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="97.0" styleClass="process-button" stylesheets="@../cssStyles/process-button.css" text="Search">
+            <TextField fx:id="searchTxt" prefHeight="28.0" prefWidth="214.0" />
+            <Button fx:id="searchButton" focusTraversable="false" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="97.0" styleClass="btn-primary" text="Search">
                <effect>
                   <DropShadow />
                </effect>
@@ -129,20 +130,24 @@
             </Button>
          </children>
       </HBox>
-      <Label alignment="CENTER" layoutX="380.0" layoutY="14.0" prefHeight="35.0" prefWidth="279.0" text="Therapist Availability">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <TableView fx:id="therapistAvailabilityTable" layoutX="78.0" layoutY="354.0" onMouseClicked="#tableClick" prefHeight="202.0" prefWidth="899.0">
+      <TableView fx:id="therapistAvailabilityTable" layoutX="66.0" layoutY="354.0" onMouseClicked="#tableClick" prefHeight="202.0" prefWidth="928.0">
         <columns>
           <TableColumn fx:id="availableIdCol" prefWidth="135.1999969482422" text="Availability ID" />
           <TableColumn fx:id="therapistIdCol" prefWidth="180.0" text="Therapist ID" />
             <TableColumn fx:id="availableDateCol" prefWidth="168.0" text="Date" />
             <TableColumn fx:id="startTimeCol" prefWidth="144.79998779296875" text="Start Time" />
             <TableColumn fx:id="endTimeCol" prefWidth="141.5999755859375" text="End Time" />
-            <TableColumn fx:id="availableStatusCol" prefWidth="126.4000244140625" text="Available" />
+            <TableColumn fx:id="availableStatusCol" prefWidth="153.0" text="Available" />
         </columns>
       </TableView>
+      <Label alignment="CENTER" layoutX="61.0" layoutY="38.0" prefHeight="33.0" prefWidth="217.0" text="Therapist Availability" textFill="#146c94">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
    </children>
+   <stylesheets>
+      <URL value="@../styleSheets/styles.css" />
+      <URL value="@../styleSheets/text.css" />
+   </stylesheets>
 </AnchorPane>

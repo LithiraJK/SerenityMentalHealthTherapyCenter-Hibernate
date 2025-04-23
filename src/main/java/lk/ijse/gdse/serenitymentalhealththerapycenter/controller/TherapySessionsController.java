@@ -5,6 +5,7 @@ import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl.*;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.*;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TherapySessionTM;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TimeSlotRowTM;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.util.ValidateUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -179,16 +180,47 @@ public class TherapySessionsController implements Initializable {
         String programId = programIdTxt.getText().trim();
         String therapistId = therapistIdTxt.getText().trim();
         LocalDate sessionDate = sessionDateTxt.getValue();
-        LocalTime sessionTime = LocalTime.parse(sessionTimeTxt.getText().trim(), timeFormatter);
+        String sessionTimeStr = sessionTimeTxt.getText().trim();
         String status = statusTxtChoice.getValue();
         String sessionDurationChoice = sessionDurationTxt.getValue();
 
-        if (sessionId.isEmpty() || patientId.isEmpty() || programId.isEmpty() || therapistId.isEmpty() ||
-                sessionDate == null || sessionTimeTxt.getText().trim().isEmpty() || sessionDurationChoice == null || status == null) {
-            showAlert("Input Error", "Please fill in all fields.", Alert.AlertType.ERROR);
+        // Validate required fields
+        if (!ValidateUtil.areRequiredFields(sessionId, patientId, programId, therapistId, sessionTimeStr) ||
+                sessionDate == null || sessionDurationChoice == null || status == null) {
+            showAlert("Input Error", "Please fill in all required fields.", Alert.AlertType.ERROR);
             return;
         }
 
+        // Validate time format
+        if (!ValidateUtil.isValidTime(sessionTimeStr)) {
+            showAlert("Input Error", "Please enter a valid time format (e.g., 10:30 AM).", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Parse the time after validation
+        LocalTime sessionTime;
+        try {
+            sessionTime = LocalTime.parse(sessionTimeStr, timeFormatter);
+        } catch (Exception e) {
+            showAlert("Input Error", "Invalid time format. Please use format like 10:30 AM.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Validate IDs
+        if (!ValidateUtil.isValidId(patientId, "PATIENT")) {
+            showAlert("Input Error", "Invalid patient ID format. Should be P followed by 3 digits (e.g., P001).", Alert.AlertType.ERROR);
+            return;
+        }
+
+        if (!ValidateUtil.isValidId(therapistId, "THERAPIST")) {
+            showAlert("Input Error", "Invalid therapist ID format. Should be T followed by 3 digits (e.g., T001).", Alert.AlertType.ERROR);
+            return;
+        }
+
+        if (!ValidateUtil.isValidId(programId, "THERAPY_PROGRAM")) {
+            showAlert("Input Error", "Invalid program ID format. Should be TP followed by 3 digits (e.g., TP001).", Alert.AlertType.ERROR);
+            return;
+        }
 
         int sessionDuration = switch (sessionDurationChoice) {
             case "30 minutes" -> 30;
@@ -245,8 +277,47 @@ public class TherapySessionsController implements Initializable {
         String programId = programIdTxt.getText().trim();
         String therapistId = therapistIdTxt.getText().trim();
         LocalDate sessionDate = sessionDateTxt.getValue();
-        LocalTime sessionTime = LocalTime.parse(sessionTimeTxt.getText().trim(), timeFormatter);        String status = statusTxtChoice.getValue();
+        String sessionTimeStr = sessionTimeTxt.getText().trim();
+        String status = statusTxtChoice.getValue();
         String sessionDurationChoice = sessionDurationTxt.getValue();
+
+        // Validate required fields
+        if (!ValidateUtil.areRequiredFields(sessionId, patientId, programId, therapistId, sessionTimeStr) ||
+                sessionDate == null || sessionDurationChoice == null || status == null) {
+            showAlert("Input Error", "Please fill in all required fields.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Validate time format
+        if (!ValidateUtil.isValidTime(sessionTimeStr)) {
+            showAlert("Input Error", "Please enter a valid time format (e.g., 10:30 AM).", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Parse the time after validation
+        LocalTime sessionTime;
+        try {
+            sessionTime = LocalTime.parse(sessionTimeStr, timeFormatter);
+        } catch (Exception e) {
+            showAlert("Input Error", "Invalid time format. Please use format like 10:30 AM.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Validate IDs
+        if (!ValidateUtil.isValidId(patientId, "PATIENT")) {
+            showAlert("Input Error", "Invalid patient ID format. Should be P followed by 3 digits (e.g., P001).", Alert.AlertType.ERROR);
+            return;
+        }
+
+        if (!ValidateUtil.isValidId(therapistId, "THERAPIST")) {
+            showAlert("Input Error", "Invalid therapist ID format. Should be T followed by 3 digits (e.g., T001).", Alert.AlertType.ERROR);
+            return;
+        }
+
+        if (!ValidateUtil.isValidId(programId, "THERAPY_PROGRAM")) {
+            showAlert("Input Error", "Invalid program ID format. Should be TP followed by 3 digits (e.g., TP001).", Alert.AlertType.ERROR);
+            return;
+        }
 
         int sessionDuration = switch (sessionDurationChoice) {
             case "30 minutes" -> 30;
