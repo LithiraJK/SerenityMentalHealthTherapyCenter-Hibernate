@@ -1,11 +1,13 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.controller;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;
-import javafx.event.ActionEvent;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -17,6 +19,8 @@ import javafx.util.Duration;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.util.NavigationUtil;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class DashboardViewController implements Initializable {
@@ -67,10 +71,27 @@ public class DashboardViewController implements Initializable {
     @FXML
     private ImageView welcomePageBtn;
 
+    @FXML
+    private Label lblDateTime;
+
     NavigationUtil navigate = new NavigationUtil();
 
-    public void initialize(URL location, ResourceBundle resources){
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         navigate.navigateTo(bodyPane, "/view/welcome-page.fxml");
+        startDateTimeUpdater();
+    }
+
+    private void startDateTimeUpdater() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd | hh:mm a");
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            LocalDateTime now = LocalDateTime.now();
+            lblDateTime.setText(now.format(formatter));
+        }));
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     @FXML
@@ -81,7 +102,6 @@ public class DashboardViewController implements Initializable {
     @FXML
     void loadPaymentsPageBtn(MouseEvent event) {
         navigate.navigateTo(bodyPane, "/view/payments-page.fxml");
-
     }
 
     @FXML
@@ -112,22 +132,19 @@ public class DashboardViewController implements Initializable {
         navigate.navigateTo(bodyPane, "/view/patients-page.fxml");
     }
 
-
     @FXML
     public void loadUsersPage(MouseEvent mouseEvent) {
         navigate.navigateTo(bodyPane, "/view/users-page.fxml");
-
     }
 
     @FXML
     public void loadTherapyProgramsPage(MouseEvent mouseEvent) {
         navigate.navigateTo(bodyPane, "/view/therapy-programs-page.fxml");
-
     }
+
     @FXML
     public void loadTherapistsPage(MouseEvent mouseEvent) {
         navigate.navigateTo(bodyPane, "/view/therapists-page.fxml");
-
     }
 
     @FXML
@@ -166,8 +183,6 @@ public class DashboardViewController implements Initializable {
         adminOnlyButtonBox.setVisible(isAdmin);
         commonButtonBox.setVisible(true);
 
-        // Debug message to verify role interpretation
-        System.out.println("Setting user role: " + role);
         System.out.println("Admin access: " + isAdmin);
         System.out.println("Admin buttons visible: " + adminOnlyButtonBox.isVisible());
         System.out.println("Common buttons visible: " + commonButtonBox.isVisible());

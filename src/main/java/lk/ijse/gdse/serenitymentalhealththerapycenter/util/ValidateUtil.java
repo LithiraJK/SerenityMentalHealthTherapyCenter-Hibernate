@@ -85,11 +85,6 @@ public class ValidateUtil {
         return phone != null && PHONE_PATTERN.matcher(phone).matches();
     }
 
-    /**
-     * Validates a Sri Lankan mobile phone number
-     * @param phone The phone number to validate
-     * @return true if the phone number is a valid Sri Lankan mobile number
-     */
     public static boolean isValidSLMobileNumber(String phone) {
         return phone != null && SL_MOBILE_PATTERN.matcher(phone).matches();
     }
@@ -141,11 +136,7 @@ public class ValidateUtil {
         return true;
     }
 
-    /**
-     * Sets the focus color of a JFXTextField based on validation result
-     * @param field The JFXTextField to set focus color for
-     * @param isValid Whether the field's content is valid
-     */
+
     public static void setFocusColorForJFXTextField(JFXTextField field, boolean isValid) {
         if (field == null) return;
         if (!isValid) {
@@ -155,11 +146,7 @@ public class ValidateUtil {
         }
     }
 
-    /**
-     * Sets the focus color of a JFXPasswordField based on validation result
-     * @param field The JFXPasswordField to set focus color for
-     * @param isValid Whether the field's content is valid
-     */
+
     public static void setFocusColorForJFXPasswordField(JFXPasswordField field, boolean isValid) {
         if (field == null) return;
         if (!isValid) {
@@ -169,11 +156,7 @@ public class ValidateUtil {
         }
     }
 
-    /**
-     * Sets the border color of a TextField based on validation result
-     * @param field The TextField to set border color for
-     * @param isValid Whether the field's content is valid
-     */
+
     public static void setFocusColorForTextField(TextField field, boolean isValid) {
         if (field == null) return;
         if (!isValid) {
@@ -183,11 +166,6 @@ public class ValidateUtil {
         }
     }
 
-    /**
-     * Sets the border color of a TextArea based on validation result
-     * @param field The TextArea to set border color for
-     * @param isValid Whether the field's content is valid
-     */
     public static void setFocusColorForTextArea(TextArea field, boolean isValid) {
         if (field == null) return;
         if (!isValid) {
@@ -197,11 +175,7 @@ public class ValidateUtil {
         }
     }
 
-    /**
-     * Sets the border color of a DatePicker based on validation result
-     * @param field The DatePicker to set border color for
-     * @param isValid Whether the field's content is valid
-     */
+
     public static void setFocusColorForDatePicker(DatePicker field, boolean isValid) {
         if (field == null) return;
         if (!isValid) {

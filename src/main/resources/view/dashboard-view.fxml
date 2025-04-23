@@ -54,7 +54,7 @@
          <children>
             <HBox fillHeight="false" layoutX="60.0" layoutY="-5.0" prefHeight="69.0" prefWidth="465.0" spacing="20.0">
                <children>
-                  <Label prefHeight="28.0" prefWidth="242.0" text="Mon Apr 21 | 11:11 PM" textFill="WHITE">
+                  <Label fx:id="lblDateTime" prefHeight="28.0" prefWidth="242.0" text="Mon Apr 21 | 11:11 PM" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="19.0" />
                      </font>
