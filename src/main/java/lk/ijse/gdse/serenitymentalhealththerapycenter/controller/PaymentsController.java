@@ -61,6 +61,10 @@ public class PaymentsController implements Initializable {
     @FXML
     private DatePicker dateTxt;
 
+
+    @FXML
+    private Button getInvoice;
+
     @FXML
     private Button deleteButton;
 
@@ -191,6 +195,41 @@ public class PaymentsController implements Initializable {
         } else {
             showAlert("Error", "Delete failed", Alert.AlertType.ERROR);
         }
+    }
+
+    @FXML
+    void getInvoiceOnAction(ActionEvent event) {
+        PaymentTM selectedPayment = paymentsTable.getSelectionModel().getSelectedItem();
+        if (selectedPayment == null) {
+            showAlert("Error", "Please select a payment to generate the invoice.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        new Thread(() -> {
+            try {
+                // Path to the compiled Jasper file
+                String jasperPath = "/report/paymentInvoice.jrxml";
+
+                // Parameters to pass to the repor/
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("paymentId", selectedPayment.getPaymentId());
+                parameters.put("patientId", selectedPayment.getPatientId());
+                parameters.put("programId", selectedPayment.getTherapyProgramId());
+                parameters.put("sessionId", selectedPayment.getTherapySessionId());
+                parameters.put("amount", selectedPayment.getAmount());
+                parameters.put("paymentDate", selectedPayment.getPaymentDate());
+
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperPath, parameters, new JREmptyDataSource());
+
+                String outputPath = "src/main/resources/reports/output/payment_invoice_" + selectedPayment.getPaymentId() + ".pdf";
+                JasperExportManager.exportReportToPdfFile(jasperPrint, outputPath);
+
+                Platform.runLater(() -> showAlert("Success", "Invoice generated successfully at: " + outputPath, Alert.AlertType.INFORMATION));
+            } catch (Exception e) {
+                e.printStackTrace();
+                Platform.runLater(() -> showAlert("Error", "Failed to generate invoice: " + e.getMessage(), Alert.AlertType.ERROR));
+            }
+        }).start();
     }
 
     @FXML

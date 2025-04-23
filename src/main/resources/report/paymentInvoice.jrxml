@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentInvoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="12345678-1234-1234-1234-123456789abc">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Default"/>
+	<parameter name="PaymentId" class="java.lang.String"/>
+	<parameter name="PatientName" class="java.lang.String"/>
+	<parameter name="TherapyProgram" class="java.lang.String"/>
+	<parameter name="Amount" class="java.math.BigDecimal"/>
+	<parameter name="PaymentDate" class="java.util.Date"/>
+	<parameter name="SessionId" class="java.lang.String"/>
+
+	<title>
+		<band height="80">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" forecolor="#146C94" backcolor="#F0F0F0" mode="Opaque"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Serenity Therapy Center - Payment Invoice]]></text>
+			</staticText>
+			<image>
+				<reportElement x="10" y="40" width="100" height="30"/>
+				<imageExpression><![CDATA["src/main/resources/assets/logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+
+	<pageHeader>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Invoice Details]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+
+	<detail>
+		<band height="200">
+			<staticText>
+				<reportElement x="0" y="0" width="150" height="20"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Payment ID:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="0" width="200" height="20"/>
+				<textFieldExpression><![CDATA[$P{PaymentId}]]></textFieldExpression>
+			</textField>
+
+			<staticText>
+				<reportElement x="0" y="30" width="150" height="20"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Patient Name:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="30" width="200" height="20"/>
+				<textFieldExpression><![CDATA[$P{PatientName}]]></textFieldExpression>
+			</textField>
+
+			<staticText>
+				<reportElement x="0" y="60" width="150" height="20"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Therapy Program:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="60" width="200" height="20"/>
+				<textFieldExpression><![CDATA[$P{TherapyProgram}]]></textFieldExpression>
+			</textField>
+
+			<staticText>
+				<reportElement x="0" y="90" width="150" height="20"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Session ID:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="90" width="200" height="20"/>
+				<textFieldExpression><![CDATA[$P{SessionId}]]></textFieldExpression>
+			</textField>
+
+			<staticText>
+				<reportElement x="0" y="120" width="150" height="20"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="120" width="200" height="20"/>
+				<textFieldExpression><![CDATA[$P{Amount}]]></textFieldExpression>
+			</textField>
+
+			<staticText>
+				<reportElement x="0" y="150" width="150" height="20"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Payment Date:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="150" width="200" height="20"/>
+				<textFieldExpression><![CDATA[$P{PaymentDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+
+	<pageFooter>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" forecolor="#146C94"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Thank you for choosing Serenity Therapy Center!]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
