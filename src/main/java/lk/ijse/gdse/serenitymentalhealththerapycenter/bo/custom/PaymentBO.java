@@ -1,5 +1,6 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom;
 
+import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.SuperBO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.PaymentDto;
 
 
@@ -8,7 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 
-public interface PaymentBO {
+public interface PaymentBO extends SuperBO {
 
     public boolean savePayment(PaymentDto dto);
     public boolean updatePayment(PaymentDto dto);

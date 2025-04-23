@@ -29,6 +29,23 @@ import java.util.ResourceBundle;
 
 public class PaymentsController implements Initializable {
 
+    private boolean fromMainPage = false;
+
+    public void setFromMainPage(boolean fromMainPage) {
+        this.fromMainPage = fromMainPage;
+    }
+
+    public void configurePage() {
+        // Configure UI based on whether opened from main page
+        if (fromMainPage) {
+            // For example, hide certain buttons or show specific UI elements
+            // that are relevant when opened from the main page
+            searchButton.setVisible(false);
+            deleteButton.setVisible(false);
+            updateButton.setVisible(false);
+        }
+    }
+
     @FXML
     private TableColumn<PaymentTM, Double> amountCol;
 

@@ -16,7 +16,7 @@ public class AppInitializer extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(AppInitializer.class.getResource("/view/login-page.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.getIcons().add(new Image(AppInitializer.class.getResourceAsStream("/images/Leonardo_Phoenix_09_A_modern_and_elegant_logo_for_Serenity_Men_0.jpg")));
+        stage.getIcons().add(new Image(AppInitializer.class.getResourceAsStream("/assets/mindfulness_100dp_CAF0F8_FILL0_wght400_GRAD0_opsz48.png")));
         stage.setTitle("SMHTC");
         stage.setScene(scene);
         stage.show();

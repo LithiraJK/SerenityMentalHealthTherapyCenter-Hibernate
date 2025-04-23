@@ -1,9 +1,8 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.controller;
 
-import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapistAvailabiltyBO;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.BOFactory;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapistAvailabilityBO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapistBO;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl.TherapistAvailabiltyBOImpl;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl.TherapistBOImpl;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapistAvailabilityDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapistDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TherapistAvailabilityTM;
@@ -91,8 +90,8 @@ public class TherapistAvailabilityController implements Initializable {
     @FXML
     private AnchorPane bodyPane;
 
-    private final TherapistAvailabiltyBO availabilityBO = new TherapistAvailabiltyBOImpl();
-    private final TherapistBO therapistBO = new TherapistBOImpl();
+    private final TherapistAvailabilityBO availabilityBO = (TherapistAvailabilityBO) BOFactory.getInstance().getBO(BOFactory.BOType.THERAPIST_AVAILABILITY);
+    private final TherapistBO therapistBO = (TherapistBO) BOFactory.getInstance().getBO(BOFactory.BOType.THERAPIST);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -134,7 +133,7 @@ public class TherapistAvailabilityController implements Initializable {
                     dto.getAvailableDate(),
                     dto.getStartTime(),
                     dto.getEndTime(),
-                    dto.isAvailable() ? "Available" : "Not Available"
+                    dto.isAvailable()
             ));
         }
 
@@ -193,7 +192,7 @@ public class TherapistAvailabilityController implements Initializable {
                     dto.getAvailableDate(),
                     dto.getStartTime(),
                     dto.getEndTime(),
-                    dto.isAvailable() ? "Available" : "Not Available"
+                    dto.isAvailable()
             ));
         }
 
@@ -232,7 +231,7 @@ public class TherapistAvailabilityController implements Initializable {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH);
             startTimeTxt.setText(selected.getStartTime().format(formatter));
             endTimeTxt.setText(selected.getEndTime().format(formatter));
-            statusTxt.setValue(selected.getIsAvailable());
+            statusTxt.setValue(selected.isAvailable() ? "Available" : "Not Available");
         }
     }
 
@@ -281,6 +280,7 @@ public class TherapistAvailabilityController implements Initializable {
                     availableDateTxt.getValue(),
                     startTime,
                     endTime,
+                    null, // availableSlots
                     statusTxt.getValue().equals("Available")
             );
 
@@ -302,58 +302,6 @@ public class TherapistAvailabilityController implements Initializable {
         alert.showAndWait();
     }
 
-//    public void setTimeToTimePicker() {
-////        availableTimeTxt.getItems().addAll(
-////                "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
-////                "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM"
-////        );
-////        availableTimeTxt.setValue("09:00 AM");
-//    }
-//
-//    public LocalTime convertTime() {
-////        String time = availableTimeTxt.getValue();
-////        LocalTime convertedTime = null;
-//
-////        switch (time) {
-////            case "09:00 AM" -> convertedTime = LocalTime.of(9, 0);
-////            case "10:00 AM" -> convertedTime = LocalTime.of(10, 0);
-////            case "11:00 AM" -> convertedTime = LocalTime.of(11, 0);
-////            case "12:00 PM" -> convertedTime = LocalTime.of(12, 0);
-////            case "01:00 PM" -> convertedTime = LocalTime.of(13, 0);
-////            case "02:00 PM" -> convertedTime = LocalTime.of(14, 0);
-////            case "03:00 PM" -> convertedTime = LocalTime.of(15, 0);
-////            case "04:00 PM" -> convertedTime = LocalTime.of(16, 0);
-////            case "05:00 PM" -> convertedTime = LocalTime.of(17, 0);
-////        }
-////
-////        return convertedTime;
-//        return null;
-//    }
-//
-//    public void convertTimeBack(LocalTime localTime) {
-//        String convertedTime = null;
-//        if (localTime.equals(LocalTime.of(9, 0))) {
-//            convertedTime = "09:00 AM";
-//        } else if (localTime.equals(LocalTime.of(10, 0))) {
-//            convertedTime = "10:00 AM";
-//        } else if (localTime.equals(LocalTime.of(11, 0))) {
-//            convertedTime = "11:00 AM";
-//        } else if (localTime.equals(LocalTime.of(12, 0))) {
-//            convertedTime = "12:00 PM";
-//        } else if (localTime.equals(LocalTime.of(13, 0))) {
-//            convertedTime = "01:00 PM";
-//        } else if (localTime.equals(LocalTime.of(14, 0))) {
-//            convertedTime = "02:00 PM";
-//        } else if (localTime.equals(LocalTime.of(15, 0))) {
-//            convertedTime = "03:00 PM";
-//        } else if (localTime.equals(LocalTime.of(16, 0))) {
-//            convertedTime = "04:00 PM";
-//        } else if (localTime.equals(LocalTime.of(17, 0))) {
-//            convertedTime = "05:00 PM";
-//        }
-////        availableTimeTxt.setValue(convertedTime);
-//    }
-//
 
 
 }

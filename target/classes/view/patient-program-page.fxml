@@ -16,7 +16,7 @@
 
 <AnchorPane fx:id="bodyPane" prefHeight="600.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.PatientProgramController">
    <children>
-      <VBox layoutX="57.0" layoutY="111.0" prefHeight="223.0" prefWidth="866.0" spacing="20.0">
+      <VBox layoutX="57.0" layoutY="101.0" prefHeight="223.0" prefWidth="866.0" spacing="20.0">
          <children>
             <HBox prefHeight="34.0" prefWidth="314.0" spacing="10.0">
                <children>
@@ -125,14 +125,15 @@
             </Button>
          </children>
       </HBox>
-      <TableView fx:id="patientProgramTable" layoutX="57.0" layoutY="356.0" onMouseClicked="#tableClick" prefHeight="223.0" prefWidth="1155.0">
+      <TableView fx:id="patientProgramTable" layoutX="57.0" layoutY="368.0" onMouseClicked="#tableClick" prefHeight="211.0" prefWidth="1155.0">
         <columns>
-          <TableColumn fx:id="patientIdCol" prefWidth="149.86660766601562" text="Patient ID" />
-            <TableColumn fx:id="patientNameCol" prefWidth="225.5999755859375" text="Patient Name" />
-          <TableColumn fx:id="programIdCol" prefWidth="145.60003662109375" text="Program ID" />
-            <TableColumn fx:id="programNameCol" prefWidth="232.0" text="Program Name" />
-            <TableColumn fx:id="paymentIdCol" prefWidth="150.39996337890625" text="Payment ID" />
-            <TableColumn fx:id="registerDateCol" prefWidth="167.46673583984375" text="Register Date" />
+          <TableColumn fx:id="patientIdCol" prefWidth="114.0" text="Patient ID" />
+          <TableColumn fx:id="programIdCol" prefWidth="124.0" text="Program ID" />
+            <TableColumn fx:id="paymentIdCol" prefWidth="142.0" text="Payment ID" />
+            <TableColumn fx:id="registerDateCol" prefWidth="201.0" text="Register Date" />
+            <TableColumn fx:id="patientNameCol" prefWidth="194.0" text="Patient Name" />
+            <TableColumn fx:id="programFeeCol" prefWidth="197.0" text="Program Fee" />
+            <TableColumn fx:id="leftToPayCol" prefWidth="182.0" text="Left To Pay" />
         </columns>
       </TableView>
       <ToggleButton fx:id="searchToggleButton" layoutX="1072.0" layoutY="53.0" mnemonicParsing="false" onAction="#searchToggle" prefHeight="30.0" prefWidth="144.0" styleClass="btn-primary" text="Search by Patient">
@@ -146,6 +147,26 @@
       <Label alignment="CENTER" layoutX="61.0" layoutY="42.0" prefHeight="33.0" prefWidth="186.0" text="Patients Programs" textFill="#146c94">
          <font>
             <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="57.0" layoutY="316.0" prefHeight="18.0" prefWidth="144.0" styleClass="text-label" text="Program Fee">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="programFeeTxt" layoutX="201.0" layoutY="316.0" prefHeight="18.0" prefWidth="144.0" styleClass="text-label" text="0000.00">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="409.0" layoutY="316.0" prefHeight="18.0" prefWidth="144.0" styleClass="text-label" text="Left to Pay">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="leftToPayTxt" layoutX="553.0" layoutY="316.0" prefHeight="18.0" prefWidth="144.0" styleClass="text-label" text="0000.00">
+         <font>
+            <Font size="18.0" />
          </font>
       </Label>
    </children>

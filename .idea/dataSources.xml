@@ -1,39 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="serenity_mental_health_therapy_center@localhost" uuid="f0183d98-9bbe-41ec-8427-de2cb1cb1a8d">
+    <data-source source="LOCAL" name="smhtc_db@localhost" uuid="72033f5e-d62f-4808-bd11-c7a8027f3b2b">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/serenity_mental_health_therapy_center</jdbc-url>
-      <jdbc-additional-properties>
-        <property name="com.intellij.clouds.kubernetes.db.host.port" />
-        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
-        <property name="com.intellij.clouds.kubernetes.db.container.port" />
-      </jdbc-additional-properties>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="hibernate.cfg.xml/Hibernate" uuid="299b81ad-b9d8-42e4-b9bf-239183905058">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>Hibernate
-
-/home/lithira-jk/2nd SEM Project/CourseWork-ORM/SerenityMentalHealthTherapyCenter/src/main/resources/hibernate.cfg.xml</remarks>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/serenity_mental_health_therapy_center?createDatabaseIfNotExist=true</jdbc-url>
-      <jdbc-additional-properties>
-        <property name="com.intellij.clouds.kubernetes.db.host.port" />
-        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
-        <property name="com.intellij.clouds.kubernetes.db.container.port" />
-      </jdbc-additional-properties>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="serenity_mental_health_therapy_center@localhost [2]" uuid="55a108c9-ab9f-4d08-905e-e05800425795">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/serenity_mental_health_therapy_center</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/smhtc_db</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />

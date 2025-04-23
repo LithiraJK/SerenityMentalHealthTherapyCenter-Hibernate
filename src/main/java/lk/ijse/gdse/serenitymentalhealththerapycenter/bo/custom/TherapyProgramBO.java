@@ -1,10 +1,11 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom;
 
+import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.SuperBO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapyProgramDto;
 
 import java.util.ArrayList;
 
-public interface TherapyProgramBO {
+public interface TherapyProgramBO extends SuperBO {
 
     public boolean saveTherapyProgram(TherapyProgramDto dto);
     public boolean updateTherapyProgram(TherapyProgramDto dto);

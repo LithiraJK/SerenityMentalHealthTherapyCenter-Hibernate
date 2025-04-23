@@ -85,7 +85,12 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
-    public List<Payment> findByName(String name) {
+    public Optional<Payment> findByName(String pk) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Payment> findByPatientName(String name) {
         Session session = factoryConfiguration.getSession();
         List<Payment> payments = session.createQuery(
                         "FROM Payment p WHERE p.patient.name LIKE :name", Payment.class)
@@ -117,7 +122,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     public List<Payment> findByDate(LocalDate date) {
         Session session = factoryConfiguration.getSession();
         List<Payment> payments = session.createQuery(
-                        "FROM Payment p WHERE DATE(p.paymentDate) = :date", Payment.class)
+                        "FROM Payment p WHERE DATE(p.payment_date) = :date", Payment.class)
                 .setParameter("date", date)
                 .list();
         session.close();

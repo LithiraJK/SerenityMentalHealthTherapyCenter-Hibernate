@@ -154,44 +154,54 @@ public class UserDAOImpl implements UserDAO {
     }
 
 
-    /*
-    * private static final Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
+    @Override
+    public Optional<User> findByUserId(String userId) {
+        Session session = factoryConfiguration.getSession();
+        List<User> users = null;
 
-@Override
-public String validateUser(String username, String password) {
-    Session session = factoryConfiguration.getSession();
-    Object[] result = null;
+        try {
+            users = session.createQuery("FROM User WHERE user_id = :userId", User.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
 
-    try {
-        result = session.createQuery(
-                        "SELECT u.password, u.role FROM User u WHERE u.username = :username", Object[].class)
-                .setParameter("username", username)
-                .uniqueResult();
-    } catch (Exception e) {
-        logger.error("Error validating user", e); // Use logger instead of e.printStackTrace()
-    } finally {
-        session.close();
+        return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
     }
 
-    if (result == null) {
-        logger.debug("No user found with username: {}", username);
-        return null;
+
+    @Override
+    public boolean updateUsernameAndPassword(String userId, String newUsername, String newPassword) {
+        Session session = factoryConfiguration.getSession();
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            User user = session.find(User.class, userId);
+
+            if (user != null) {
+                // Update only the username and password
+                user.setUsername(newUsername);
+                user.setPassword(newPassword);  // Assuming password is already hashed when being passed here
+
+                session.update(user);  // Update the user with new values
+                transaction.commit();
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (Exception e) {
+            transaction.rollback();
+            return false;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
-
-    String databasePassword = (String) result[0];
-    String role = (String) result[1];
-
-    if (databasePassword != null && databasePassword.equals(password)) {
-        logger.debug("Authentication successful for role: {}", role);
-        return role;
-    } else {
-        logger.debug("Password does not match for user: {}", username);
-        return null;
-    }
-}
-
-    *
-    * */
 
 
 

@@ -1,25 +1,22 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl;
 
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapistProgramBO;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.DAOFactory;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.TherapistDAO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.TherapistProgramDAO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.TherapyProgramDAO;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.impl.TherapistDAOImpl;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.impl.TherapistProgramDAOImpl;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.impl.TherapyProgramDAOImpl;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapistProgramDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class TherapistProgramBOImpl implements TherapistProgramBO {
 
-    private TherapistProgramDAO therapistProgramDAO = new TherapistProgramDAOImpl();
-    private TherapistDAO therapistDAO = new TherapistDAOImpl();
-    private TherapyProgramDAO therapyProgramDAO = new TherapyProgramDAOImpl();
+    TherapistProgramDAO therapistProgramDAO = (TherapistProgramDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPIST_PROGRAM);
+    TherapistDAO therapistDAO = (TherapistDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPIST);
+    TherapyProgramDAO therapyProgramDAO = (TherapyProgramDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPY_PROGRAM);
 
     @Override
     public boolean saveTherapistProgram(String therapistId, String programId) {
@@ -147,6 +144,41 @@ public class TherapistProgramBOImpl implements TherapistProgramBO {
 
         return dtos;
     }
+
+    @Override
+    public List<TherapistProgramDto> getTherapistProgramsByTherapistId(String therapistId) {
+        List<TherapistProgram> programs = therapistProgramDAO.findByTherapistId(therapistId);
+        List<TherapistProgramDto> dtos = new ArrayList<>();
+
+        for (TherapistProgram entity : programs) {
+            TherapistProgramDto dto = new TherapistProgramDto(
+                    entity.getId().getTherapistId(),
+                    entity.getId().getProgramId(),
+                    entity.getTherapy_program().getName()
+            );
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
+    @Override
+    public List<TherapistProgramDto> getTherapistProgramsByProgramId(String programId) {
+        List<TherapistProgram> programs = therapistProgramDAO.findByProgramId(programId);
+        List<TherapistProgramDto> dtos = new ArrayList<>();
+
+        for (TherapistProgram entity : programs) {
+            TherapistProgramDto dto = new TherapistProgramDto(
+                    entity.getId().getTherapistId(),
+                    entity.getId().getProgramId(),
+                    entity.getTherapy_program().getName()
+            );
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
 
 
 }

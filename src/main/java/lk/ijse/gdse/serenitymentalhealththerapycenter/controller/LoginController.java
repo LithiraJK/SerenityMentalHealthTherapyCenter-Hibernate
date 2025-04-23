@@ -45,8 +45,8 @@ public class LoginController {
         loginUsernameText.setStyle("-fx-border-color: transparent;");
         loginPasswordText.setStyle("-fx-border-color: transparent;");
 
-        if (userBO.isUserExists(username, password)) {
-            String role = userBO.getUserRole(username, password); // Retrieve user role
+        String role = userBO.validateUser(username, password);
+        if (role != null) {
             loadDashboard("/view/dashboard-view.fxml", role);
         } else {
             // Show error alert

@@ -1,8 +1,8 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl;
 
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapistBO;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.DAOFactory;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.TherapistDAO;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.impl.TherapistDAOImpl;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapistDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.Therapist;
 
@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class TherapistBOImpl implements TherapistBO {
-    TherapistDAO therapistDAO = new TherapistDAOImpl();
+
+    TherapistDAO therapistDAO = (TherapistDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPIST);
 
     @Override
     public boolean saveTherapist(TherapistDto dto) {
@@ -61,7 +62,7 @@ public class TherapistBOImpl implements TherapistBO {
 
     @Override
     public ArrayList<TherapistDto> findByTherapistName(String name) {
-        List<Therapist> therapists = therapistDAO.findByName(name);
+        List<Therapist> therapists = therapistDAO.findByTherapistName(name);
         ArrayList<TherapistDto> therapistDtos = new ArrayList<>();
 
         for (Therapist therapist : therapists) {

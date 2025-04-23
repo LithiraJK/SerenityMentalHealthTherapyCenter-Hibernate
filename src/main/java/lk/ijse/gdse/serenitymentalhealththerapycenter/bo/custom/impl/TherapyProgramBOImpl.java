@@ -1,6 +1,7 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl;
 
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapyProgramBO;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.DAOFactory;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.TherapyProgramDAO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.impl.TherapyProgramDAOImpl;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapyProgramDto;
@@ -11,7 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class TherapyProgramBOImpl implements TherapyProgramBO {
-    private final TherapyProgramDAO therapyProgramDAO = new TherapyProgramDAOImpl();
+
+    TherapyProgramDAO therapyProgramDAO = (TherapyProgramDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPY_PROGRAM);
 
     @Override
     public boolean saveTherapyProgram(TherapyProgramDto dto) {
@@ -61,7 +63,7 @@ public class TherapyProgramBOImpl implements TherapyProgramBO {
 
     @Override
     public ArrayList<TherapyProgramDto> findTherapyProgramByName(String name) {
-        List<TherapyProgram> programs = therapyProgramDAO.findByName(name);
+        List<TherapyProgram> programs = therapyProgramDAO.findByTherapyProgramName(name);
         ArrayList<TherapyProgramDto> dtos = new ArrayList<>();
 
         for (TherapyProgram program : programs) {

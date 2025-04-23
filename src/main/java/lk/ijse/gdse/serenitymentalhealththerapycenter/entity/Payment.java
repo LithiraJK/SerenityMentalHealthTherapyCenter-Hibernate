@@ -23,7 +23,7 @@ public class Payment implements SuperEntity{
 
     @ManyToOne
     @JoinColumn(name = "session_id")
-    private TherapySession therapy_session;
+    private TherapySession therapy_session;  // Nullable for upfront payments
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;

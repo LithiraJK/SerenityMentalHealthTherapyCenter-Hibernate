@@ -4,9 +4,11 @@ import lk.ijse.gdse.serenitymentalhealththerapycenter.config.FactoryConfiguratio
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.PatientProgramDAO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.PatientProgram;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.PatientProgramId;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.TherapyProgram;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +53,11 @@ public class PatientProgramDAOImpl implements PatientProgramDAO {
         }
     }
 
+    @Override
+    public boolean delete(String pk) {
+        return false;
+    }
+
 
     @Override
     public boolean delete(String patientId, String programId) {
@@ -89,6 +96,11 @@ public class PatientProgramDAOImpl implements PatientProgramDAO {
         return patientProgram;
     }
 
+    @Override
+    public Optional<PatientProgram> findByName(String pk) {
+        return Optional.empty();
+    }
+
 
     @Override
     public List<PatientProgram> findByPatientId(String patient_id) {
@@ -118,8 +130,54 @@ public class PatientProgramDAOImpl implements PatientProgramDAO {
        return Optional.empty();
     }
     @Override
-    public List<PatientProgram> findByName(String name) {
+    public List<PatientProgram> searchByName(String name) {
         return null;
     }
+
+    public Optional<PatientProgram> findById(String patientId, String programId) {
+        Session session = factoryConfiguration.getSession();
+        try {
+            PatientProgramId id = new PatientProgramId(patientId, programId);
+            PatientProgram patientProgram = session.find(PatientProgram.class, id);
+            return Optional.ofNullable(patientProgram);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+
+    @Override
+    public boolean updateTherapyProgramFee(String patientId, String programId, BigDecimal newFee) {
+        Session session = factoryConfiguration.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            PatientProgramId id = new PatientProgramId(patientId, programId);
+            PatientProgram patientProgram = session.find(PatientProgram.class, id);
+
+            if (patientProgram != null) {
+                // Set the new fee in the patient_program table (not in therapy_program)
+                patientProgram.setProgram_fee(newFee);
+                session.merge(patientProgram);
+                transaction.commit();
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+
 
 }

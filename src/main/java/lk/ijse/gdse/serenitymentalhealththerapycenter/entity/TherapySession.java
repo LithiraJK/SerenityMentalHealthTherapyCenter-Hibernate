@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -27,25 +28,21 @@ public class TherapySession implements SuperEntity {
     private TherapyProgram therapy_program;
 
     @OneToOne
-    @JoinColumn(name = "availability_id", nullable = false, unique = true)
+    @JoinColumn(name = "availability_id")
     private TherapistAvailability therapistAvailability;
 
     @Column(nullable = false)
-    private int duration;
+    private LocalDate session_date;
 
     @Column(nullable = false)
-    private String status;
+    private LocalTime start_time;
 
-    // Helper method to manage bidirectional relationship
-    public void setTherapistAvailability(TherapistAvailability availability) {
-        if (this.therapistAvailability != null) {
-            this.therapistAvailability.setSession(null);
-        }
-        this.therapistAvailability = availability;
-        if (availability != null) {
-            availability.setSession(this);
-        }
-    }
+    @Column(nullable = false)
+    private int duration; // "30 minutes", "1 hour", etc.
+
+    @Column(nullable = false)
+    private String status;  // "Scheduled", "Completed", "Cancelled"
+
 
 
 }

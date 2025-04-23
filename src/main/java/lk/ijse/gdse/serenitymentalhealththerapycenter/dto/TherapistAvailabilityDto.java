@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,5 +17,6 @@ public class TherapistAvailabilityDto {
     private LocalDate availableDate;
     private LocalTime startTime;
     private LocalTime endTime;
+    private List<String> availableSlots;
     private boolean isAvailable;
 }

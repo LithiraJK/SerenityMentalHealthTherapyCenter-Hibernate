@@ -2,6 +2,8 @@ package lk.ijse.gdse.serenitymentalhealththerapycenter.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -27,4 +29,8 @@ public class PatientProgram implements SuperEntity{
     @ManyToOne
     @JoinColumn(name = "payment_id") // Nullable for future developments
     private Payment payment;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal program_fee;
+
 }

@@ -1,12 +1,10 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl;
 
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.PatientBO;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.DAOFactory;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.PatientDAO;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.impl.PatientDAOImpl;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.PatientDto;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapyProgramDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.Patient;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.TherapyProgram;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.Optional;
 
 
 public class PatientBOImpl implements PatientBO {
-    PatientDAO patientDAO = new PatientDAOImpl();
+    PatientDAO patientDAO = (PatientDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PATIENT);
 
     @Override
     public boolean savePatient(PatientDto dto) {
@@ -70,7 +68,7 @@ public class PatientBOImpl implements PatientBO {
 
     @Override
     public ArrayList<PatientDto> findByPatientName(String name) {
-        List<Patient> patients = patientDAO.findByName(name);
+        List<Patient> patients = patientDAO.findByPatientName(name);
         ArrayList<PatientDto> patientDtos = new ArrayList<>();
 
         for (Patient patient : patients) {

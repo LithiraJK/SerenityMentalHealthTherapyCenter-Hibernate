@@ -1,33 +1,44 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.controller;
 
-import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.PatientBO;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapistAvailabiltyBO;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapistBO;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapyProgramBO;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.*;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl.*;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.*;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TherapySessionTM;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TimeSlotRow;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm.TimeSlotRowTM;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 public class TherapySessionsController implements Initializable {
 
     @FXML
+    private AnchorPane bodyPane;
+
+    @FXML
     private Button deleteButton;
+
+    @FXML
+    private TableColumn<TherapySessionTM, Duration> durationCol;
 
     @FXML
     private TableColumn<TherapySessionTM, String> patientIdCol;
@@ -42,16 +53,16 @@ public class TherapySessionsController implements Initializable {
     private Button patientSearchButton;
 
     @FXML
+    private Button paymentLoadButton;
+
+    @FXML
     private TableColumn<TherapySessionTM, String> programIdCol;
 
     @FXML
     private TextField programIdTxt;
 
     @FXML
-    private TextField programNameTxt;
-
-    @FXML
-    private Button programSearchButton;
+    private ChoiceBox<String> programNameTxt;
 
     @FXML
     private Button saveButton;
@@ -69,13 +80,19 @@ public class TherapySessionsController implements Initializable {
     private DatePicker sessionDateTxt;
 
     @FXML
+    private ChoiceBox<String> sessionDurationTxt;
+
+    @FXML
     private TableColumn<TherapySessionTM, String> sessionIdCol;
 
     @FXML
     private TextField sessionIdTxt;
 
     @FXML
-    private TableColumn<TherapySessionTM, LocalTime> sessionTimeCol;
+    private TableColumn<TherapySessionTM, String> sessionTimeCol;
+
+    @FXML
+    private TextField sessionTimeTxt;
 
     @FXML
     private TableColumn<TherapySessionTM, String> statusCol;
@@ -90,127 +107,270 @@ public class TherapySessionsController implements Initializable {
     private TextField therapistIdTxt;
 
     @FXML
-    private TextField therapistNameTxt;
-
-    @FXML
-    private Button therapistSearchButton;
+    private ChoiceBox<String> therapistNameTxt;
 
     @FXML
     private TableView<TherapySessionTM> therapySessionTable;
 
     @FXML
-    private TableColumn<TherapySessionTM, Integer> durationCol;
-
-    @FXML
-    private TextField sessionDurationTxt;
-
-    @FXML
-    private TextField sessionTimeTxt;
-
-    @FXML
     private Button updateButton;
 
-    @FXML
-    private AnchorPane bodyPane;
-
-    private final TherapySessionBOImpl therapySessionBO = new TherapySessionBOImpl();
-    private final TherapistAvailabiltyBO availabilityBO = new TherapistAvailabiltyBOImpl();
-    private final TherapistBO therapistBO = new TherapistBOImpl();
     private final PatientBO patientBO = new PatientBOImpl();
-    private final TherapyProgramBO programBO = new TherapyProgramBOImpl();
+    private final PatientProgramBO patientProgramBO = new PatientProgramBOImpl();
+    private TherapistBO therapistBO = new TherapistBOImpl();
+    private final TherapyProgramBO therapyProgramBO = new TherapyProgramBOImpl();
+    private final TherapistProgramBO therapistProgramBO = new TherapistProgramBOImpl();
 
-    public void initialize(URL location, ResourceBundle resources){
+    private final TherapySessionBO therapySessionBO = new TherapySessionBOImpl();
+
+    private final TherapistAvailabilityBO therapistAvailabiltyBO = new TherapistAvailabilityBOImpl();
+
+    DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("hh:mm a").toFormatter().withLocale(Locale.ENGLISH);
+
+
+    public void initialize(URL location, ResourceBundle resources) {
+
+        sessionDurationTxt.getItems().addAll("30 minutes", "1 hour", "1 and half hour", "2 hours");
+        statusTxtChoice.getItems().addAll("Scheduled", "Completed", "Cancelled");
 
         sessionIdCol.setCellValueFactory(new PropertyValueFactory<>("sessionId"));
         patientIdCol.setCellValueFactory(new PropertyValueFactory<>("patientId"));
-        programIdCol.setCellValueFactory(new PropertyValueFactory<>("programId"));
+        programIdCol.setCellValueFactory(new PropertyValueFactory<>("therapyProgramId"));
         therapistIdCol.setCellValueFactory(new PropertyValueFactory<>("therapistId"));
         sessionDateCol.setCellValueFactory(new PropertyValueFactory<>("sessionDate"));
         sessionTimeCol.setCellValueFactory(new PropertyValueFactory<>("sessionTime"));
         durationCol.setCellValueFactory(new PropertyValueFactory<>("duration"));
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        statusTxtChoice.setItems(FXCollections.observableArrayList("Scheduled", "Completed", "Cancelled"));
+        loadTimeTable();
 
-        refreshPage();
+        loadAllSessions();
 
     }
 
-    private void refreshPage() {
+    private void loadAllSessions() {
+        List<TherapySessionDto> allSessions = therapySessionBO.getAll();
+        List<TherapySessionTM> tmList = allSessions.stream().map(dto ->
+                new TherapySessionTM(
+                        dto.getSessionId(),
+                        dto.getPatientId(),
+                        dto.getTherapyProgramId(),
+                        dto.getTherapistId(),
+                        null, //dto.getAvailabilityId(),
+                        dto.getSessionDate(),
+                        dto.getSessionTime(),
+                        Duration.ofMinutes(dto.getDuration()), // convert int to Duration
+                        dto.getStatus()
+                )
+        ).collect(Collectors.toList());
+
+        therapySessionTable.getItems().setAll(tmList);
         sessionIdTxt.setText(therapySessionBO.getNextSessionPK());
-        patientIdTxt.clear(); patientNameTxt.clear();
-        programIdTxt.clear(); programNameTxt.clear();
-        therapistIdTxt.clear(); therapistNameTxt.clear();
-        sessionDateTxt.setValue(null);
-        sessionTimeTxt.clear(); sessionDurationTxt.clear();
-        statusTxtChoice.setValue("Scheduled");
-        refreshTable();
+        saveButton.setDisable(false);
+        updateButton.setDisable(true);
     }
 
-    private void refreshTable() {
-        List<TherapySessionDto> sessionList = therapySessionBO.getAllSessions();
-        ObservableList<TherapySessionTM> sessionTMs = FXCollections.observableArrayList();
-        for (TherapySessionDto dto : sessionList) {
-            sessionTMs.add(new TherapySessionTM(
-                    dto.getSessionId(), dto.getPatientId(), dto.getTherapyProgramId(),
-                    dto.getTherapistId(), dto.getAvailabilityId(), dto.getSessionDate(),
-                    dto.getSessionTime(), dto.getDuration(), dto.getStatus()
-            ));
+
+    @FXML
+    void save(ActionEvent event) {
+
+        String sessionId = sessionIdTxt.getText().trim();
+        String patientId = patientIdTxt.getText().trim();
+        String programId = programIdTxt.getText().trim();
+        String therapistId = therapistIdTxt.getText().trim();
+        LocalDate sessionDate = sessionDateTxt.getValue();
+        LocalTime sessionTime = LocalTime.parse(sessionTimeTxt.getText().trim(), timeFormatter);
+        String status = statusTxtChoice.getValue();
+        String sessionDurationChoice = sessionDurationTxt.getValue();
+
+        if (sessionId.isEmpty() || patientId.isEmpty() || programId.isEmpty() || therapistId.isEmpty() ||
+                sessionDate == null || sessionTimeTxt.getText().trim().isEmpty() || sessionDurationChoice == null || status == null) {
+            showAlert("Input Error", "Please fill in all fields.", Alert.AlertType.ERROR);
+            return;
         }
-        therapySessionTable.setItems(sessionTMs);
+
+
+        int sessionDuration = switch (sessionDurationChoice) {
+            case "30 minutes" -> 30;
+            case "1 hour" -> 60;
+            case "1 and half hour" -> 90;
+            case "2 hours" -> 120;
+            default -> 0;
+        };
+
+        TherapySessionDto session = new TherapySessionDto(
+                sessionId, patientId, programId, therapistId,
+                null, sessionDate, sessionTime, sessionDuration, status
+        );
+
+        boolean saved = therapySessionBO.save(session);
+        if (saved) {
+            showAlert("Success", "Therapy session saved successfully!", Alert.AlertType.INFORMATION);
+            loadAllSessions();
+            clearTimeTable();
+            clearForm();
+        } else {
+            showAlert("Error", "Failed to save therapy session.", Alert.AlertType.ERROR);
+        }
+
+        //        String therapistId = therapistNameTxt.getValue();
+//        LocalDate date = sessionDateTxt.getValue();
+//        String durationStr = sessionDurationTxt.getValue();
+//        Duration sessionDuration = Duration.ofMinutes(Long.parseLong(durationStr));
+//
+//        boolean success = therapistAvailabiltyBO.bookTimeSlot(therapistId, date, startTime, sessionDuration);
+//
+//        if (success) {
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Time slot successfully booked!");
+//            alert.showAndWait();
+//        } else {
+//            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to book the time slot. Please try again.");
+//            alert.showAndWait();
+//        }
+//        boolean success = therapistAvailabiltyBO.bookTimeSlot("therapist001", LocalDate.of(2025, 4, 22), Duration.ofMinutes(60));
+
+
     }
 
+
+    @FXML
+    void update(ActionEvent event) {
+        if (sessionIdTxt.getText() == null || sessionIdTxt.getText().isEmpty()) {
+            showAlert("Warning", "Please select a session from the table to update.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        String sessionId = sessionIdTxt.getText().trim();
+        String patientId = patientIdTxt.getText().trim();
+        String programId = programIdTxt.getText().trim();
+        String therapistId = therapistIdTxt.getText().trim();
+        LocalDate sessionDate = sessionDateTxt.getValue();
+        LocalTime sessionTime = LocalTime.parse(sessionTimeTxt.getText().trim(), timeFormatter);        String status = statusTxtChoice.getValue();
+        String sessionDurationChoice = sessionDurationTxt.getValue();
+
+        int sessionDuration = switch (sessionDurationChoice) {
+            case "30 minutes" -> 30;
+            case "1 hour" -> 60;
+            case "1 and half hour" -> 90;
+            case "2 hours" -> 120;
+            default -> 0;
+        };
+
+        boolean isUpdated = therapySessionBO.update(
+                new TherapySessionDto(sessionId, patientId, programId, therapistId, null, sessionDate, sessionTime, sessionDuration, status)
+        );
+
+        if (isUpdated) {
+            showAlert("Success", "Session updated!", Alert.AlertType.INFORMATION);
+            loadAllSessions();
+            clearForm();
+        } else {
+            showAlert("Failed", "Failed to update session.", Alert.AlertType.ERROR);
+        }
+    }
 
     @FXML
     void delete(ActionEvent event) {
         String sessionId = sessionIdTxt.getText();
-        if (therapySessionBO.deleteSession(sessionId)) {
-            showAlert("Success", "Session deleted successfully", Alert.AlertType.INFORMATION);
-            refreshPage();
-        } else {
-            showAlert("Error", "Failed to delete session", Alert.AlertType.ERROR);
+        if (sessionId == null || sessionId.isEmpty()) {
+            showAlert("Warning", "Please select a session to delete.", Alert.AlertType.WARNING);
+            return;
         }
-    }
 
-    @FXML
-    void save(ActionEvent event) {
-        try {
-            TherapySessionDto dto = collectSessionData();
-            boolean splitSuccess = availabilityBO.splitAvailabilitySlot(
-                    dto.getTherapistId(), dto.getSessionDate(), dto.getSessionTime(), dto.getDuration()
-            );
-            if (!splitSuccess) {
-                showAlert("Error", "Invalid slot: cannot split availability", Alert.AlertType.WARNING);
-                return;
-            }
-            if (therapySessionBO.saveSession(dto)) {
-                showAlert("Success", "Session saved", Alert.AlertType.INFORMATION);
-                refreshPage();
-            } else {
-                showAlert("Error", "Save failed", Alert.AlertType.ERROR);
-            }
-        } catch (Exception e) {
-            showAlert("Exception", e.getMessage(), Alert.AlertType.ERROR);
+        boolean isDeleted = therapySessionBO.delete(sessionId);
+        if (isDeleted) {
+            showAlert("Success", "Session deleted!", Alert.AlertType.INFORMATION);
+            loadAllSessions();
+            clearForm();
+        } else {
+            showAlert("Failed", "Failed to delete session.", Alert.AlertType.ERROR);
         }
     }
 
     @FXML
     void search(ActionEvent event) {
-//        String searchTerm = searchTxt.getText();
-//        List<TherapySessionDto> sessions = therapySessionBO.findByPatientName(searchTerm);
-//        if (sessions != null && !sessions.isEmpty()) {
-//            ObservableList<TherapySessionTM> items = FXCollections.observableArrayList();
-//            for (TherapySessionDto dto : sessions) {
-//                items.add(new TherapySessionTM(
-//                        dto.getSessionId(), dto.getPatientId(), dto.getProgramId(),
-//                        dto.getTherapistId(), dto.getSessionDate(), dto.getSessionTime(),
-//                        dto.getDuration(), dto.getStatus()
-//                ));
-//            }
-//            therapySessionTable.setItems(items);
-//        } else {
-//            showAlert("Not Found", "No sessions found for the given patient name", Alert.AlertType.WARNING);
-//        }
+        String name = searchTxt.getText().trim();
+        if (name.isEmpty()) {
+            showAlert("Input Error", "Enter a patient Name to search.", Alert.AlertType.WARNING);
+            loadAllSessions();
+            clearForm();
+            return;
+        }
+        List<PatientDto> patients = patientBO.findByPatientName(name);
+        searchTxt.setText(patients.get(0).getName());
+        List<TherapySessionDto> sessions = therapySessionBO.findByPatientId(patients.get(0).getPatientId());
+        therapySessionTable.getItems().clear();
+        therapySessionTable.getItems().addAll(
+                sessions.stream().map(dto ->
+                        new TherapySessionTM(
+                                dto.getSessionId(),
+                                dto.getPatientId(),
+                                dto.getTherapyProgramId(),
+                                dto.getTherapistId(),
+                                null, // or dto.getAvailabilityId()
+                                dto.getSessionDate(),
+                                dto.getSessionTime(),
+                                Duration.ofMinutes(dto.getDuration()),
+                                dto.getStatus()
+                        )
+                ).collect(Collectors.toList())
+        );
+
+        if (sessions.isEmpty()) {
+            showAlert("No Results", "No therapy sessions found.", Alert.AlertType.INFORMATION);
+        }
+    }
+
+
+    @FXML
+    void tableClick(MouseEvent event) {
+        TherapySessionTM selected = therapySessionTable.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            sessionIdTxt.setText(selected.getSessionId());
+            patientIdTxt.setText(selected.getPatientId());
+            programIdTxt.setText(selected.getTherapyProgramId());
+            therapistIdTxt.setText(selected.getTherapistId());
+            sessionDateTxt.setValue(selected.getSessionDate());
+            sessionTimeTxt.setText(selected.getSessionTime().format(timeFormatter));
+
+            String sessionDurationStr = switch ((int) selected.getDuration().toMinutes()) {
+                case 30 -> "30 minutes";
+                case 60 -> "1 hour";
+                case 90 -> "1 and half hour";
+                case 120 -> "2 hours";
+                default -> "";
+            };
+
+            sessionDurationTxt.setValue(sessionDurationStr);
+            statusTxtChoice.setValue(selected.getStatus());
+            saveButton.setDisable(true);
+            updateButton.setDisable(false);
+        }
+    }
+
+
+    private void clearForm() {
+        sessionIdTxt.clear();
+        patientIdTxt.clear();
+        patientNameTxt.clear();
+        programIdTxt.clear();
+        programNameTxt.getItems().clear();
+        therapistIdTxt.clear();
+        therapistNameTxt.getItems().clear();
+        sessionDateTxt.setValue(null);
+        sessionTimeTxt.clear();
+        sessionDurationTxt.getSelectionModel().clearSelection();
+        statusTxtChoice.getSelectionModel().clearSelection();
+        searchTxt.clear();
+    }
+
+
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
@@ -224,15 +384,29 @@ public class TherapySessionsController implements Initializable {
         }
 
         PatientDto patient = patients.getFirst();
-
         patientIdTxt.setText(patient.getPatientId());
         patientNameTxt.setText(patient.getName());
+
+        List<PatientProgramDto> programs = patientProgramBO.getProgramsByPatientId(patient.getPatientId());
+
+        List<String> programNames = programs.stream()
+                .map(PatientProgramDto::getProgramName)
+                .collect(Collectors.toList());
+
+        programNameTxt.getItems().clear(); // optional: clears old data if needed
+        programIdTxt.clear();
+        programNameTxt.getItems().addAll(programNames);
+
+        programNameTxt.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                searchProgram();
+            }
+        });
     }
 
-    @FXML
-    void searchProgram(ActionEvent event) {
-        String name = programNameTxt.getText().trim();
-        ArrayList<TherapyProgramDto> programs = programBO.findTherapyProgramByName(name);
+    void searchProgram() {
+        String name = programNameTxt.getValue().trim();
+        ArrayList<TherapyProgramDto> programs = therapyProgramBO.findTherapyProgramByName(name);
 
         if (programs.isEmpty()) {
             showAlert("Not Found", "Program not found", Alert.AlertType.WARNING);
@@ -240,48 +414,29 @@ public class TherapySessionsController implements Initializable {
         }
 
         TherapyProgramDto program = programs.getFirst();
-
         programIdTxt.setText(program.getProgramId());
-        programNameTxt.setText(program.getName());
+
+
+        // Load therapists based on the selected program
+        List<TherapistProgramDto> therapistsPrograms = therapistProgramBO.findByProgramName(programNameTxt.getValue().trim());
+
+        List<String> therapistNames = therapistsPrograms.stream()
+                .map(dto -> therapistBO.findByTherapistId(dto.getTherapistId()).getName())
+                .collect(Collectors.toList());
+
+        therapistNameTxt.getItems().clear();
+        therapistIdTxt.clear();
+        therapistNameTxt.getItems().addAll(therapistNames);
+
+        therapistNameTxt.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                searchTherapist();
+            }
+        });
     }
 
-    private String selectedAvailabilityId;  // class-level variable to store availabilityId
-
-    private TherapySessionDto collectSessionData() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH);
-        LocalTime time = LocalTime.parse(sessionTimeTxt.getText().trim(), formatter);
-
-        return new TherapySessionDto(
-                sessionIdTxt.getText(),
-                patientIdTxt.getText(),
-                programIdTxt.getText(),
-                therapistIdTxt.getText(),
-                null,
-                sessionDateTxt.getValue(),
-                time,
-                Integer.parseInt(sessionDurationTxt.getText()),
-                statusTxtChoice.getValue()
-        );
-    }
-
-
-    @FXML
-    void tableClick() {
-        TherapySessionTM selected = therapySessionTable.getSelectionModel().getSelectedItem();
-        if (selected == null) return;
-        sessionIdTxt.setText(selected.getSessionId());
-        patientIdTxt.setText(selected.getPatientId());
-        programIdTxt.setText(selected.getTherapyProgramId());
-        therapistIdTxt.setText(selected.getTherapistId());
-        sessionDateTxt.setValue(selected.getSessionDate());
-        sessionTimeTxt.setText(selected.getSessionTime().toString());
-        sessionDurationTxt.setText(String.valueOf(selected.getDuration()));
-        statusTxtChoice.setValue(selected.getStatus());
-    }
-
-    @FXML
-    void searchTherapist(ActionEvent event) {
-        String name = therapistNameTxt.getText().trim();
+    void searchTherapist() {
+        String name = therapistNameTxt.getValue().trim();
         ArrayList<TherapistDto> therapists = therapistBO.findByTherapistName(name);
 
         if (therapists.isEmpty()) {
@@ -290,203 +445,138 @@ public class TherapySessionsController implements Initializable {
         }
 
         TherapistDto therapist = therapists.getFirst();
-
         therapistIdTxt.setText(therapist.getTherapistId());
-        therapistNameTxt.setText(therapist.getName());
-        loadAvailabilityTable(therapistIdTxt.getText());
+        loadDataToTimeTable(therapist.getTherapistId());
     }
 
     @FXML
-    void update(ActionEvent event) {
+    void loadPaymentPage(ActionEvent event) {
         try {
-            TherapySessionDto dto = collectSessionData();
-            if (therapySessionBO.updateSession(dto)) {
-                showAlert("Success", "Session updated", Alert.AlertType.INFORMATION);
-                refreshPage();
-            } else {
-                showAlert("Error", "Update failed", Alert.AlertType.ERROR);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/payments-page.fxml"));
+            Parent root = loader.load();
+
+            PaymentsController controller = loader.getController();
+            controller.setFromMainPage(true); // pass the boolean
+            controller.configurePage();       // apply changes to the UI
+
+            Stage stage = new Stage();
+            stage.setTitle("Manage Payments");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    @FXML
+    private TableView<TimeSlotRowTM> timeSlotTable;
+    @FXML
+    private TableColumn<TimeSlotRowTM, String> timeTSCol;
+    @FXML
+    private TableColumn<TimeSlotRowTM, String> date1TSCol;
+    @FXML
+    private TableColumn<TimeSlotRowTM, String> date2TSCol;
+    @FXML
+    private TableColumn<TimeSlotRowTM, String> date3TSCol;
+    @FXML
+    private TableColumn<TimeSlotRowTM, String> date4TSCol;
+    @FXML
+    private TableColumn<TimeSlotRowTM, String> date5TSCol;
+
+    private final List<LocalDate> nextFiveDates = new ArrayList<>();
+
+
+    void loadTimeTable() {
+        timeTSCol.setCellValueFactory(new PropertyValueFactory<>("timeSlot"));
+        date1TSCol.setCellValueFactory(new PropertyValueFactory<>("date1Status"));
+        date2TSCol.setCellValueFactory(new PropertyValueFactory<>("date2Status"));
+        date3TSCol.setCellValueFactory(new PropertyValueFactory<>("date3Status"));
+        date4TSCol.setCellValueFactory(new PropertyValueFactory<>("date4Status"));
+        date5TSCol.setCellValueFactory(new PropertyValueFactory<>("date5Status"));
+    }
+
+    public void loadDataToTimeTable(String therapistId) {
+        nextFiveDates.clear();
+        LocalDate today = LocalDate.now();
+        for (int i = 0; i < 5; i++) {
+            nextFiveDates.add(today.plusDays(i));
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, MMM dd");
+        date1TSCol.setText(nextFiveDates.get(0).format(formatter));
+        date2TSCol.setText(nextFiveDates.get(1).format(formatter));
+        date3TSCol.setText(nextFiveDates.get(2).format(formatter));
+        date4TSCol.setText(nextFiveDates.get(3).format(formatter));
+        date5TSCol.setText(nextFiveDates.get(4).format(formatter));
+
+
+        // Collect all time slots across 5 days
+        Set<String> uniqueSlots = new TreeSet<>();
+        Map<LocalDate, List<String>> slotMap = new HashMap<>();
+
+        for (LocalDate date : nextFiveDates) {
+            List<TherapistAvailabilityDto> availabilityList = therapistAvailabiltyBO.findByTherapistAndDate(therapistId, date);
+            List<String> daySlots = new ArrayList<>();
+
+            for (TherapistAvailabilityDto dto : availabilityList) {
+                daySlots.addAll(dto.getAvailableSlots());
+                uniqueSlots.addAll(dto.getAvailableSlots());
             }
-        } catch (Exception e) {
-            showAlert("Exception", e.getMessage(), Alert.AlertType.ERROR);
+
+            slotMap.put(date, daySlots);
         }
+
+        // Build table rows
+        List<TimeSlotRowTM> rows = new ArrayList<>();
+        for (String slot : uniqueSlots) {
+            rows.add(new TimeSlotRowTM(
+                    slot,
+                    slotMap.getOrDefault(nextFiveDates.get(0), List.of()).contains(slot) ? "✔" : "",
+                    slotMap.getOrDefault(nextFiveDates.get(1), List.of()).contains(slot) ? "✔" : "",
+                    slotMap.getOrDefault(nextFiveDates.get(2), List.of()).contains(slot) ? "✔" : "",
+                    slotMap.getOrDefault(nextFiveDates.get(3), List.of()).contains(slot) ? "✔" : "",
+                    slotMap.getOrDefault(nextFiveDates.get(4), List.of()).contains(slot) ? "✔" : ""
+            ));
+        }
+
+
+        timeSlotTable.getItems().setAll(rows);
     }
 
-    private void showAlert(String title, String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    public void clearTimeTable() {
+        timeSlotTable.getItems().clear(); // Clears all the rows in the table
     }
 
-
-
-    // timetable for availability
-
-    @FXML
-    private TableView<TimeSlotRow> timeSlotTable;
-
-    @FXML
-    private TableColumn<TimeSlotRow, String> timeTSCol;
-
-    @FXML
-    private TableColumn<TimeSlotRow, String> date1TSCol;
-
-    @FXML
-    private TableColumn<TimeSlotRow, String> date2TSCol;
-
-    @FXML
-    private TableColumn<TimeSlotRow, String> date3TSCol;
-
-    @FXML
-    private TableColumn<TimeSlotRow, String> date4TSCol;
-
-    @FXML
-    private TableColumn<TimeSlotRow, String> date5TSCol;
-
-    @FXML
-    private TableColumn<TimeSlotRow, String> date6TSCol;
-
-    @FXML
-    private TableColumn<TimeSlotRow, String> date7TSCol;
-
-
-    public void initialize() {
-        // Load the availability table for a given therapist (e.g., "T001")
-        loadAvailabilityTable("T001");
-    }
-
-    public void loadAvailabilityTable(String therapistId) {
-        // Fetch availability slots for the therapist
-        List<TherapistAvailabilityDto> slots = availabilityBO.findAvailableSlotsByTherapist(therapistId);
-
-        // Group availabilities by date.
-        // For each date, we keep the list of TherapistAvailability objects.
-        Map<LocalDate, List<TherapistAvailabilityDto>> availabilityByDate = new TreeMap<>();
-        for (TherapistAvailabilityDto slot : slots) {
-            availabilityByDate
-                    .computeIfAbsent(slot.getAvailableDate(), d -> new ArrayList<>())
-                    .add(slot);
-        }
-
-        // Determine the overall time range from the minimum start time to the maximum end time (across all dates).
-        LocalTime minTime = LocalTime.MAX;
-        LocalTime maxTime = LocalTime.MIN;
-        for (List<TherapistAvailabilityDto> list : availabilityByDate.values()) {
-            for (TherapistAvailabilityDto slot : list) {
-                LocalTime start = slot.getStartTime();
-                LocalTime end = slot.getEndTime();
-                if (start.isBefore(minTime)) {
-                    minTime = start;
-                }
-                if (end.isAfter(maxTime)) {
-                    maxTime = end;
-                }
-            }
-        }
-
-        // If for some reason no availabilities were found, use a default range.
-        if (minTime.equals(LocalTime.MAX) || maxTime.equals(LocalTime.MIN)) {
-            minTime = LocalTime.of(8, 0);
-            maxTime = LocalTime.of(18, 0);
-        }
-
-        // Generate time slots (e.g., every 15 minutes) from minTime to maxTime.
-        List<LocalTime> timeSlots = new ArrayList<>();
-        LocalTime t = minTime;
-        while (!t.isAfter(maxTime)) {
-            timeSlots.add(t);
-            t = t.plusMinutes(15);
-        }
-
-        // Build the set of dates from the keys of the availabilityByDate map.
-        List<LocalDate> dates = new ArrayList<>(availabilityByDate.keySet());
-        // (Assume there are at most 7 dates; otherwise, you need to manage extra columns.)
-
-        // Configure the fixed "Time" column.
-        timeTSCol.setCellValueFactory(new PropertyValueFactory<>("time"));
-
-        // Set up the date columns dynamically.
-        List<TableColumn<TimeSlotRow, String>> dateColumns = Arrays.asList(
-                date1TSCol, date2TSCol, date3TSCol, date4TSCol, date5TSCol, date6TSCol, date7TSCol
-        );
-        for (int i = 0; i < dates.size() && i < dateColumns.size(); i++) {
-            LocalDate date = dates.get(i);
-            TableColumn<TimeSlotRow, String> col = dateColumns.get(i);
-            // Set the header text to the date string
-            col.setText(date.toString());
-            // For each row, bind the availability value for this date.
-            int index = i;  // final variable for use in lambda
-            col.setCellValueFactory(cellData -> cellData.getValue().availabilityProperty(date));
-        }
-
-        // Create an ObservableList for the table rows.
-        ObservableList<TimeSlotRow> rows = FXCollections.observableArrayList();
-
-        // Format for displaying times (e.g., "HH:mm")
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-
-        // For each generated time slot, create a row.
-        for (LocalTime slotTime : timeSlots) {
-            String timeText = slotTime.format(timeFormatter);
-            TimeSlotRow row = new TimeSlotRow(timeText, new HashSet<>(dates));
-            // For each date, check all availability periods on that date.
-            for (LocalDate date : dates) {
-                List<TherapistAvailabilityDto> availabilities = availabilityByDate.get(date);
-                boolean isAvailable = false;
-                if (availabilities != null) {
-                    for (TherapistAvailabilityDto availability : availabilities) {
-                        LocalTime start = availability.getStartTime();
-                        LocalTime end = availability.getEndTime();
-                        // Check if slotTime lies in [start, end)
-                        if (!slotTime.isBefore(start) && slotTime.isBefore(end)) {
-                            isAvailable = true;
-                            break;
-                        }
-                    }
-                }
-                row.setAvailability(date, isAvailable ? "✔️" : "");
-            }
-            rows.add(row);
-        }
-
-        // Set the items for the table.
-        timeSlotTable.setItems(rows);
-    }
 
 
     @FXML
     void onclickTSTable(MouseEvent event) {
-//        TimeSlotRow selectedRow = timeSlotTable.getSelectionModel().getSelectedItem();
-//        if (selectedRow == null) return;
-//
-//        TablePosition pos = timeSlotTable.getSelectionModel().getSelectedCells().get(0);
-//        int colIndex = pos.getColumn();
-//
-//        // Get corresponding TableColumn
-//        TableColumn col = timeSlotTable.getColumns().get(colIndex);
-//
-//        // Get the date from column header
-//        sessionTimeTxt.setText(selectedRow.timeProperty().getValue());
-//
-//        String dateStr = col.getText();
-//        LocalDate selectedDate = LocalDate.parse(dateStr);
-//        LocalTime selectedTime = LocalTime.parse(sessionTimeTxt.getText());
-//
-//        // Check if slot is actually available
-//        String status = (String) col.getCellObservableValue(selectedRow).getValue();
-//        if (!"✔️".equals(status)) {
-//            showAlert("Invalid Slot", "This time slot is not available", Alert.AlertType.WARNING);
-//            return;
-//        }
-//
-//        // Set fields in form
-//        sessionDateTxt.setValue(selectedDate);
-//        sessionTimeTxt.setText(selectedTime.toString());
-//
-//        // Set the selected availability ID
-//        selectedRow.setAvailabilityId("SomeUniqueAvailabilityId"); // Use the appropriate ID for the selected row
+        if (event.getClickCount() == 2 && timeSlotTable.getSelectionModel().getSelectedItem() != null) {
+            TimeSlotRowTM selected = timeSlotTable.getSelectionModel().getSelectedItem();
+            String selectedTime = selected.getTimeSlot();
+
+            System.out.println("Selected time slot: " + selectedTime);
+
+            TablePosition<?, ?> pos = timeSlotTable.getSelectionModel().getSelectedCells().get(0);
+            int columnIndex = pos.getColumn();
+
+            if (columnIndex >= 1 && columnIndex <= 5) {
+                LocalDate selectedDate = nextFiveDates.get(columnIndex - 1);
+                System.out.println("Selected date: " + selectedDate);
+            }
+        }
     }
 
+
+//    List<TherapistAvailabilityDto> availability = therapistAvailabiltyBO.findByTherapistAndDate("T002", LocalDate.of(2025, 4, 22));
+//    List<String> slots = availability.get(0).getAvailableSlots();
+//
+//        System.out.println("Slots:");
+//        for (String slot : slots) {
+//        System.out.println(slot);
+//    }
 
 }

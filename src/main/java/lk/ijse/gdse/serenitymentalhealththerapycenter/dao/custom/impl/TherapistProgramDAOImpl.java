@@ -48,6 +48,11 @@ public class TherapistProgramDAOImpl implements TherapistProgramDAO {
     }
 
     @Override
+    public boolean delete(String pk) {
+        return false;
+    }
+
+    @Override
     public boolean delete(String therapistId, String programId) {
         Session session = factoryConfiguration.getSession();
         Transaction transaction = session.beginTransaction();
@@ -75,6 +80,11 @@ public class TherapistProgramDAOImpl implements TherapistProgramDAO {
         List<TherapistProgram> programs = session.createQuery("FROM TherapistProgram", TherapistProgram.class).list();
         session.close();
         return programs;
+    }
+
+    @Override
+    public Optional<TherapistProgram> findByName(String pk) {
+        return Optional.empty();
     }
 
     @Override
@@ -121,5 +131,44 @@ public class TherapistProgramDAOImpl implements TherapistProgramDAO {
     public Optional<String> getLastPK() {
         return Optional.empty();
     }
+
+    @Override
+    public List<TherapistProgram> findByTherapistId(String therapistId) {
+        Session session = factoryConfiguration.getSession();
+        List<TherapistProgram> results = null;
+
+        try {
+            results = session.createQuery(
+                            "FROM TherapistProgram tp WHERE tp.therapist.therapist_id = :therapistId", TherapistProgram.class)
+                    .setParameter("therapistId", therapistId)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return results;
+    }
+
+    @Override
+    public List<TherapistProgram> findByProgramId(String programId) {
+        Session session = factoryConfiguration.getSession();
+        List<TherapistProgram> results = null;
+
+        try {
+            results = session.createQuery(
+                            "FROM TherapistProgram tp WHERE tp.therapy_program.program_id = :programId", TherapistProgram.class)
+                    .setParameter("programId", programId)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return results;
+    }
+
 
 }

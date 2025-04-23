@@ -23,3 +23,4 @@ public class PaymentDto {
     private BigDecimal amount;
     private LocalDate paymentDate;
 }
+

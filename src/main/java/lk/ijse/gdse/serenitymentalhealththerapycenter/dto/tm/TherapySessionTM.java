@@ -2,6 +2,7 @@ package lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm;
 
 import lombok.*;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -12,12 +13,12 @@ import java.time.LocalTime;
 @ToString
 public class TherapySessionTM {
     private String sessionId;
-    private String therapistId;
     private String patientId;
     private String therapyProgramId;
+    private String therapistId;
     private String availabilityId;
     private LocalDate sessionDate;
     private LocalTime sessionTime;
-    private int duration;
+    private Duration duration;
     private String status;
 }

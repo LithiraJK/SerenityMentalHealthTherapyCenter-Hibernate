@@ -82,7 +82,13 @@ public class TherapyProgramDAOImpl implements TherapyProgramDAO {
     }
 
     @Override
-    public List<TherapyProgram> findByName(String name) {
+    public Optional<TherapyProgram> findByName(String pk) {
+        return Optional.empty();
+    }
+
+
+    @Override
+    public List<TherapyProgram> findByTherapyProgramName(String name) {
         Session session = factoryConfiguration.getSession();
         List<TherapyProgram> programs = session.createQuery("FROM TherapyProgram tp WHERE tp.name LIKE :name", TherapyProgram.class)
                 .setParameter("name", "%" + name + "%")

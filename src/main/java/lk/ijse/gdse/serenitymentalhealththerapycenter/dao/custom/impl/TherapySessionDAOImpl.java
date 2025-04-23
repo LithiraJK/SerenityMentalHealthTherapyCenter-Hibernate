@@ -26,7 +26,7 @@ public class TherapySessionDAOImpl implements TherapySessionDAO {
             e.printStackTrace();
             return false;
         } finally {
-            if (session != null) session.close();
+            session.close();
         }
     }
 
@@ -43,18 +43,18 @@ public class TherapySessionDAOImpl implements TherapySessionDAO {
             e.printStackTrace();
             return false;
         } finally {
-            if (session != null) session.close();
+            session.close();
         }
     }
 
     @Override
-    public boolean delete(String pk) {
+    public boolean delete(String sessionId) {
         Session session = factoryConfiguration.getSession();
         Transaction transaction = session.beginTransaction();
         try {
-            TherapySession sessionEntity = session.find(TherapySession.class, pk);
-            if (sessionEntity != null) {
-                session.remove(sessionEntity);
+            TherapySession therapySession = session.get(TherapySession.class, sessionId);
+            if (therapySession != null) {
+                session.remove(therapySession);
                 transaction.commit();
                 return true;
             }
@@ -64,7 +64,7 @@ public class TherapySessionDAOImpl implements TherapySessionDAO {
             e.printStackTrace();
             return false;
         } finally {
-            if (session != null) session.close();
+            session.close();
         }
     }
 
@@ -77,11 +77,31 @@ public class TherapySessionDAOImpl implements TherapySessionDAO {
     }
 
     @Override
-    public Optional<TherapySession> findById(String pk) {
+    public Optional<TherapySession> findByName(String pk) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<TherapySession> findBySessionId(String sessionId) {
         Session session = factoryConfiguration.getSession();
-        TherapySession sessionEntity = session.get(TherapySession.class, pk);
-        session.close();
+        TherapySession sessionEntity = null;
+        try {
+            sessionEntity = session.get(TherapySession.class, sessionId);
+        } finally {
+            session.close();
+        }
         return Optional.ofNullable(sessionEntity);
+    }
+
+    @Override
+    public List<TherapySession> findByPatientId(String patientId) {
+        Session session = factoryConfiguration.getSession();
+        List<TherapySession> sessions = session.createQuery(
+                        "FROM TherapySession ts WHERE ts.patient.patient_id = :id", TherapySession.class)
+                .setParameter("id", patientId)
+                .list();
+        session.close();
+        return sessions;
     }
 
     @Override

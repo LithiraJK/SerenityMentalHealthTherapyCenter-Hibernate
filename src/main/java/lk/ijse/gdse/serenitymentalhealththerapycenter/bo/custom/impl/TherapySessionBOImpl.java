@@ -1,12 +1,19 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.impl;
 
+import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.BOFactory;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapistAvailabilityBO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapySessionBO;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.config.FactoryConfiguration;
+import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.DAOFactory;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.*;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dao.custom.impl.*;
-import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapistAvailabilityDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.dto.TherapySessionDto;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.entity.*;
+import javafx.scene.control.Alert;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -15,139 +22,301 @@ import java.util.Optional;
 
 public class TherapySessionBOImpl implements TherapySessionBO {
 
-    private final TherapySessionDAO sessionDAO = new TherapySessionDAOImpl();
-    private final TherapistDAO therapistDAO = new TherapistDAOImpl();
-    private final PatientDAO patientDAO = new PatientDAOImpl();
-    private final TherapyProgramDAO programDAO = new TherapyProgramDAOImpl();
-    private final TherapistAvailabiltyDAO availabilityDAO = new TherapistAvailabiltyDAOImpl();
+    TherapySessionDAO therapySessionDAO = (TherapySessionDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPY_SESSION);
+    TherapistDAO therapistDAO = (TherapistDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPIST);
+    PatientDAO patientDAO = (PatientDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PATIENT);
+    TherapyProgramDAO therapyProgramDAO = (TherapyProgramDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPY_PROGRAM);
+
+    TherapistAvailabilityBO therapistAvailabilityBO = (TherapistAvailabilityBO) BOFactory.getInstance().getBO(BOFactory.BOType.THERAPIST_AVAILABILITY);
 
     @Override
-    public boolean saveSession(TherapySessionDto dto) {
-        Optional<Therapist> therapistOpt = therapistDAO.findById(dto.getTherapistId());
-        Optional<Patient> patientOpt = patientDAO.findById(dto.getPatientId());
-        Optional<TherapyProgram> programOpt = programDAO.findById(dto.getTherapyProgramId());
+    public boolean save(TherapySessionDto dto) {
+        boolean isCompleted = false;
 
-        if (therapistOpt.isEmpty() || patientOpt.isEmpty() || programOpt.isEmpty()) {
-            return false;
-        }
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
 
-        // First split the availability slot
-        TherapistAvailabiltyBOImpl availabilityBO = new TherapistAvailabiltyBOImpl();
-        boolean slotSplit = availabilityBO.splitAvailabilitySlot(
-                dto.getTherapistId(),
-                dto.getSessionDate(),
-                dto.getSessionTime(),
-                dto.getDuration()
-        );
+        try {
+            // Retrieve the entities from their respective DAOs
+            Optional<Therapist> therapistOpt = therapistDAO.findById(dto.getTherapistId());
+            Optional<Patient> patientOpt = patientDAO.findById(dto.getPatientId());
+            Optional<TherapyProgram> programOpt = therapyProgramDAO.findById(dto.getTherapyProgramId());
 
-        if (!slotSplit) {
-            return false;
-        }
+//            Optional<TherapistAvailability> availabilityOpt = availabilityDAO.findById(dto.getAvailabilityId());
 
-        // Find the newly created unavailable slot (the session slot)
-        Optional<TherapistAvailability> sessionAvailabilityOpt = findSessionAvailability(
-                dto.getTherapistId(),
-                dto.getSessionDate(),
-                dto.getSessionTime(),
-                dto.getDuration()
-        );
+            // Check if any of the required entities are not found
+            if (therapistOpt.isEmpty() || patientOpt.isEmpty() || programOpt.isEmpty()) {
+                return false;
+            }
 
-        if (sessionAvailabilityOpt.isEmpty()) {
-            return false;
-        }
+            // Create the TherapySession entity
+            TherapySession therapySession = new TherapySession();
+            therapySession.setSession_id(dto.getSessionId());
+            therapySession.setTherapist(therapistOpt.get());
+            therapySession.setPatient(patientOpt.get());
+            therapySession.setTherapy_program(programOpt.get());
+            therapySession.setTherapistAvailability(null); // Set null because we can not get the availability object
+            therapySession.setSession_date(dto.getSessionDate());
+            therapySession.setStart_time(dto.getSessionTime());
+            therapySession.setDuration(dto.getDuration());
+            therapySession.setStatus(dto.getStatus());
 
-        // Create and save the therapy session
-        TherapySession session = new TherapySession();
-        session.setSession_id(dto.getSessionId());
-        session.setTherapist(therapistOpt.get());
-        session.setPatient(patientOpt.get());
-        session.setTherapy_program(programOpt.get());
-        session.setTherapistAvailability(sessionAvailabilityOpt.get());
-        session.setDuration(dto.getDuration());
-        session.setStatus(dto.getStatus());
 
-        return sessionDAO.save(session);
-    }
+            // Convert the duration (in minutes) to a Duration object
+            Duration sessionDuration = Duration.ofMinutes(dto.getDuration());
 
-    private Optional<TherapistAvailability> findSessionAvailability(
-            String therapistId, LocalDate date, LocalTime startTime, int duration) {
-        LocalTime endTime = startTime.plusMinutes(duration);
+            // Attempt to book the time slot
+            boolean success = therapistAvailabilityBO.bookTimeSlot(
+                    dto.getTherapistId(),
+                    dto.getSessionDate(),
+                    dto.getSessionTime(),
+                    sessionDuration
+            );
 
-        List<TherapistAvailability> slots = availabilityDAO.findByTherapist(therapistId);
-
-        for (TherapistAvailability slot : slots) {
-            if (slot.getAvailable_date().equals(date)
-                    && slot.getStart_time().equals(startTime)
-                    && slot.getEnd_time().equals(endTime)
-                    && !slot.is_available()) {
-                return Optional.of(slot);
+            if (success) {
+                if (therapySessionDAO.save(therapySession)) {
+                    isCompleted = true;
+                    transaction.commit();
+                }
+            } else {
+                isCompleted = false;
+            }
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
             }
         }
-        return Optional.empty();
+
+        return isCompleted;
     }
 
+//    @Override
+//    public boolean save(TherapySessionDto dto) {
+//        boolean isCompleted = false;
+//
+//        Session session = FactoryConfiguration.getInstance().getSession();
+//        Transaction transaction = session.beginTransaction();
+//
+//        try {
+//            // Retrieve required entities
+//            Optional<Therapist> therapistOpt = therapistDAO.findById(dto.getTherapistId());
+//            Optional<Patient> patientOpt = patientDAO.findById(dto.getPatientId());
+//            Optional<TherapyProgram> programOpt = therapyProgramDAO.findById(dto.getTherapyProgramId());
+//
+//            if (therapistOpt.isEmpty() || patientOpt.isEmpty() || programOpt.isEmpty()) {
+//                return false;
+//            }
+//
+//            // Create and save the TherapySession with null availability
+//            TherapySession therapySession = new TherapySession();
+//            therapySession.setSession_id(dto.getSessionId());
+//            therapySession.setTherapist(therapistOpt.get());
+//            therapySession.setPatient(patientOpt.get());
+//            therapySession.setTherapy_program(programOpt.get());
+//            therapySession.setTherapistAvailability(null); // initially null
+//            therapySession.setSession_date(dto.getSessionDate());
+//            therapySession.setStart_time(dto.getSessionTime());
+//            therapySession.setDuration(dto.getDuration());
+//            therapySession.setStatus(dto.getStatus());
+//
+//            boolean saved = therapySessionDAO.save(therapySession);
+//
+//            if (!saved) {
+//                transaction.rollback();
+//                return false;
+//            }
+//
+//            // Try to book a slot
+//            Duration sessionDuration = Duration.ofMinutes(dto.getDuration());
+//
+//            Optional<TherapistAvailability> bookedAvailabilityOpt = therapistAvailabiltyBO.bookTimeSlot(
+//                    dto.getTherapistId(),
+//                    dto.getSessionDate(),
+//                    dto.getSessionTime(),
+//                    sessionDuration
+//            );
+//
+//            if (bookedAvailabilityOpt.isPresent()) {
+//                // Now update the session with the booked availability
+//                therapySession.setTherapistAvailability(bookedAvailabilityOpt.get());
+//                therapySessionDAO.update(therapySession); // assumes you have this method
+//
+//                transaction.commit();
+//                isCompleted = true;
+//
+//            } else {
+//                transaction.rollback();
+//                isCompleted = false;
+//            }
+//
+//        } catch (Exception e) {
+//            if (transaction != null) transaction.rollback();
+//            e.printStackTrace();
+//        } finally {
+//            if (session != null) session.close();
+//        }
+//
+//        return isCompleted;
+//    }
+
+
+
+
     @Override
-    public boolean updateSession(TherapySessionDto dto) {
+    public boolean update(TherapySessionDto dto) {
+        // Fetch related entities
         Optional<Therapist> therapistOpt = therapistDAO.findById(dto.getTherapistId());
         Optional<Patient> patientOpt = patientDAO.findById(dto.getPatientId());
-        Optional<TherapyProgram> programOpt = programDAO.findById(dto.getTherapyProgramId());
-        Optional<TherapistAvailability> availabilityOpt = availabilityDAO.findById(dto.getAvailabilityId());
+        Optional<TherapyProgram> programOpt = therapyProgramDAO.findById(dto.getTherapyProgramId());
+        Optional<TherapySession> optionalSession = therapySessionDAO.findBySessionId(dto.getSessionId());
 
-        if (therapistOpt.isEmpty() || patientOpt.isEmpty() || programOpt.isEmpty() || availabilityOpt.isEmpty()) {
+        // Return false if any essential entity is missing
+        if (therapistOpt.isEmpty() || patientOpt.isEmpty() || programOpt.isEmpty() || optionalSession.isEmpty()) {
             return false;
         }
 
-        TherapySession session = new TherapySession();
-        session.setSession_id(dto.getSessionId());
-        session.setTherapist(therapistOpt.get());
-        session.setPatient(patientOpt.get());
-        session.setTherapy_program(programOpt.get());
-        session.setTherapistAvailability(availabilityOpt.get());
-        session.setDuration(dto.getDuration());
-        session.setStatus(dto.getStatus());
+        // Load existing session
+        TherapySession therapySession = optionalSession.get();
 
-        return sessionDAO.update(session);
-    }
+        // Update entity fields
+        therapySession.setTherapist(therapistOpt.get());
+        therapySession.setPatient(patientOpt.get());
+        therapySession.setTherapy_program(programOpt.get());
 
-    @Override
-    public boolean deleteSession(String sessionId) {
-        return sessionDAO.delete(sessionId);
-    }
-
-    @Override
-    public ArrayList<TherapySessionDto> getAllSessions() {
-        List<TherapySession> sessions = sessionDAO.getAll();
-        ArrayList<TherapySessionDto> dtos = new ArrayList<>();
-
-        for (TherapySession s : sessions) {
-            dtos.add(new TherapySessionDto(
-                    s.getSession_id(),
-                    s.getTherapist().getTherapist_id(),
-                    s.getPatient().getPatient_id(),
-                    s.getTherapy_program().getProgram_id(),
-                    s.getTherapistAvailability().getAvailability_id(),
-                    s.getTherapistAvailability().getAvailable_date(),
-                    s.getTherapistAvailability().getStart_time(),
-                    s.getDuration(),
-                    s.getStatus()
-            ));
+        if (dto.getAvailabilityId() != null) {
+//            therapySession.setTherapistAvailability(new TherapistAvailability(dto.getAvailabilityId()));
+            therapySession.setTherapistAvailability(null);
+        } else {
+            therapySession.setTherapistAvailability(null); // Optional: reset if null
         }
 
-        return dtos;
+        therapySession.setSession_date(dto.getSessionDate());
+        therapySession.setStart_time(dto.getSessionTime());
+        therapySession.setDuration(dto.getDuration());
+        therapySession.setStatus(dto.getStatus());
+
+        // Save the updated session
+        return therapySessionDAO.update(therapySession);
     }
+
+
+//
+//    @Override
+//    public boolean delete(String sessionId) {
+//        return therapySessionDAO.delete(sessionId);
+//    }
+
+    @Override
+    public boolean delete(String sessionId) {
+        Optional<TherapySession> optionalSession = therapySessionDAO.findBySessionId(sessionId);
+
+        if (optionalSession.isEmpty()) return false;
+        TherapySession session = optionalSession.get();
+
+        boolean restored = therapistAvailabilityBO.restoreTimeSlot(
+                session.getTherapist().getTherapist_id(),
+                session.getSession_date(),
+                session.getStart_time(),
+                Duration.ofMinutes(session.getDuration())
+        );
+
+        if (!restored) return false;
+        return therapySessionDAO.delete(sessionId);
+    }
+
+
+    @Override
+    public ArrayList<TherapySessionDto> getAll() {
+        List<TherapySession> sessions = therapySessionDAO.getAll();
+        ArrayList<TherapySessionDto> sessionDtos = new ArrayList<>();
+
+        for (TherapySession session : sessions) {
+            TherapySessionDto dto = new TherapySessionDto();
+            dto.setSessionId(session.getSession_id());
+            dto.setTherapistId(session.getTherapist().getTherapist_id());
+            dto.setPatientId(session.getPatient().getPatient_id());
+            dto.setTherapyProgramId(session.getTherapy_program().getProgram_id());
+            dto.setAvailabilityId(session.getTherapistAvailability() != null
+                    ? session.getTherapistAvailability().getAvailability_id() : null);
+            dto.setSessionDate(session.getSession_date());
+            dto.setSessionTime(session.getStart_time());
+            dto.setDuration(session.getDuration());
+            dto.setStatus(session.getStatus());
+
+            sessionDtos.add(dto);
+        }
+
+        return sessionDtos;
+    }
+
+
+    @Override
+    public TherapySessionDto findBySessionId(String sessionId) {
+        Optional<TherapySession> optional = therapySessionDAO.findBySessionId(sessionId);
+        if (optional.isEmpty()) return null;
+
+        TherapySession session = optional.get();
+        TherapySessionDto dto = new TherapySessionDto();
+        dto.setSessionId(session.getSession_id());
+        dto.setTherapistId(session.getTherapist().getTherapist_id());
+        dto.setPatientId(session.getPatient().getPatient_id());
+        dto.setTherapyProgramId(session.getTherapy_program().getProgram_id());
+        dto.setAvailabilityId(session.getTherapistAvailability() != null
+                ? session.getTherapistAvailability().getAvailability_id() : null);
+        dto.setSessionDate(session.getSession_date());
+        dto.setSessionTime(session.getStart_time());
+        dto.setDuration(session.getDuration());
+        dto.setStatus(session.getStatus());
+
+        return dto;
+    }
+
+
+    @Override
+    public ArrayList<TherapySessionDto> findByPatientId(String patientId) {
+        List<TherapySession> sessions = therapySessionDAO.findByPatientId(patientId);
+        ArrayList<TherapySessionDto> sessionDtos = new ArrayList<>();
+
+        for (TherapySession session : sessions) {
+            TherapySessionDto dto = new TherapySessionDto();
+            dto.setSessionId(session.getSession_id());
+            dto.setTherapistId(session.getTherapist().getTherapist_id());
+            dto.setPatientId(session.getPatient().getPatient_id());
+            dto.setTherapyProgramId(session.getTherapy_program().getProgram_id());
+            dto.setAvailabilityId(session.getTherapistAvailability() != null
+                    ? session.getTherapistAvailability().getAvailability_id() : null);
+            dto.setSessionDate(session.getSession_date());
+            dto.setSessionTime(session.getStart_time());
+            dto.setDuration(session.getDuration());
+            dto.setStatus(session.getStatus());
+
+            sessionDtos.add(dto);
+        }
+
+        return sessionDtos;
+    }
+
 
     @Override
     public String getNextSessionPK() {
-        Optional<String> lastPkOpt = sessionDAO.getLastPK();
+        Optional<String> lastPkOpt = therapySessionDAO.getLastPK();
+
         if (lastPkOpt.isPresent()) {
             String lastPk = lastPkOpt.get();
-            int num = Integer.parseInt(lastPk.replace("TS", ""));
-            return String.format("TS%03d", num + 1);
+            String numericPart = lastPk.substring(2);
+            int currentId = Integer.parseInt(numericPart);
+            int nextId = currentId + 1;
+            return String.format("TS%03d", nextId);
         }
+
         return "TS001";
     }
 
 
 
 }
-
