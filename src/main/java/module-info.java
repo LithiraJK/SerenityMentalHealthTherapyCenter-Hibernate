@@ -9,6 +9,7 @@ module lk.ijse.gdse.serenitymentalhealththerapycenter {
     requires java.naming;
     requires mysql.connector.j;
     requires spring.security.crypto;
+    requires net.sf.jasperreports.core;
 
 
     opens lk.ijse.gdse.serenitymentalhealththerapycenter.dto.tm to javafx.base;

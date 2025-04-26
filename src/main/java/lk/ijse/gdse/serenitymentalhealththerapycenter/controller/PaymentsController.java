@@ -1,5 +1,6 @@
 package lk.ijse.gdse.serenitymentalhealththerapycenter.controller;
 
+import javafx.application.Platform;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.PatientBO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.PaymentBO;
 import lk.ijse.gdse.serenitymentalhealththerapycenter.bo.custom.TherapyProgramBO;
@@ -20,11 +21,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class PaymentsController implements Initializable {
@@ -36,10 +44,7 @@ public class PaymentsController implements Initializable {
     }
 
     public void configurePage() {
-        // Configure UI based on whether opened from main page
         if (fromMainPage) {
-            // For example, hide certain buttons or show specific UI elements
-            // that are relevant when opened from the main page
             searchButton.setVisible(false);
             deleteButton.setVisible(false);
             updateButton.setVisible(false);
@@ -207,27 +212,76 @@ public class PaymentsController implements Initializable {
 
         new Thread(() -> {
             try {
-                // Path to the compiled Jasper file
-                String jasperPath = "/report/paymentInvoice.jrxml";
+                java.io.InputStream reportStream = getClass().getResourceAsStream("/report/paymentInvoice.jrxml");
+                if (reportStream == null) {
+                    throw new RuntimeException("Could not find report template at /report/paymentInvoice.jrxml");
+                }
 
-                // Parameters to pass to the repor/
+                JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
                 Map<String, Object> parameters = new HashMap<>();
-                parameters.put("paymentId", selectedPayment.getPaymentId());
-                parameters.put("patientId", selectedPayment.getPatientId());
-                parameters.put("programId", selectedPayment.getTherapyProgramId());
-                parameters.put("sessionId", selectedPayment.getTherapySessionId());
-                parameters.put("amount", selectedPayment.getAmount());
-                parameters.put("paymentDate", selectedPayment.getPaymentDate());
+                parameters.put("PaymentId", selectedPayment.getPaymentId());
 
-                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperPath, parameters, new JREmptyDataSource());
+                java.sql.Connection connection = null;
+                JasperPrint jasperPrint = null;
 
-                String outputPath = "src/main/resources/reports/output/payment_invoice_" + selectedPayment.getPaymentId() + ".pdf";
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+
+                    connection = java.sql.DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/smhtc_db",
+                        "root",
+                        "mysql"
+                    );
+
+                    jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+                } catch (ClassNotFoundException | java.sql.SQLException e) {
+                    throw new RuntimeException("Database connection error: " + e.getMessage(), e);
+                } finally {
+                    if (connection != null) {
+                        try {
+                            connection.close();
+                        } catch (java.sql.SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                java.io.File outputDir = new java.io.File("src/main/resources/report/output");
+                if (!outputDir.exists()) {
+                    boolean dirCreated = outputDir.mkdirs();
+                    if (!dirCreated) {
+                        throw new RuntimeException("Failed to create output directory at: " + outputDir.getAbsolutePath());
+                    }
+                }
+
+                if (!outputDir.canWrite()) {
+                    throw new RuntimeException("Output directory is not writable: " + outputDir.getAbsolutePath());
+                }
+
+                String outputPath = "src/main/resources/report/output/payment_invoice_" + selectedPayment.getPaymentId() + ".pdf";
                 JasperExportManager.exportReportToPdfFile(jasperPrint, outputPath);
 
-                Platform.runLater(() -> showAlert("Success", "Invoice generated successfully at: " + outputPath, Alert.AlertType.INFORMATION));
+                java.io.File outputFile = new java.io.File(outputPath);
+                String absolutePath = outputFile.getAbsolutePath();
+
+                Platform.runLater(() -> showAlert("Success", "Invoice generated successfully at: " + absolutePath, Alert.AlertType.INFORMATION));
             } catch (Exception e) {
                 e.printStackTrace();
-                Platform.runLater(() -> showAlert("Error", "Failed to generate invoice: " + e.getMessage(), Alert.AlertType.ERROR));
+                String errorMessage = "Failed to generate invoice: " + e.getMessage();
+
+                if (e instanceof java.io.FileNotFoundException) {
+                    errorMessage = "Report template file not found: " + e.getMessage();
+                } else if (e instanceof net.sf.jasperreports.engine.JRException) {
+                    errorMessage = "JasperReports error: " + e.getMessage();
+                } else if (e instanceof java.sql.SQLException) {
+                    errorMessage = "Database error: " + e.getMessage();
+                } else if (e instanceof java.io.IOException) {
+                    errorMessage = "I/O error: " + e.getMessage();
+                }
+
+                final String finalErrorMessage = errorMessage;
+                Platform.runLater(() -> showAlert("Error", finalErrorMessage, Alert.AlertType.ERROR));
             }
         }).start();
     }
