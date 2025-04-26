@@ -42,8 +42,6 @@ public class TherapySessionBOImpl implements TherapySessionBO {
             Optional<Patient> patientOpt = patientDAO.findById(dto.getPatientId());
             Optional<TherapyProgram> programOpt = therapyProgramDAO.findById(dto.getTherapyProgramId());
 
-//            Optional<TherapistAvailability> availabilityOpt = availabilityDAO.findById(dto.getAvailabilityId());
-
             // Check if any of the required entities are not found
             if (therapistOpt.isEmpty() || patientOpt.isEmpty() || programOpt.isEmpty()) {
                 return false;
@@ -55,17 +53,23 @@ public class TherapySessionBOImpl implements TherapySessionBO {
             therapySession.setTherapist(therapistOpt.get());
             therapySession.setPatient(patientOpt.get());
             therapySession.setTherapy_program(programOpt.get());
-            therapySession.setTherapistAvailability(null); // Set null because we can not get the availability object
+            therapySession.setTherapistAvailability(null); // Initially null
             therapySession.setSession_date(dto.getSessionDate());
             therapySession.setStart_time(dto.getSessionTime());
             therapySession.setDuration(dto.getDuration());
             therapySession.setStatus(dto.getStatus());
 
-
             // Convert the duration (in minutes) to a Duration object
             Duration sessionDuration = Duration.ofMinutes(dto.getDuration());
 
-            // Attempt to book the time slot
+            // First save the therapy session
+            boolean saved = therapySessionDAO.save(therapySession);
+            if (!saved) {
+                transaction.rollback();
+                return false;
+            }
+
+            // Then attempt to book the time slot
             boolean success = therapistAvailabilityBO.bookTimeSlot(
                     dto.getTherapistId(),
                     dto.getSessionDate(),
@@ -74,11 +78,11 @@ public class TherapySessionBOImpl implements TherapySessionBO {
             );
 
             if (success) {
-                if (therapySessionDAO.save(therapySession)) {
-                    isCompleted = true;
-                    transaction.commit();
-                }
+                isCompleted = true;
+                transaction.commit();
             } else {
+                // If booking fails, roll back the transaction
+                transaction.rollback();
                 isCompleted = false;
             }
         } catch (Exception e) {

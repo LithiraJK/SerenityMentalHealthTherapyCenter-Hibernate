@@ -119,19 +119,16 @@ public class UsersController implements Initializable{
         String role = userRoleTxt.getValue();
         String password = userPasswordTxt.getText();
 
-        // Validate required fields
         if (!ValidateUtil.areRequiredFields(username, email, password)) {
             new Alert(Alert.AlertType.ERROR, "Please fill in all required fields").show();
             return;
         }
 
-        // Validate email format
         if (!ValidateUtil.isValidEmail(email)) {
             new Alert(Alert.AlertType.ERROR, "Please enter a valid email address").show();
             return;
         }
 
-        // Validate role selection
         if (role == null) {
             new Alert(Alert.AlertType.ERROR, "Please select a role").show();
             return;
@@ -160,19 +157,16 @@ public class UsersController implements Initializable{
         String email = userEmailTxt.getText();
         String role = userRoleTxt.getValue();
 
-        // Validate required fields
         if (!ValidateUtil.areRequiredFields(username, email, password)) {
             new Alert(Alert.AlertType.ERROR, "Please fill in all required fields").show();
             return;
         }
 
-        // Validate email format
         if (!ValidateUtil.isValidEmail(email)) {
             new Alert(Alert.AlertType.ERROR, "Please enter a valid email address").show();
             return;
         }
 
-        // Validate role selection
         if (role == null) {
             new Alert(Alert.AlertType.ERROR, "Please select a role").show();
             return;

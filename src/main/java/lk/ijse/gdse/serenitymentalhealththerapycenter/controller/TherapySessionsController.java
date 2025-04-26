@@ -157,10 +157,10 @@ public class TherapySessionsController implements Initializable {
                         dto.getPatientId(),
                         dto.getTherapyProgramId(),
                         dto.getTherapistId(),
-                        null, //dto.getAvailabilityId(),
+                        null,
                         dto.getSessionDate(),
                         dto.getSessionTime(),
-                        Duration.ofMinutes(dto.getDuration()), // convert int to Duration
+                        Duration.ofMinutes(dto.getDuration()),
                         dto.getStatus()
                 )
         ).collect(Collectors.toList());
@@ -184,20 +184,17 @@ public class TherapySessionsController implements Initializable {
         String status = statusTxtChoice.getValue();
         String sessionDurationChoice = sessionDurationTxt.getValue();
 
-        // Validate required fields
         if (!ValidateUtil.areRequiredFields(sessionId, patientId, programId, therapistId, sessionTimeStr) ||
                 sessionDate == null || sessionDurationChoice == null || status == null) {
             showAlert("Input Error", "Please fill in all required fields.", Alert.AlertType.ERROR);
             return;
         }
 
-        // Validate time format
         if (!ValidateUtil.isValidTime(sessionTimeStr)) {
             showAlert("Input Error", "Please enter a valid time format (e.g., 10:30 AM).", Alert.AlertType.ERROR);
             return;
         }
 
-        // Parse the time after validation
         LocalTime sessionTime;
         try {
             sessionTime = LocalTime.parse(sessionTimeStr, timeFormatter);
@@ -206,7 +203,7 @@ public class TherapySessionsController implements Initializable {
             return;
         }
 
-        // Validate IDs
+
         if (!ValidateUtil.isValidId(patientId, "PATIENT")) {
             showAlert("Input Error", "Invalid patient ID format. Should be P followed by 3 digits (e.g., P001).", Alert.AlertType.ERROR);
             return;
@@ -243,23 +240,10 @@ public class TherapySessionsController implements Initializable {
             clearForm();
         } else {
             showAlert("Error", "Failed to save therapy session.", Alert.AlertType.ERROR);
+            loadAllSessions();
+            clearTimeTable();
+            clearForm();
         }
-
-        //        String therapistId = therapistNameTxt.getValue();
-//        LocalDate date = sessionDateTxt.getValue();
-//        String durationStr = sessionDurationTxt.getValue();
-//        Duration sessionDuration = Duration.ofMinutes(Long.parseLong(durationStr));
-//
-//        boolean success = therapistAvailabiltyBO.bookTimeSlot(therapistId, date, startTime, sessionDuration);
-//
-//        if (success) {
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Time slot successfully booked!");
-//            alert.showAndWait();
-//        } else {
-//            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to book the time slot. Please try again.");
-//            alert.showAndWait();
-//        }
-//        boolean success = therapistAvailabiltyBO.bookTimeSlot("therapist001", LocalDate.of(2025, 4, 22), Duration.ofMinutes(60));
 
 
     }
@@ -281,20 +265,17 @@ public class TherapySessionsController implements Initializable {
         String status = statusTxtChoice.getValue();
         String sessionDurationChoice = sessionDurationTxt.getValue();
 
-        // Validate required fields
         if (!ValidateUtil.areRequiredFields(sessionId, patientId, programId, therapistId, sessionTimeStr) ||
                 sessionDate == null || sessionDurationChoice == null || status == null) {
             showAlert("Input Error", "Please fill in all required fields.", Alert.AlertType.ERROR);
             return;
         }
 
-        // Validate time format
         if (!ValidateUtil.isValidTime(sessionTimeStr)) {
             showAlert("Input Error", "Please enter a valid time format (e.g., 10:30 AM).", Alert.AlertType.ERROR);
             return;
         }
 
-        // Parse the time after validation
         LocalTime sessionTime;
         try {
             sessionTime = LocalTime.parse(sessionTimeStr, timeFormatter);
@@ -303,7 +284,6 @@ public class TherapySessionsController implements Initializable {
             return;
         }
 
-        // Validate IDs
         if (!ValidateUtil.isValidId(patientId, "PATIENT")) {
             showAlert("Input Error", "Invalid patient ID format. Should be P followed by 3 digits (e.g., P001).", Alert.AlertType.ERROR);
             return;
@@ -355,6 +335,8 @@ public class TherapySessionsController implements Initializable {
             clearForm();
         } else {
             showAlert("Failed", "Failed to delete session.", Alert.AlertType.ERROR);
+            loadAllSessions();
+            clearForm();
         }
     }
 
@@ -488,7 +470,6 @@ public class TherapySessionsController implements Initializable {
         programIdTxt.setText(program.getProgramId());
 
 
-        // Load therapists based on the selected program
         List<TherapistProgramDto> therapistsPrograms = therapistProgramBO.findByProgramName(programNameTxt.getValue().trim());
 
         List<String> therapistNames = therapistsPrograms.stream()
@@ -527,8 +508,8 @@ public class TherapySessionsController implements Initializable {
             Parent root = loader.load();
 
             PaymentsController controller = loader.getController();
-            controller.setFromMainPage(true); // pass the boolean
-            controller.configurePage();       // apply changes to the UI
+            controller.setFromMainPage(true);
+            controller.configurePage();
 
             Stage stage = new Stage();
             stage.setTitle("Manage Payments");
@@ -584,7 +565,6 @@ public class TherapySessionsController implements Initializable {
         date5TSCol.setText(nextFiveDates.get(4).format(formatter));
 
 
-        // Collect all time slots across 5 days
         Set<String> uniqueSlots = new TreeSet<>();
         Map<LocalDate, List<String>> slotMap = new HashMap<>();
 
@@ -600,7 +580,6 @@ public class TherapySessionsController implements Initializable {
             slotMap.put(date, daySlots);
         }
 
-        // Build table rows
         List<TimeSlotRowTM> rows = new ArrayList<>();
         for (String slot : uniqueSlots) {
             rows.add(new TimeSlotRowTM(
@@ -641,13 +620,5 @@ public class TherapySessionsController implements Initializable {
         }
     }
 
-
-//    List<TherapistAvailabilityDto> availability = therapistAvailabiltyBO.findByTherapistAndDate("T002", LocalDate.of(2025, 4, 22));
-//    List<String> slots = availability.get(0).getAvailableSlots();
-//
-//        System.out.println("Slots:");
-//        for (String slot : slots) {
-//        System.out.println(slot);
-//    }
 
 }

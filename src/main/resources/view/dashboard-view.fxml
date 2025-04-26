@@ -20,6 +20,11 @@
                   <Image url="@../assets/dashboard_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
                </image>
             </ImageView>
+            <ImageView fx:id="patientsPageBtn" fitHeight="41.0" fitWidth="42.0" onMouseClicked="#loadPatientsPage" onMouseEntered="#onMouseEnterdBtn" onMouseExited="#onMouseExitedBtn" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/person_add_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
+               </image>
+            </ImageView>
             <ImageView fx:id="therapySessionPageBtn" fitHeight="42.0" fitWidth="174.0" onMouseClicked="#loadTherapySessionsPage" onMouseEntered="#onMouseEnterdBtn" onMouseExited="#onMouseExitedBtn" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/self_improvement_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
@@ -28,11 +33,6 @@
             <ImageView fx:id="paymentsPageBtn" fitHeight="42.0" fitWidth="174.0" onMouseClicked="#loadPaymentsPageBtn" onMouseEntered="#onMouseEnterdBtn" onMouseExited="#onMouseExitedBtn" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/payments_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="patientsPageBtn" fitHeight="41.0" fitWidth="42.0" onMouseClicked="#loadPatientsPage" onMouseEntered="#onMouseEnterdBtn" onMouseExited="#onMouseExitedBtn" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/person_add_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
                </image>
             </ImageView>
             <ImageView fx:id="patientProgramPageBtn" fitHeight="41.0" fitWidth="42.0" layoutX="25.0" layoutY="216.0" onMouseClicked="#loadPatientProgramPage" onMouseEntered="#onMouseEnterdBtn" onMouseExited="#onMouseExitedBtn" pickOnBounds="true" preserveRatio="true">

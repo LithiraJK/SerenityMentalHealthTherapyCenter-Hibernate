@@ -1,10 +1,438 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="bodyPane" prefHeight="600.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.serenitymentalhealththerapycenter.controller.WelcomeController">
    <children>
-      <Label layoutX="323.0" layoutY="166.0" prefHeight="27.0" prefWidth="78.0" text="Welcome" />
+      <!-- Welcome Header -->
+      <Label alignment="CENTER" layoutX="59.0" layoutY="31.0" prefHeight="50.0" prefWidth="627.0" text="Welcome to Serenity Mental Health Therapy Center" textFill="#146c94">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+
+      <!-- Subtitle -->
+      <Label alignment="CENTER" layoutX="57.0" layoutY="71.0" prefHeight="30.0" prefWidth="343.0" text="Your journey to mental wellness starts here" textFill="#333333">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+
+      <!-- Dashboard Cards Row 1 -->
+      <HBox layoutX="54.0" layoutY="120.0" prefHeight="200.0" prefWidth="1200.0" spacing="20.0">
+         <children>
+            <!-- Patients Card -->
+            <VBox prefHeight="200.0" prefWidth="280.0" style="-fx-background-color: white; -fx-background-radius: 15px; -fx-border-radius: 15px;">
+               <effect>
+                  <DropShadow color="#00000033" height="10.0" radius="4.5" width="10.0" />
+               </effect>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #146c94, #19a7ce); -fx-background-radius: 15px 15px 0 0;">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/person_add_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label text="Patients" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <VBox alignment="CENTER" prefHeight="140.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Total Patients" textFill="#333333">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label text="125" textFill="#146c94">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="15 new this month" textFill="#555555">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+
+            <!-- Therapy Sessions Card -->
+            <VBox prefHeight="200.0" prefWidth="280.0" style="-fx-background-color: white; -fx-background-radius: 15px; -fx-border-radius: 15px;">
+               <effect>
+                  <DropShadow color="#00000033" height="10.0" radius="4.5" width="10.0" />
+               </effect>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #146c94, #19a7ce); -fx-background-radius: 15px 15px 0 0;">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/self_improvement_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label text="Sessions" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <VBox alignment="CENTER" prefHeight="140.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Upcoming Sessions" textFill="#333333">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label text="42" textFill="#146c94">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="8 scheduled today" textFill="#555555">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+
+            <!-- Therapists Card -->
+            <VBox prefHeight="200.0" prefWidth="280.0" style="-fx-background-color: white; -fx-background-radius: 15px; -fx-border-radius: 15px;">
+               <effect>
+                  <DropShadow color="#00000033" height="10.0" radius="4.5" width="10.0" />
+               </effect>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #146c94, #19a7ce); -fx-background-radius: 15px 15px 0 0;">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/mindfulness_100dp_CAF0F8_FILL0_wght400_GRAD0_opsz48.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label text="Therapists" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <VBox alignment="CENTER" prefHeight="140.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Active Therapists" textFill="#333333">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label text="18" textFill="#146c94">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="12 available today" textFill="#555555">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+
+            <!-- Payments Card -->
+            <VBox prefHeight="200.0" prefWidth="280.0" style="-fx-background-color: white; -fx-background-radius: 15px; -fx-border-radius: 15px;">
+               <effect>
+                  <DropShadow color="#00000033" height="10.0" radius="4.5" width="10.0" />
+               </effect>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #146c94, #19a7ce); -fx-background-radius: 15px 15px 0 0;">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/payments_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label text="Payments" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <VBox alignment="CENTER" prefHeight="140.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Monthly Revenue" textFill="#333333">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label text="24850" textFill="#146c94">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="↑ 12% from last month" textFill="#2e7d32">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+
+      <!-- Recent Activity Section -->
+      <Label layoutX="55.0" layoutY="340.0" prefHeight="30.0" prefWidth="200.0" text="Recent Activity" textFill="#146c94">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+
+      <!-- Activity Timeline -->
+      <VBox layoutX="51.0" layoutY="380.0" prefHeight="200.0" prefWidth="555.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 15px; -fx-border-radius: 15px; -fx-padding: 15px;">
+         <effect>
+            <DropShadow color="#00000033" height="10.0" radius="4.5" width="10.0" />
+         </effect>
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
+               <children>
+                  <Rectangle fill="#19a7ce" height="10.0" width="10.0" />
+                  <Label text="New patient registered: Emma Johnson" textFill="#333333">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label text="10:30 AM" textFill="#555555">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
+               <children>
+                  <Rectangle fill="#19a7ce" height="10.0" width="10.0" />
+                  <Label text="Therapy session completed: Michael Brown" textFill="#333333">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label text="9:45 AM" textFill="#555555">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
+               <children>
+                  <Rectangle fill="#19a7ce" height="10.0" width="10.0" />
+                  <Label text="Payment received: $150 from Sarah Davis" textFill="#333333">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label text="9:15 AM" textFill="#555555">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
+               <children>
+                  <Rectangle fill="#19a7ce" height="10.0" width="10.0" />
+                  <Label text="New session scheduled: James Wilson at 2:00 PM" textFill="#333333">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label text="8:30 AM" textFill="#555555">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+
+      <!-- Quick Access Section -->
+      <Label layoutX="650.0" layoutY="340.0" prefHeight="30.0" prefWidth="200.0" text="Quick Access" textFill="#146c94">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+
+      <!-- Quick Access Buttons -->
+      <HBox layoutX="650.0" layoutY="380.0" prefHeight="200.0" prefWidth="580.0" spacing="20.0">
+         <children>
+            <VBox fx:id="addPatient" alignment="CENTER" onMouseClicked="#addPatientOnClicked" prefHeight="200.0" prefWidth="180.0" style="-fx-background-color: white; -fx-background-radius: 15px; -fx-border-radius: 15px;">
+               <effect>
+                  <DropShadow color="#00000033" height="10.0" radius="4.5" width="10.0" />
+               </effect>
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/person_add_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="Add New Patient" textFill="#146c94">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+            <VBox fx:id="sessions" alignment="CENTER" onMouseClicked="#sessionsOnClicked" prefHeight="200.0" prefWidth="180.0" style="-fx-background-color: white; -fx-background-radius: 15px; -fx-border-radius: 15px;">
+               <effect>
+                  <DropShadow color="#00000033" height="10.0" radius="4.5" width="10.0" />
+               </effect>
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/self_improvement_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="Schedule Session" textFill="#146c94">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+            <VBox fx:id="proccesPayment" alignment="CENTER" onMouseClicked="#proccesPaymentOnClicked" prefHeight="200.0" prefWidth="180.0" style="-fx-background-color: white; -fx-background-radius: 15px; -fx-border-radius: 15px;">
+               <effect>
+                  <DropShadow color="#00000033" height="10.0" radius="4.5" width="10.0" />
+               </effect>
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/payments_100dp_146C94_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="Process Payment" textFill="#146c94">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
    </children>
+   <stylesheets>
+      <URL value="@../styleSheets/styles.css" />
+      <URL value="@../styleSheets/text.css" />
+   </stylesheets>
 </AnchorPane>
